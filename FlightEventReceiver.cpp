@@ -110,6 +110,13 @@ void Controller::mainLoop()
 		tmp += L" Z: ";
 		tmp += player.node->getPosition().Z;
 
+		tmp += L"ROTATION X: ";
+		tmp += player.node->getRotation().X;
+		tmp += L"Y: ";
+		tmp += player.node->getRotation().Y;
+		tmp += L"Z: ";
+		tmp += player.node->getRotation().Z;
+
 		device->setWindowCaption(tmp.c_str());
 		lastFPS = fps;
 	}

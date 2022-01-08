@@ -1,5 +1,6 @@
 #pragma once
 #include <irrlicht.h>
+#include "Ship.h"
 
 #ifndef PLAYERSHIP_H
 #define PLAYERSHIP_H
@@ -21,19 +22,15 @@ enum {
 
 class Controller;
 
-class PlayerShip
+class PlayerShip : public Ship
 {
 public:
 	PlayerShip(IAnimatedMesh* ship, IAnimatedMeshSceneNode* node, ICameraSceneNode* camera, Controller* cont);
 	PlayerShip();
-	void update(f32 time);
-	IAnimatedMesh* ship;
-	IAnimatedMeshSceneNode* node;
+	virtual void update(f32 time);
 	ICameraSceneNode* camera;
-private:
-	Controller* controller;
-	f32 speed = 10.f;
-	f32 rotspeed = 20.f;
+protected:
+
 };
 
 #endif

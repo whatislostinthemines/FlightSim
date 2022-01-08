@@ -23,22 +23,22 @@ void PlayerShip::update(f32 time)
 	vector3df rot = node->getRotation();
 
 	if (controller->isKeyDown(KEY_KEY_S)) {
-		pos.Z += time * speed;
+		accelerateBackward();
 	}
 	if (controller->isKeyDown(KEY_KEY_W)) {
-		pos.Z -= time * speed;
+		accelerateForward();
 	}
 	if (controller->isKeyDown(KEY_KEY_A)) {
-		pos.X += time * speed;
+		strafeLeft();
 	}
 	if (controller->isKeyDown(KEY_KEY_D)) {
-		pos.X -= time * speed;
+		strafeRight();
 	}
 	if (controller->isKeyDown(KEY_SPACE)) {
-		pos.Y += time * speed;
+		strafeUp();
 	}
 	if (controller->isKeyDown(KEY_LCONTROL)) {
-		pos.Y -= time * speed;
+		strafeDown();
 	}
 	if (controller->isKeyDown(KEY_KEY_E)) {
 		rot.Y += time * rotspeed;
@@ -46,7 +46,8 @@ void PlayerShip::update(f32 time)
 	if (controller->isKeyDown(KEY_KEY_Q)) {
 		rot.Y -= time * rotspeed;
 	}
-	node->setPosition(pos);
+	//node->setPosition(pos);
+	posUpdate(time);
 	node->setRotation(rot);
 	camera->setTarget(pos);
 }
