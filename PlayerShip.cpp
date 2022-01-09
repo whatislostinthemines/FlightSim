@@ -18,10 +18,6 @@ PlayerShip::PlayerShip()
 }
 void PlayerShip::update(f32 time)
 {
-
-	vector3df pos = node->getPosition();
-	vector3df rot = node->getRotation();
-
 	if (controller->isKeyDown(KEY_KEY_S)) {
 		accelerateBackward();
 	}
@@ -41,13 +37,24 @@ void PlayerShip::update(f32 time)
 		strafeDown();
 	}
 	if (controller->isKeyDown(KEY_KEY_E)) {
-		rot.Y += time * rotspeed;
+		yawRight();
 	}
 	if (controller->isKeyDown(KEY_KEY_Q)) {
-		rot.Y -= time * rotspeed;
+		yawLeft();
 	}
-	//node->setPosition(pos);
+	if (controller->isKeyDown(KEY_KEY_R)) {
+		pitchUp();
+	}
+	if (controller->isKeyDown(KEY_KEY_F)) {
+		pitchDown();
+	}
+	if (controller->isKeyDown(KEY_KEY_Z)) {
+		rollLeft();
+	}
+	if (controller->isKeyDown(KEY_KEY_C)) {
+		rollRight();
+	}
 	posUpdate(time);
-	node->setRotation(rot);
-	camera->setTarget(pos);
+	vector3df offset = vector3df(0, 10, 20);
+	camera->setTarget(node->getPosition());
 }

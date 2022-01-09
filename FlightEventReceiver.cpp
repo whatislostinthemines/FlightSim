@@ -60,6 +60,7 @@ void Controller::makePlayer()
 	IAnimatedMeshSceneNode* playerNode = smgr->addAnimatedMeshSceneNode(playerMesh);
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
 	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 10, 20), playerNode->getPosition(), PLAYER_CAMERA, true);
+	camera->bindTargetAndRotation(true);
 	player = PlayerShip(playerMesh, playerNode, camera, this);
 
 }
@@ -76,6 +77,7 @@ void Controller::makeAsteroids(int numAsteroids)
 void Controller::mainLoop()
 {
 	makePlayer();
+
 	makeAsteroids(40);
 	ISceneNode* n = smgr->addLightSceneNode(0, vector3df(0, 0, 0),
 		SColor(1.0f, .7f, .7f, .7f), 800.f);
@@ -110,7 +112,7 @@ void Controller::mainLoop()
 		tmp += L" Z: ";
 		tmp += player.node->getPosition().Z;
 
-		tmp += L"ROTATION X: ";
+		tmp += L" ROTATION X: ";
 		tmp += player.node->getRotation().X;
 		tmp += L"Y: ";
 		tmp += player.node->getRotation().Y;

@@ -1,6 +1,7 @@
 #include "Ship.h"
 #include "FlightEventReceiver.h"
 #include <iostream>
+#include <cmath>
 
 Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, Controller* cont)
 {
@@ -8,6 +9,9 @@ Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, Controller* cont
 	ship = nship;
 	node = nnode;
 	velocity = vector3df(0, 0, 0);
+	force = vector3df(0, 0, 0);
+	rotForce = vector3df(0, 0, 0);
+	rotVelocity = vector3df(0, 0, 0);
 }
 
 Ship::Ship()
@@ -16,6 +20,9 @@ Ship::Ship()
 	ship = 0;
 	node = 0;
 	velocity = vector3df(0, 0, 0);
+	force = vector3df(0, 0, 0);
+	rotForce = vector3df(0, 0, 0);
+	rotVelocity = vector3df(0, 0, 0);
 }
 
 //returns a normalized vector for the forward position
@@ -67,39 +74,90 @@ void Ship::update(f32 time)
 
 void Ship::posUpdate(f32 time)
 {
-	vector3df newpos = node->getPosition() + (velocity * time);
-	node->setPosition(newpos);
-	if (velocity.getLength() > 0) {
-		velocity = velocity.normalize()*std::min(velocity.getLength(), maxspeed);
+	//position
+	vector3df acceleration = force / mass;
+	if (acceleration.getLength() > 0) {
+		acceleration = acceleration.normalize() * std::min(acceleration.getLength(), maxForce);
 	}
+	velocity += acceleration * time;
+	if (velocity.getLength() > 0) {
+		velocity = velocity.normalize() * std::min(velocity.getLength(), maxSpeed);
+	}
+	vector3df pos = node->getPosition() + (velocity * time);
+
+	//rotation
+	vector3df rotAcceleration = rotForce / mass;
+	if (rotAcceleration.getLength() > 0) {
+		rotAcceleration = rotAcceleration.normalize() * std::min(rotAcceleration.getLength(), maxRotForce);
+	}
+
+	rotVelocity += rotAcceleration * time;
+	if (rotVelocity.getLength() > 0) {
+		rotVelocity = rotVelocity.normalize() * std::min(rotVelocity.getLength(), maxSpeed);
+	}
+
+	vector3df rot = node->getRotation() + (rotVelocity * time);
+
+	node->setPosition(pos);
+	node->setRotation(rot);
+	force = vector3df(0, 0, 0);
+	rotForce = vector3df(0, 0, 0);
 }
 
 void Ship::accelerateForward()
 {
-	velocity += getForward() * maxspeed;
+	force += (getForward() * maxSpeed) - velocity;
 }
 
 void Ship::accelerateBackward()
 {
-	velocity += getBackward() * maxspeed;
+	force += (getBackward() * maxSpeed) - velocity;
 }
 
 void Ship::strafeLeft()
 {
-	velocity += getLeft() * maxspeed;
+	force += (getLeft() * maxSpeed) - velocity;
 }
 
 void Ship::strafeRight()
 {
-	velocity += getRight() * maxspeed;
+	force += (getRight() * maxSpeed) - velocity;
 }
 
 void Ship::strafeUp()
 {
-	velocity += getUp() * maxspeed;
+	force += (getUp() * maxSpeed) - velocity;
 }
 
 void Ship::strafeDown()
 {
-	velocity += getDown() * maxspeed;
+	force += (getDown() * maxSpeed) - velocity;
+}
+
+void Ship::yawLeft()
+{
+	rotForce += (getDown() * maxRotSpeed) - rotVelocity;
+}
+
+void Ship::yawRight()
+{
+	rotForce += (getUp() * maxRotSpeed) - rotVelocity;
+}
+
+void Ship::pitchUp()
+{
+	rotForce += (getLeft() * maxRotSpeed) - rotVelocity;
+}
+
+void Ship::pitchDown()
+{
+	rotForce += (getRight() * maxRotSpeed) - rotVelocity;
+}
+void Ship::rollLeft()
+{
+	rotForce += (getForward() * maxRotSpeed) - rotVelocity;
+}
+void Ship::rollRight()
+{
+	rotForce += (getBackward() * maxRotSpeed) - rotVelocity;
 }

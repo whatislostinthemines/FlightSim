@@ -33,15 +33,28 @@ class Ship
 		vector3df getDown();
 
 	protected:
-		f32 maxspeed = 10.f;
-		f32 rotspeed = 20.f;
+		f32 maxSpeed = 20.f;
+		f32 maxRotSpeed = 80.f;
+		f32 maxForce = 40.f;
+		f32 maxRotForce = 80.f;
 		vector3df velocity;
-		void accelerateForward();
-		void accelerateBackward();
-		void strafeLeft();
-		void strafeRight();
-		void strafeUp();
-		void strafeDown();
+		vector3df force;
+		vector3df rotForce;
+		vector3df rotVelocity;
+		f32 mass = 1;
+
+		virtual void accelerateForward();
+		virtual void accelerateBackward();
+		virtual void strafeLeft();
+		virtual void strafeRight();
+		virtual void strafeUp();
+		virtual void strafeDown();
+		virtual void pitchUp();
+		virtual void pitchDown();
+		virtual void rollLeft();
+		virtual void rollRight();
+		virtual void yawLeft();
+		virtual void yawRight();
 
 };
 #endif 

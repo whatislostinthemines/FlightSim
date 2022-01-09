@@ -36,7 +36,14 @@ class Controller : public IEventReceiver
 {
 	public:
 		virtual bool OnEvent(const SEvent& event);
+
 		PlayerShip player;
+		IrrlichtDevice* device;
+		IVideoDriver* driver;
+		ISceneManager* smgr;
+		IGUIEnvironment* guienv;
+
+
 		Controller(IrrlichtDevice* dev);
 		void init(IrrlichtDevice* dev);
 		void mainLoop();
@@ -46,10 +53,6 @@ class Controller : public IEventReceiver
 		bool isKeyDown(EKEY_CODE key);
 	private:
 		u32 then;
-		IrrlichtDevice* device;
-		IVideoDriver* driver;
-		ISceneManager* smgr;
-		IGUIEnvironment* guienv;
 		bool keysDown[KEY_KEY_CODES_COUNT];
 		u32 lastFPS;
 };

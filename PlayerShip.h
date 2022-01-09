@@ -29,6 +29,7 @@ public:
 	PlayerShip();
 	virtual void update(f32 time);
 	ICameraSceneNode* camera;
+
 protected:
 
 };
