@@ -55,6 +55,9 @@ void PlayerShip::update(f32 time)
 	if (controller->isKeyDown(KEY_KEY_C)) {
 		rollRight();
 	}
+	if (controller->isKeyDown(KEY_KEY_X)) {
+		stopMoving();
+	}
 	posUpdate(time);
 	vector3df offset = vector3df(0, 10, 20);
 	camera->setTarget(node->getPosition());

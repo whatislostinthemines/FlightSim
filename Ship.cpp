@@ -74,6 +74,7 @@ void Ship::update(f32 time)
 
 void Ship::posUpdate(f32 time)
 {
+	vector3df rotFrictionVelocity = -rotVelocity;
 	//position
 	vector3df acceleration = force / mass;
 	if (acceleration.getLength() > 0) {
@@ -92,8 +93,12 @@ void Ship::posUpdate(f32 time)
 	}
 
 	rotVelocity += rotAcceleration * time;
+
+	//space friction
+	//rotVelocity += rotFriction * rotFrictionVelocity * time;
+
 	if (rotVelocity.getLength() > 0) {
-		rotVelocity = rotVelocity.normalize() * std::min(rotVelocity.getLength(), maxSpeed);
+		rotVelocity = rotVelocity.normalize() * std::min(rotVelocity.getLength(), maxRotSpeed);
 	}
 
 	vector3df rot = node->getRotation() + (rotVelocity * time);
@@ -160,4 +165,10 @@ void Ship::rollLeft()
 void Ship::rollRight()
 {
 	rotForce += (getBackward() * maxRotSpeed) - rotVelocity;
+}
+
+void Ship::stopMoving()
+{
+	rotForce += (-rotVelocity * maxRotSpeed);
+	force += (-velocity * maxSpeed);
 }
