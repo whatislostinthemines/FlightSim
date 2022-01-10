@@ -32,6 +32,14 @@ struct KeyMap
 	EKEY_CODE keyCode;
 };
 
+struct MouseStateMap
+{
+	position2di Position;
+	bool leftDown;
+	bool rightDown;
+	MouseStateMap() : leftDown(false), rightDown(false) {}
+};
+
 class Controller : public IEventReceiver
 {
 	public:
@@ -51,9 +59,11 @@ class Controller : public IEventReceiver
 		void makeAsteroids(int numAsteroids);
 
 		bool isKeyDown(EKEY_CODE key);
+		MouseStateMap getMouseState() { return MouseState; }
 	private:
 		u32 then;
 		bool keysDown[KEY_KEY_CODES_COUNT];
+		MouseStateMap MouseState;
 		u32 lastFPS;
 };
 

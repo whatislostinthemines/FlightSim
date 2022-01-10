@@ -51,6 +51,34 @@ bool Controller::OnEvent(const SEvent& event)
 		keysDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
 		return true;
 	}
+	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+		switch (event.MouseInput.Event) {
+			case EMIE_LMOUSE_PRESSED_DOWN: {
+				MouseState.leftDown = true;
+				break;
+			}
+			case EMIE_LMOUSE_LEFT_UP: {
+				MouseState.leftDown = false;
+				break;
+			}
+			case EMIE_RMOUSE_PRESSED_DOWN: {
+				MouseState.rightDown = true;
+				break;
+			}
+			case EMIE_RMOUSE_LEFT_UP: {
+				MouseState.rightDown = false;
+				break;
+			}
+			case EMIE_MOUSE_MOVED: {
+				MouseState.Position.X = event.MouseInput.X;
+				MouseState.Position.Y = event.MouseInput.Y;
+				break;
+			}
+			default: { //can add wheel or double clicks or whatever
+				break;
+			}
+		}
+	}
 	return false;
 }
 

@@ -62,12 +62,13 @@ void PlayerShip::update(f32 time)
 	if (controller->isKeyDown(KEY_KEY_X)) {
 		stopMoving();
 	}
-	vector3df oldVelocity = velocity;
-	posUpdate(time);
 
+	//hookup for what the mouse is doing
+	MouseStateMap mouseState = controller->getMouseState();
+
+	posUpdate(time);
 	camera->setUpVector(getUp());
 	vector3df target = node->getPosition() + (velocity * .1f);
-
 	camera->setTarget(target);
 
 }
