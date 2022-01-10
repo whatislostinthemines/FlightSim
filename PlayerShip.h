@@ -21,7 +21,7 @@ enum {
 };
 
 class Controller;
-class MouseStateMap;
+struct MouseStateMap;
 
 class PlayerShip : public Ship
 {
