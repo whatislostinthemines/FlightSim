@@ -26,6 +26,15 @@ vector3df randomVector()
 	return vector3df(x,y,z);
 }
 
+vector3df randomRotationVector()
+{
+	f32 x = static_cast<f32>(rand() / static_cast <f32>(180));
+	f32 y = static_cast<f32>(rand() / static_cast <f32>(180));
+	f32 z = static_cast<f32>(rand() / static_cast <f32>(180));
+
+	return vector3df(x, y, z);
+}
+
 bool Controller::isKeyDown(EKEY_CODE key)
 {
 	if (keysDown[key]) return true;
@@ -97,8 +106,7 @@ void Controller::makeAsteroids(int numAsteroids)
 {
 	IAnimatedMesh* asteroidMesh = smgr->getMesh("models/asteroid/Asteroid.obj");
 	for (int i = 0; i < numAsteroids; ++i) {
-		IAnimatedMeshSceneNode* roid = smgr->addAnimatedMeshSceneNode(asteroidMesh, 0, -1, randomVector(), randomVector());
-		roid->setMaterialFlag(EMF_LIGHTING, false);
+		IAnimatedMeshSceneNode* roid = smgr->addAnimatedMeshSceneNode(asteroidMesh, 0, -1, randomVector(), randomRotationVector());
 	}
 }
 
@@ -108,9 +116,9 @@ void Controller::mainLoop()
 
 	makeAsteroids(40);
 	ISceneNode* n = smgr->addLightSceneNode(0, vector3df(0, 0, 0),
-		SColor(1.0f, .7f, .7f, .7f), 800.f);
+		SColor(255,255,255,255), 400.f);
 
-	n = smgr->addBillboardSceneNode(n, dimension2d<f32>(50, 50));
+	n = smgr->addBillboardSceneNode(n, dimension2d<f32>(25, 25));
 	n->setMaterialFlag(EMF_LIGHTING, false);
 	n->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 	n->setMaterialTexture(0, driver->getTexture("effects/particlewhite.bmp"));
