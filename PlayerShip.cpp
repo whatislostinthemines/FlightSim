@@ -59,7 +59,7 @@ void PlayerShip::update(f32 time)
 	if (controller->isKeyDown(KEY_KEY_C)) {
 		rollRight();
 	}
-	if (controller->isKeyDown(KEY_KEY_Xa)) {
+	if (controller->isKeyDown(KEY_KEY_X)) {
 		stopMoving();
 	}
 
