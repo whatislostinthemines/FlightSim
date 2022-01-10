@@ -1,5 +1,6 @@
 #include "PlayerShip.h"
 #include "FlightEventReceiver.h"
+#include <iostream>
 
 PlayerShip::PlayerShip(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, ICameraSceneNode* ncamera, Controller* cont)
 {
@@ -57,4 +58,5 @@ void PlayerShip::update(f32 time)
 	posUpdate(time);
 	vector3df offset = vector3df(0, 10, 20);
 	camera->setTarget(node->getPosition());
+	camera->setUpVector(getUp());
 }

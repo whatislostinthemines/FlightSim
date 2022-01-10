@@ -60,7 +60,7 @@ void Controller::makePlayer()
 	IAnimatedMeshSceneNode* playerNode = smgr->addAnimatedMeshSceneNode(playerMesh);
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
 	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 10, 20), playerNode->getPosition(), PLAYER_CAMERA, true);
-	camera->bindTargetAndRotation(true);
+	//camera->bindTargetAndRotation(true);
 	player = PlayerShip(playerMesh, playerNode, camera, this);
 
 }

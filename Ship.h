@@ -25,6 +25,7 @@ class Ship
 		IAnimatedMesh* ship;
 		IAnimatedMeshSceneNode* node;
 		Controller* controller;
+
 		vector3df getForward();
 		vector3df getBackward();
 		vector3df getLeft();
@@ -33,10 +34,10 @@ class Ship
 		vector3df getDown();
 
 	protected:
-		f32 maxSpeed = 20.f;
-		f32 maxRotSpeed = 80.f;
-		f32 maxForce = 40.f;
-		f32 maxRotForce = 80.f;
+		f32 maxSpeed = 40.f;
+		f32 maxRotSpeed = 160.f;
+		f32 maxForce = 60.f;
+		f32 maxRotForce = 160.f;
 		vector3df velocity;
 		vector3df force;
 		vector3df rotForce;
