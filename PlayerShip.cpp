@@ -19,6 +19,10 @@ PlayerShip::PlayerShip()
 }
 void PlayerShip::update(f32 time)
 {
+	//WASD movement, space+ctrl up/down
+	//QE yaw RF pitch ZC roll
+	//X stop
+
 	if (controller->isKeyDown(KEY_KEY_S)) {
 		accelerateBackward();
 	}
@@ -58,8 +62,12 @@ void PlayerShip::update(f32 time)
 	if (controller->isKeyDown(KEY_KEY_X)) {
 		stopMoving();
 	}
+	vector3df oldVelocity = velocity;
 	posUpdate(time);
-	vector3df offset = vector3df(0, 10, 20);
-	camera->setTarget(node->getPosition());
+
 	camera->setUpVector(getUp());
+	vector3df target = node->getPosition() + (velocity * .1f);
+
+	camera->setTarget(target);
+
 }

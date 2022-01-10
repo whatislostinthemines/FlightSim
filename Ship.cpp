@@ -105,6 +105,7 @@ void Ship::posUpdate(f32 time)
 
 	node->setPosition(pos);
 	node->setRotation(rot);
+
 	force = vector3df(0, 0, 0);
 	rotForce = vector3df(0, 0, 0);
 }
