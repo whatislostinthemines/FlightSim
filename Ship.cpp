@@ -142,30 +142,30 @@ void Ship::strafeDown()
 
 void Ship::yawLeft()
 {
-	rotForce += (getDown() * maxRotSpeed) - rotVelocity;
+	rotForce.Y -= maxRotSpeed - rotVelocity.Y;
 }
 
 void Ship::yawRight()
 {
-	rotForce += (getUp() * maxRotSpeed) - rotVelocity;
+	rotForce.Y +=  maxRotSpeed - rotVelocity.Y;
 }
 
 void Ship::pitchUp()
 {
-	rotForce += (getLeft() * maxRotSpeed) - rotVelocity;
+	rotForce.X += maxRotSpeed - rotVelocity.X;
 }
 
 void Ship::pitchDown()
 {
-	rotForce += (getRight() * maxRotSpeed) - rotVelocity;
+	rotForce.X -= maxRotSpeed - rotVelocity.X;
 }
 void Ship::rollLeft()
 {
-	rotForce += (getForward() * maxRotSpeed) - rotVelocity;
+	rotForce.Z -= maxRotSpeed - rotVelocity.Z;
 }
 void Ship::rollRight()
 {
-	rotForce += (getBackward() * maxRotSpeed) - rotVelocity;
+	rotForce.Z += maxRotSpeed - rotVelocity.Z;
 }
 
 void Ship::stopMoving()
