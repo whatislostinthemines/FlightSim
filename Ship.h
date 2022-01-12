@@ -39,7 +39,7 @@ class Ship
 		f32 maxForce = 60.f;
 		f32 maxRotForce = 160.f;
 
-		//f32 rotFriction = 0.4f;
+		f32 rotFriction = 0.4f;
 
 		vector3df velocity;
 		vector3df force;

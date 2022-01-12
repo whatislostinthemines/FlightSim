@@ -72,6 +72,25 @@ void Ship::update(f32 time)
 {
 }
 
+vector3df rotateAxes(vector3df oldRot, vector3df rotAngles)
+{
+	matrix4 transform;
+	transform.setRotationDegrees(oldRot);
+	vector3df axisX(1, 0, 0), axisY(0, 1, 0), axisZ(0, 0, 1);
+	matrix4 matRotX, matRotY, matRotZ;
+
+	transform.rotateVect(axisX);
+	transform.rotateVect(axisY);
+	transform.rotateVect(axisZ);
+
+	matRotX.setRotationAxisRadians(rotAngles.X * DEGTORAD, axisX);
+	matRotY.setRotationAxisRadians(rotAngles.Y * DEGTORAD, axisY);
+	matRotZ.setRotationAxisRadians(rotAngles.Z * DEGTORAD, axisZ);
+
+	matrix4 newTransform = matRotX * matRotY * matRotZ * transform;
+	return newTransform.getRotationDegrees();
+}
+
 void Ship::posUpdate(f32 time)
 {
 	vector3df rotFrictionVelocity = -rotVelocity;
@@ -88,20 +107,31 @@ void Ship::posUpdate(f32 time)
 
 	//rotation
 	vector3df rotAcceleration = rotForce / mass;
+
 	if (rotAcceleration.getLength() > 0) {
 		rotAcceleration = rotAcceleration.normalize() * std::min(rotAcceleration.getLength(), maxRotForce);
 	}
-
 	rotVelocity += rotAcceleration * time;
 
 	//space friction
-	//rotVelocity += rotFriction * rotFrictionVelocity * time;
+	rotVelocity += rotFriction * rotFrictionVelocity * time;
 
 	if (rotVelocity.getLength() > 0) {
 		rotVelocity = rotVelocity.normalize() * std::min(rotVelocity.getLength(), maxRotSpeed);
 	}
 
-	vector3df rot = node->getRotation() + (rotVelocity * time);
+	vector3df deltaV = rotVelocity * time;
+	vector3df rot = rotateAxes(node->getRotation(), deltaV);
+
+
+	if (rot.X > 360) rot.X -= 360;
+	else if (rot.X < -360) rot.X += 360;
+
+	if (rot.Y > 360) rot.Y -= 360;
+	else if (rot.Y < -360) rot.Y += 360;
+
+	if (rot.Z > 360) rot.Z -= 360;
+	else if (rot.Z < -360) rot.Z += 360;
 
 	node->setPosition(pos);
 	node->setRotation(rot);
@@ -140,6 +170,7 @@ void Ship::strafeDown()
 	force += (getDown() * maxSpeed) - velocity;
 }
 
+//rotations
 void Ship::yawLeft()
 {
 	rotForce.Y -= maxRotSpeed - rotVelocity.Y;
