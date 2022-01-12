@@ -58,9 +58,12 @@ class Controller : public IEventReceiver
 		void makePlayer();
 		void makeAsteroids(int numAsteroids);
 
+		bool isMouseEnabled() { return mouseControl; }
+		void setMouseEnabled(bool state) {mouseControl = state;}
 		bool isKeyDown(EKEY_CODE key);
 		MouseStateMap getMouseState() { return MouseState; }
 	private:
+		bool mouseControl = false;
 		u32 then;
 		bool keysDown[KEY_KEY_CODES_COUNT];
 		MouseStateMap MouseState;

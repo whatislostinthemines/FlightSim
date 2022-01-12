@@ -14,7 +14,7 @@ using namespace scene;
 using namespace core;
 
 class Controller;
-
+vector3df rotateAxes(vector3df oldRot, vector3df rotAngles);
 class Ship
 {
 	public:

@@ -58,6 +58,11 @@ bool Controller::OnEvent(const SEvent& event)
 {
 	if (event.EventType == EET_KEY_INPUT_EVENT) {
 		keysDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+
+		if (event.KeyInput.Key == KEY_KEY_Y && !keysDown[KEY_KEY_Y]) {
+			setMouseEnabled(!isMouseEnabled());
+			std::cout << "Mouse state is " << isMouseEnabled() << std::endl;
+		}
 		return true;
 	}
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
