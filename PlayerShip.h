@@ -30,6 +30,9 @@ public:
 	PlayerShip();
 	virtual void update(f32 time);
 	ICameraSceneNode* camera;
+	//REMOVE THIS LATER
+	ISceneNode* mousePointer;
+	//REMOVE THIS LATER
 
 protected:
 
