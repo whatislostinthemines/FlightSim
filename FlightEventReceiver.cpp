@@ -105,6 +105,13 @@ void Controller::makePlayer()
 	//camera->bindTargetAndRotation(true);
 	player = PlayerShip(playerMesh, playerNode, camera, this);
 
+	//REMOVE THIS LATER THIS IS THE SHITTIEST POSSIBLE WAY OF HAVING A CROSSHAIR IN 3D SPACE
+	ISceneNode* mousePtr = smgr->addBillboardSceneNode(0, dimension2d<f32>(5, 5));
+	player.mousePointer = mousePtr;
+	mousePtr->setMaterialFlag(EMF_LIGHTING, false);
+	mousePtr->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+	mousePtr->setMaterialTexture(0, driver->getTexture("effects/particlewhite.bmp"));
+	//DEBUG ONLY
 }
 
 void Controller::makeAsteroids(int numAsteroids)

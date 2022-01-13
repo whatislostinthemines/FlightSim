@@ -68,11 +68,19 @@ void PlayerShip::update(f32 time)
 		MouseStateMap mouseState = controller->getMouseState();
 		//ray leading out of the mouse cursor
 		line3df ray = controller->smgr->getSceneCollisionManager()->getRayFromScreenCoordinates(mouseState.Position, camera);
-		plane3df plane(node->getPosition(), vector3df(0, 0, 1));
+		plane3df plane(node->getPosition(), getForward());
 		vector3df mousePosition;
 		if (plane.getIntersectionWithLine(ray.start, ray.getVector(), mousePosition)) {
 			//mouse position is currently in real space where it intersects with the plane
+
+			//DITCH THIS LATER
+			mousePointer->setPosition(mousePosition);
+			//DITCH THIS LATER IT JUST REPRESENTS WHERE THE THING IS IN PHYSICAL SPACE FOR CONVENIENCE
+
 			vector3df toMousePosition(mousePosition - node->getPosition());
+
+			std::cout << toMousePosition.X << " " << toMousePosition.Y << " " << toMousePosition.Z << std::endl;
+			rotForce += (toMousePosition * maxRotSpeed) - rotVelocity;
 			//need to convert the position of the mouse in mousePosition to angles that I can fling into rotForce
 			//rotForce += convertedAngles * maxRotSpeed - rotVelocity;
 		}
