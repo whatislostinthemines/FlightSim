@@ -3,15 +3,28 @@
 #include <iostream>
 #include <cmath>
 
-Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, Controller* cont)
+Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, Controller* cont, f32 mass, f32 inertia)
 {
 	controller = cont;
 	ship = nship;
 	node = nnode;
 	velocity = vector3df(0, 0, 0);
 	force = vector3df(0, 0, 0);
-	rotForce = vector3df(0, 0, 0);
+	torque = vector3df(0, 0, 0);
 	rotVelocity = vector3df(0, 0, 0);
+	rigidBodyComponent = {
+		vector3df(),
+		quaternion(node->getRotation() * DEGTORAD),
+		node->getPosition(),
+		vector3df(),
+		quaternion(),
+		vector3df(),
+		vector3df(),
+		mass,
+		1/mass,
+		inertia,
+		1/inertia
+	};
 }
 
 Ship::Ship()
@@ -21,16 +34,27 @@ Ship::Ship()
 	node = 0;
 	velocity = vector3df(0, 0, 0);
 	force = vector3df(0, 0, 0);
-	rotForce = vector3df(0, 0, 0);
+	torque = vector3df(0, 0, 0);
 	rotVelocity = vector3df(0, 0, 0);
+	rigidBodyComponent = {
+		vector3df(),
+		quaternion(0,1,0,0),
+		vector3df(),
+		vector3df(),
+		quaternion(),
+		vector3df(),
+		vector3df()
+	};
 }
 
 //returns a normalized vector for the forward position
 vector3df Ship::getForward()
 {
 	if (node) {
-		matrix4 mat = node->getRelativeTransformation();
-		return vector3df(-mat[8], -mat[9], -mat[10]).normalize();
+		vector3df rotation = node->getRotation();
+		vector3df forward = vector3df(0, 0, -1);
+		rotation.rotationToDirection(forward);
+		return forward;
 	}
 	return vector3df(0, 0, 0);
 }
@@ -43,8 +67,10 @@ vector3df Ship::getBackward()
 vector3df Ship::getLeft()
 {
 	if (node) {
-		matrix4 mat = node->getRelativeTransformation();
-		return vector3df(mat[0], mat[1], mat[2]).normalize();
+		vector3df rotation = node->getRotation();
+		vector3df left = vector3df(1, 0, 0);
+		rotation.rotationToDirection(left);
+		return left;
 	}
 	return vector3df(0, 0, 0);
 }
@@ -57,8 +83,10 @@ vector3df Ship::getRight()
 vector3df Ship::getUp()
 {
 	if (node) {
-		matrix4 mat = node->getRelativeTransformation();
-		return vector3df(mat[4], mat[5], mat[6]).normalize();
+		vector3df rotation = node->getRotation();
+		vector3df up = vector3df(0, 1, 0);
+		rotation.rotationToDirection(up);
+		return up;
 	}
 	return vector3df(0, 0, 0);
 }
@@ -95,6 +123,20 @@ void Ship::posUpdate(f32 time)
 {
 	vector3df rotFrictionVelocity = -rotVelocity;
 	//position
+	vector3df impulse = force * time;
+	Physics::applyImpulse(&rigidBodyComponent, impulse);
+
+	node->setPosition(rigidBodyComponent.position);
+	force = vector3df();
+	
+	vector3df angularImpulse = torque * time;
+	Physics::applyAngularImpulse(&rigidBodyComponent, angularImpulse);
+	vector3df eulerOrientation = vector3df();
+	rigidBodyComponent.orientation.toEuler(eulerOrientation);
+	eulerOrientation = eulerOrientation * RADTODEG;
+	node->setRotation(eulerOrientation);
+	torque = vector3df();
+	/*
 	vector3df acceleration = force / mass;
 	if (acceleration.getLength() > 0) {
 		acceleration = acceleration.normalize() * std::min(acceleration.getLength(), maxForce);
@@ -138,69 +180,71 @@ void Ship::posUpdate(f32 time)
 
 	force = vector3df(0, 0, 0);
 	rotForce = vector3df(0, 0, 0);
+	*/
 }
 
 void Ship::accelerateForward()
 {
-	force += (getForward() * maxSpeed) - velocity;
+	force += (getForward() * maxSpeed);
 }
 
 void Ship::accelerateBackward()
 {
-	force += (getBackward() * maxSpeed) - velocity;
+
+	force += (getBackward() * maxSpeed);
 }
 
 void Ship::strafeLeft()
 {
-	force += (getLeft() * maxSpeed) - velocity;
+	force += (getLeft() * maxSpeed);
 }
 
 void Ship::strafeRight()
 {
-	force += (getRight() * maxSpeed) - velocity;
+	force += (getRight() * maxSpeed);
 }
 
 void Ship::strafeUp()
 {
-	force += (getUp() * maxSpeed) - velocity;
+	force += (getUp() * maxSpeed);
 }
 
 void Ship::strafeDown()
 {
-	force += (getDown() * maxSpeed) - velocity;
+	force += (getDown() * maxSpeed);
 }
 
 //rotations
 void Ship::yawLeft()
 {
-	rotForce.Y -= maxRotSpeed - rotVelocity.Y;
+	torque.Y -= maxRotSpeed - rotVelocity.Y;
 }
 
 void Ship::yawRight()
 {
-	rotForce.Y +=  maxRotSpeed - rotVelocity.Y;
+	torque.Y +=  maxRotSpeed - rotVelocity.Y;
 }
 
 void Ship::pitchUp()
 {
-	rotForce.X += maxRotSpeed - rotVelocity.X;
+	torque.X += maxRotSpeed - rotVelocity.X;
 }
 
 void Ship::pitchDown()
 {
-	rotForce.X -= maxRotSpeed - rotVelocity.X;
+	torque.X -= maxRotSpeed - rotVelocity.X;
 }
 void Ship::rollLeft()
 {
-	rotForce.Z -= maxRotSpeed - rotVelocity.Z;
+	torque.Z -= maxRotSpeed - rotVelocity.Z;
 }
 void Ship::rollRight()
 {
-	rotForce.Z += maxRotSpeed - rotVelocity.Z;
+	torque.Z += maxRotSpeed - rotVelocity.Z;
 }
 
 void Ship::stopMoving()
 {
-	rotForce += (-rotVelocity * maxRotSpeed);
-	force += (-velocity * maxSpeed);
+	torque += (-rigidBodyComponent.angularVelocity * maxRotSpeed);
+	force += (-rigidBodyComponent.velocity * maxSpeed);
 }

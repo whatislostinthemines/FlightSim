@@ -2,19 +2,14 @@
 #include "FlightEventReceiver.h"
 #include <iostream>
 
-PlayerShip::PlayerShip(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, ICameraSceneNode* ncamera, Controller* cont)
+PlayerShip::PlayerShip(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, ICameraSceneNode* ncamera, Controller* cont, f32 mass, f32 inertia) 
+	: Ship(nship, nnode, cont, mass, inertia)
 {
-	controller = cont;
-	ship = nship;
-	node = nnode;
 	camera = ncamera;
 }
 
-PlayerShip::PlayerShip()
+PlayerShip::PlayerShip() : Ship()
 {
-	controller = 0;
-	ship = 0;
-	node = 0;
 	camera = 0;
 }
 void PlayerShip::update(f32 time)
