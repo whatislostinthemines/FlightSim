@@ -1,11 +1,11 @@
 #include "Physics.h"
-
+#include <iostream>
 
 
 void RigidBodyComponent::recalculate() {
 	angularVelocity = angularMomentum * inverseInertia;
 	orientation.normalize();
-	quaternion q(0, angularVelocity.X, angularVelocity.Y, angularVelocity.Z);
+	quaternion q(angularVelocity.X, angularVelocity.Y, angularVelocity.Z, 0);
 	spin = q * orientation * 0.5f;
 
 	velocity = momentum * inverseMass;
@@ -15,7 +15,7 @@ void Physics::integrate(vector<RigidBodyComponent*> rigidBodies, f32 dt) {
 	
 	for (RigidBodyComponent* rbc : rigidBodies) {
 		rbc->position = rbc->position + rbc->velocity * dt;
-		rbc->orientation = rbc->orientation + rbc->angularVelocity * dt;
+		rbc->orientation = rbc->orientation + rbc->spin * dt;
 		rbc->orientation = rbc->orientation.normalize();
 	}
 }

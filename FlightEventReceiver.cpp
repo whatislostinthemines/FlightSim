@@ -133,6 +133,7 @@ void Controller::mainLoop()
 	n->setMaterialFlag(EMF_LIGHTING, false);
 	n->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 	n->setMaterialTexture(0, driver->getTexture("effects/particlewhite.bmp"));
+
 	f32 accumulator = 0.0f;
 	f32 dt = 0.01;
 	f32 t = 0.0;

@@ -53,8 +53,7 @@ vector3df Ship::getForward()
 	if (node) {
 		vector3df rotation = node->getRotation();
 		vector3df forward = vector3df(0, 0, -1);
-		rotation.rotationToDirection(forward);
-		return forward;
+		return rotation.rotationToDirection(forward);
 	}
 	return vector3df(0, 0, 0);
 }
@@ -69,8 +68,7 @@ vector3df Ship::getLeft()
 	if (node) {
 		vector3df rotation = node->getRotation();
 		vector3df left = vector3df(1, 0, 0);
-		rotation.rotationToDirection(left);
-		return left;
+		return rotation.rotationToDirection(left);
 	}
 	return vector3df(0, 0, 0);
 }
@@ -85,8 +83,7 @@ vector3df Ship::getUp()
 	if (node) {
 		vector3df rotation = node->getRotation();
 		vector3df up = vector3df(0, 1, 0);
-		rotation.rotationToDirection(up);
-		return up;
+		return rotation.rotationToDirection(up);
 	}
 	return vector3df(0, 0, 0);
 }
@@ -217,34 +214,34 @@ void Ship::strafeDown()
 //rotations
 void Ship::yawLeft()
 {
-	torque.Y -= maxRotSpeed - rotVelocity.Y;
+	torque.Y -= maxRotSpeed - rigidBodyComponent.angularVelocity.Y;
 }
 
 void Ship::yawRight()
 {
-	torque.Y +=  maxRotSpeed - rotVelocity.Y;
+	torque.Y +=  maxRotSpeed - rigidBodyComponent.angularVelocity.Y;
 }
 
 void Ship::pitchUp()
 {
-	torque.X += maxRotSpeed - rotVelocity.X;
+	torque.X += maxRotSpeed - rigidBodyComponent.angularVelocity.X;
 }
 
 void Ship::pitchDown()
 {
-	torque.X -= maxRotSpeed - rotVelocity.X;
+	torque.X -= maxRotSpeed - rigidBodyComponent.angularVelocity.X;
 }
 void Ship::rollLeft()
 {
-	torque.Z -= maxRotSpeed - rotVelocity.Z;
+	torque.Z -= maxRotSpeed - rigidBodyComponent.angularVelocity.Z;
 }
 void Ship::rollRight()
 {
-	torque.Z += maxRotSpeed - rotVelocity.Z;
+	torque.Z += maxRotSpeed - rigidBodyComponent.angularVelocity.Z;
 }
 
 void Ship::stopMoving()
 {
-	torque += (-rigidBodyComponent.angularVelocity * maxRotSpeed);
+	torque += (-rigidBodyComponent.angularVelocity) * maxRotSpeed;
 	force += (-rigidBodyComponent.velocity * maxSpeed);
 }

@@ -37,17 +37,12 @@ class Ship
 
 	protected:
 		f32 maxSpeed = 40.f;
-		f32 maxRotSpeed = 160.f;
-		f32 maxForce = 60.f;
-		f32 maxRotForce = 160.f;
-
-		f32 rotFriction = 0.4f;
+		f32 maxRotSpeed = 10.f;
 
 		vector3df velocity;
 		vector3df force;
 		vector3df torque;
 		vector3df rotVelocity;
-		f32 mass = 1;
 
 		virtual void accelerateForward();
 		virtual void accelerateBackward();

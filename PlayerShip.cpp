@@ -79,7 +79,7 @@ void PlayerShip::update(f32 time)
 
 	posUpdate(time);
 	camera->setUpVector(getUp());
-	vector3df target = node->getPosition() + (velocity * .1f);
+	vector3df target = node->getPosition() + (rigidBodyComponent.velocity * .1f);
 	camera->setTarget(target);
 
 }
