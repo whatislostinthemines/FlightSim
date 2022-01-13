@@ -77,10 +77,6 @@ void PlayerShip::update(f32 time)
 			mousePointer->setPosition(mousePosition);
 			//DITCH THIS LATER IT JUST REPRESENTS WHERE THE THING IS IN PHYSICAL SPACE FOR CONVENIENCE
 
-			vector3df toMousePosition(mousePosition - node->getPosition());
-
-			std::cout << toMousePosition.X << " " << toMousePosition.Y << " " << toMousePosition.Z << std::endl;
-			rotForce += (toMousePosition * maxRotSpeed) - rotVelocity;
 			//need to convert the position of the mouse in mousePosition to angles that I can fling into rotForce
 			//rotForce += convertedAngles * maxRotSpeed - rotVelocity;
 		}
