@@ -148,11 +148,13 @@
   <ItemGroup>
     <ClCompile Include="FlightEventReceiver.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PlayerShip.cpp" />
     <ClCompile Include="Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FlightEventReceiver.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="PlayerShip.h" />
     <ClInclude Include="Ship.h" />
   </ItemGroup>

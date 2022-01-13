@@ -26,7 +26,7 @@ struct MouseStateMap;
 class PlayerShip : public Ship
 {
 public:
-	PlayerShip(IAnimatedMesh* ship, IAnimatedMeshSceneNode* node, ICameraSceneNode* camera, Controller* cont);
+	PlayerShip(IAnimatedMesh* ship, IAnimatedMeshSceneNode* node, ICameraSceneNode* camera, Controller* cont, f32 mass, f32 inertia);
 	PlayerShip();
 	virtual void update(f32 time);
 	ICameraSceneNode* camera;

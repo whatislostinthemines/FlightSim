@@ -1,5 +1,6 @@
 #pragma once
 #include <irrlicht.h>
+#include "Physics.h"
 
 #ifndef SHIP_H
 #define SHIP_H
@@ -18,13 +19,14 @@ vector3df rotateAxes(vector3df oldRot, vector3df rotAngles);
 class Ship
 {
 	public:
-		Ship(IAnimatedMesh* ship, IAnimatedMeshSceneNode* node, Controller* cont);
+		Ship(IAnimatedMesh* ship, IAnimatedMeshSceneNode* node, Controller* cont, f32 mass, f32 inertia);
 		Ship();
 		virtual void update(f32 time);
 		void posUpdate(f32 time);
 		IAnimatedMesh* ship;
 		IAnimatedMeshSceneNode* node;
 		Controller* controller;
+		RigidBodyComponent rigidBodyComponent;
 
 		vector3df getForward();
 		vector3df getBackward();
@@ -43,7 +45,7 @@ class Ship
 
 		vector3df velocity;
 		vector3df force;
-		vector3df rotForce;
+		vector3df torque;
 		vector3df rotVelocity;
 		f32 mass = 1;
 
