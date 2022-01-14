@@ -35,7 +35,7 @@ public:
 	//REMOVE THIS LATER
 
 protected:
-
+	f32 sensitivity = .001f;
 };
 
 #endif

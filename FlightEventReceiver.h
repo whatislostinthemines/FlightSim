@@ -34,7 +34,7 @@ struct KeyMap
 
 struct MouseStateMap
 {
-	position2di Position;
+	vector2di Position;
 	bool leftDown;
 	bool rightDown;
 	MouseStateMap() : leftDown(false), rightDown(false) {}
