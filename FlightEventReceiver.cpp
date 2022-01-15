@@ -101,17 +101,10 @@ void Controller::makePlayer()
 	IAnimatedMesh* playerMesh = smgr->getMesh("models/hellkitten/hellkitten.obj");
 	IAnimatedMeshSceneNode* playerNode = smgr->addAnimatedMeshSceneNode(playerMesh);
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
-	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 10, 20), playerNode->getPosition(), PLAYER_CAMERA, true);
+	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, 20), playerNode->getPosition(), PLAYER_CAMERA, true);
 	//camera->bindTargetAndRotation(true);
 	player = PlayerShip(playerMesh, playerNode, camera, this, 1, 1);
 
-	//REMOVE THIS LATER THIS IS THE SHITTIEST POSSIBLE WAY OF HAVING A CROSSHAIR IN 3D SPACE
-	ISceneNode* mousePtr = smgr->addBillboardSceneNode(0, dimension2d<f32>(5, 5));
-	player.mousePointer = mousePtr;
-	mousePtr->setMaterialFlag(EMF_LIGHTING, false);
-	mousePtr->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
-	mousePtr->setMaterialTexture(0, driver->getTexture("effects/particlewhite.bmp"));
-	//DEBUG ONLY
 }
 
 void Controller::makeAsteroids(int numAsteroids)
@@ -135,8 +128,8 @@ void Controller::mainLoop()
 	n->setMaterialTexture(0, driver->getTexture("effects/particlewhite.bmp"));
 
 	f32 accumulator = 0.0f;
-	f32 dt = 0.01;
-	f32 t = 0.0;
+	f32 dt = 0.01f;
+	f32 t = 0.0f;
 
 	vector<RigidBodyComponent*> rigidBodies = vector<RigidBodyComponent*>();
 	rigidBodies.push_back(&player.rigidBodyComponent);

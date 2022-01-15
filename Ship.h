@@ -15,7 +15,7 @@ using namespace scene;
 using namespace core;
 
 class Controller;
-vector3df rotateAxes(vector3df oldRot, vector3df rotAngles);
+
 class Ship
 {
 	public:
@@ -57,6 +57,7 @@ class Ship
 		virtual void yawLeft();
 		virtual void yawRight();
 		virtual void stopMoving();
+		virtual void turnToPos(vector3df pos);
 
 };
 #endif 

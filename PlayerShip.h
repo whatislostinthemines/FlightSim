@@ -1,6 +1,7 @@
 #pragma once
 #include <irrlicht.h>
 #include "Ship.h"
+#include "CameraRig.h"
 
 #ifndef PLAYERSHIP_H
 #define PLAYERSHIP_H
@@ -29,10 +30,7 @@ public:
 	PlayerShip(IAnimatedMesh* ship, IAnimatedMeshSceneNode* node, ICameraSceneNode* camera, Controller* cont, f32 mass, f32 inertia);
 	PlayerShip();
 	virtual void update(f32 time);
-	ICameraSceneNode* camera;
-	//REMOVE THIS LATER
-	ISceneNode* mousePointer;
-	//REMOVE THIS LATER
+	CameraRig camRig;
 
 protected:
 	f32 sensitivity = .001f;

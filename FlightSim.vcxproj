@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CameraRig.cpp" />
     <ClCompile Include="FlightEventReceiver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="Ship.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CameraRig.h" />
     <ClInclude Include="FlightEventReceiver.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PlayerShip.h" />

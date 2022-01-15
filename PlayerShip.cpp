@@ -5,12 +5,12 @@
 PlayerShip::PlayerShip(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, ICameraSceneNode* ncamera, Controller* cont, f32 mass, f32 inertia) 
 	: Ship(nship, nnode, cont, mass, inertia)
 {
-	camera = ncamera;
+	camRig.camera = ncamera;
 }
 
 PlayerShip::PlayerShip() : Ship()
 {
-	camera = 0;
+	camRig.camera = 0;
 }
 void PlayerShip::update(f32 time)
 {
@@ -63,21 +63,30 @@ void PlayerShip::update(f32 time)
 		vector2di pos = mouseState.Position;
 		vector2di center(screenSize.Width / 2, screenSize.Height / 2);
 
+		/*
 		if (((f32)pos.X > (f32)center.X * 1.2f) || (f32)pos.X < (f32)center.X * 0.8f) {
 			torque.Y += maxRotSpeed * ((f32)(pos.X - center.X) * sensitivity);
 		}
 		if (((f32)pos.Y > (f32)center.Y * 1.2f) || (f32)pos.Y < (f32)center.Y * .8f) {
 			torque.X += maxRotSpeed * ((f32)(center.Y - pos.Y) * sensitivity);
 		}
+		*/
 
 		//ray leading out of the mouse cursor
-		line3df ray = controller->smgr->getSceneCollisionManager()->getRayFromScreenCoordinates(mouseState.Position, camera);
+		line3df ray = controller->smgr->getSceneCollisionManager()->getRayFromScreenCoordinates(mouseState.Position, camRig.camera);
+		vector3df turnPoint = ray.getMiddle();
+		turnToPos(turnPoint);
 		//probably gonna want this later
 	}
 
 	posUpdate(time);
-	camera->setUpVector(getUp());
-	vector3df target = node->getPosition() + (rigidBodyComponent.velocity * .1f);
-	camera->setTarget(target);
+
+	//camera work
+	Directions dir;
+	dir.up = getUp();
+	dir.forward = getForward();
+	dir.left = getLeft();
+
+	camRig.moveCamera(rigidBodyComponent, node, dir, time);
 
 }

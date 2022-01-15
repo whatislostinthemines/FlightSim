@@ -52,7 +52,7 @@ vector3df Ship::getForward()
 {
 	if (node) {
 		vector3df rotation = node->getRotation();
-		vector3df forward = vector3df(0, 0, -1);
+		vector3df forward = vector3df(0, 0, -1); //I think our model might be backwards lmao
 		return rotation.rotationToDirection(forward);
 	}
 	return vector3df(0, 0, 0);
@@ -97,28 +97,8 @@ void Ship::update(f32 time)
 {
 }
 
-vector3df rotateAxes(vector3df oldRot, vector3df rotAngles)
-{
-	matrix4 transform;
-	transform.setRotationDegrees(oldRot);
-	vector3df axisX(1, 0, 0), axisY(0, 1, 0), axisZ(0, 0, 1);
-	matrix4 matRotX, matRotY, matRotZ;
-
-	transform.rotateVect(axisX);
-	transform.rotateVect(axisY);
-	transform.rotateVect(axisZ);
-
-	matRotX.setRotationAxisRadians(rotAngles.X * DEGTORAD, axisX);
-	matRotY.setRotationAxisRadians(rotAngles.Y * DEGTORAD, axisY);
-	matRotZ.setRotationAxisRadians(rotAngles.Z * DEGTORAD, axisZ);
-
-	matrix4 newTransform = matRotX * matRotY * matRotZ * transform;
-	return newTransform.getRotationDegrees();
-}
-
 void Ship::posUpdate(f32 time)
 {
-	vector3df rotFrictionVelocity = -rotVelocity;
 	//position
 	vector3df impulse = force * time;
 	Physics::applyImpulse(&rigidBodyComponent, impulse);
@@ -133,51 +113,18 @@ void Ship::posUpdate(f32 time)
 	eulerOrientation = eulerOrientation * RADTODEG;
 	node->setRotation(eulerOrientation);
 	torque = vector3df();
-	/*
-	vector3df acceleration = force / mass;
-	if (acceleration.getLength() > 0) {
-		acceleration = acceleration.normalize() * std::min(acceleration.getLength(), maxForce);
-	}
-	velocity += acceleration * time;
-	if (velocity.getLength() > 0) {
-		velocity = velocity.normalize() * std::min(velocity.getLength(), maxSpeed);
-	}
-	vector3df pos = node->getPosition() + (velocity * time);
 
-	//rotation
-	vector3df rotAcceleration = rotForce / mass;
+}
 
-	if (rotAcceleration.getLength() > 0) {
-		rotAcceleration = rotAcceleration.normalize() * std::min(rotAcceleration.getLength(), maxRotForce);
-	}
-	rotVelocity += rotAcceleration * time;
-
-	//space friction
-	rotVelocity += rotFriction * rotFrictionVelocity * time;
-
-	if (rotVelocity.getLength() > 0) {
-		rotVelocity = rotVelocity.normalize() * std::min(rotVelocity.getLength(), maxRotSpeed);
-	}
-
-	vector3df deltaV = rotVelocity * time;
-	vector3df rot = rotateAxes(node->getRotation(), deltaV);
-
-
-	if (rot.X > 360) rot.X -= 360;
-	else if (rot.X < -360) rot.X += 360;
-
-	if (rot.Y > 360) rot.Y -= 360;
-	else if (rot.Y < -360) rot.Y += 360;
-
-	if (rot.Z > 360) rot.Z -= 360;
-	else if (rot.Z < -360) rot.Z += 360;
-
-	node->setPosition(pos);
-	node->setRotation(rot);
-
-	force = vector3df(0, 0, 0);
-	rotForce = vector3df(0, 0, 0);
-	*/
+void Ship::turnToPos(vector3df pos)
+{
+	matrix4 localTransform = node->getAbsoluteTransformation(); //transforms global position to local position
+	localTransform.makeInverse();
+	vector3df localPos = pos;
+	localTransform.transformVect(localPos);
+	localPos.normalize();
+	torque.X += localPos.Y;
+	torque.Y -= localPos.X;
 }
 
 void Ship::accelerateForward()
