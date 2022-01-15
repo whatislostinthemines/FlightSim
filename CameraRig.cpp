@@ -3,11 +3,6 @@
 #include <iostream>
 #include <cmath>
 
-f32 clamp(f32 val, f32 min, f32 max)
-{
-	return std::max(std::min(max, val), min);
-}
-
 void CameraRig::moveCamera(RigidBodyComponent body, ISceneNode* node, Directions dir, f32 time)
 {
 	vector3df up = dir.up;

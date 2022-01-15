@@ -10,8 +10,6 @@ using namespace core;
 
 struct RigidBodyComponent;
 
-f32 clamp(f32 val, f32 min, f32 max);
-
 struct Directions {
 	vector3df forward = vector3df(0, 0, 1);
 	vector3df up = vector3df(0, 1, 0);
