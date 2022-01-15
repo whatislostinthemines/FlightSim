@@ -152,6 +152,7 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PlayerShip.cpp" />
     <ClCompile Include="Ship.cpp" />
+    <ClCompile Include="Weapons.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraRig.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PlayerShip.h" />
     <ClInclude Include="Ship.h" />
+    <ClInclude Include="Weapons.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
