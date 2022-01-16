@@ -1,11 +1,13 @@
 #include "Ship.h"
+#include "Controller.h"
 #include <iostream>
 #include <cmath>
 
-Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, f32 mass, f32 inertia)
+Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, f32 mass, f32 inertia, Controller* cont)
 {
 	ship = nship;
 	node = nnode;
+	controller = cont;
 	velocity = vector3df(0, 0, 0);
 	force = vector3df(0, 0, 0);
 	torque = vector3df(0, 0, 0);
@@ -23,6 +25,14 @@ Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, f32 mass, f32 in
 		inertia,
 		1/inertia
 	};
+
+	hardpoints[0] = vector3df(1.5f, 0.25f, -1.346f);
+	hardpoints[1] = vector3df(-1.5f, 0.25f, -1.346f);
+	IMesh* wepMesh = controller->smgr->getMesh("models/wazer/wazer.obj");
+	IMeshSceneNode* wepNode1 = controller->smgr->addMeshSceneNode(wepMesh, node, -1, hardpoints[0], vector3df(180, 0, 90), vector3df(.5f, .5f, .5f));
+	IMeshSceneNode* wepNode2 = controller->smgr->addMeshSceneNode(wepMesh, node, -1, hardpoints[1], vector3df(180, 0, -90), vector3df(.5f, .5f, .5f));
+	weapons[0] = new Weapon(wepNode1, wepMesh, controller);
+	weapons[1] = new Weapon(wepNode2, wepMesh, controller);
 }
 
 Ship::Ship()
@@ -123,6 +133,13 @@ void Ship::turnToPos(vector3df pos)
 	localPos.normalize();
 	torque.X += localPos.Y;
 	torque.Y -= localPos.X;
+}
+
+void Ship::fireWeapons(f32 time)
+{
+	for (int i = 0; i < 2; ++i) {
+		weapons[i]->fire(time);
+	}
 }
 
 void Ship::accelerateForward()

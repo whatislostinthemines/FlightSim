@@ -12,12 +12,18 @@ class Controller;
 
 class Weapon {
 	public:
+		Weapon();
+		Weapon(ISceneNode* node, IMesh* mesh, Controller* cont);
+
 		ISceneNode* wep;
 		IMesh* wepMesh;
-		f32 fireRate;
 		Controller* controller;
-		void fire();
+		void fire(f32 time);
 	protected:
+		f32 speed = 300.f;
+		f32 range = 1500.f;
+		f32 fireRate = 1.f;
+		f32 timeSinceLastFire = 0.0f;
 };
 
 struct Projectile {

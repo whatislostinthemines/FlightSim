@@ -12,6 +12,8 @@ Player::Player(Ship* pship, ICameraSceneNode* ncamera, Controller* cont)
 Player::Player()
 {
 	camRig.camera = 0;
+	controller = 0;
+	ship = 0;
 }
 void Player::update(f32 time)
 {
@@ -56,6 +58,9 @@ void Player::update(f32 time)
 	}
 	if (controller->isKeyDown(KEY_KEY_X)) {
 		ship->stopMoving();
+	}
+	if (controller->isKeyDown(KEY_KEY_T)) {
+		ship->fireWeapons(time);
 	}
 	if(controller->isMouseEnabled()) {
 		//hookup for what the mouse is doing

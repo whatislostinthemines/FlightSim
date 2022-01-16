@@ -102,7 +102,7 @@ void Controller::makePlayer()
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
 	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, 20), playerNode->getPosition(), PLAYER_CAMERA, true);
 	//camera->bindTargetAndRotation(true);
-	Ship* pShip = new Ship(playerMesh, playerNode, 1, 1);
+	Ship* pShip = new Ship(playerMesh, playerNode, 1, 1, this);
 	player = Player(pShip, camera, this);
 }
 
