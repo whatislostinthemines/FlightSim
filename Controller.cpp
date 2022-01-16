@@ -1,10 +1,10 @@
-#include "FlightEventReceiver.h"
+#include "Controller.h"
 #include <iostream>
 #include <random>
 
 Controller::Controller(IrrlichtDevice* dev)
 {
-	player = PlayerShip();
+	player = Player();
 	device = 0;
 	smgr = 0;
 	guienv = 0;
@@ -37,8 +37,7 @@ vector3df randomRotationVector()
 
 bool Controller::isKeyDown(EKEY_CODE key)
 {
-	if (keysDown[key]) return true;
-	return false;
+	return keysDown[key];
 }
 
 void Controller::init(IrrlichtDevice* dev)
@@ -103,8 +102,8 @@ void Controller::makePlayer()
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
 	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, 20), playerNode->getPosition(), PLAYER_CAMERA, true);
 	//camera->bindTargetAndRotation(true);
-	player = PlayerShip(playerMesh, playerNode, camera, this, 1, 1);
-
+	Ship* pShip = new Ship(playerMesh, playerNode, 1, 1);
+	player = Player(pShip, camera, this);
 }
 
 void Controller::makeAsteroids(int numAsteroids)
@@ -132,7 +131,7 @@ void Controller::mainLoop()
 	f32 t = 0.0f;
 
 	vector<RigidBodyComponent*> rigidBodies = vector<RigidBodyComponent*>();
-	rigidBodies.push_back(&player.rigidBodyComponent);
+	rigidBodies.push_back(&player.ship->rigidBodyComponent);
 	while (device->run()) {
 		u32 now = device->getTimer()->getTime();
 		f32 delta = (f32)(now - then) / 1000.f;
@@ -173,20 +172,21 @@ void Controller::mainLoop()
 		}
 		else tmp += lastFPS;
 
-
+		vector3df playerPos = player.ship->node->getPosition();
+		vector3df playerRot = player.ship->node->getRotation();
 		tmp += L" X: ";
-		tmp += player.node->getPosition().X;
+		tmp += playerPos.X;
 		tmp += L" Y: ";
-		tmp += player.node->getPosition().Y;
+		tmp += playerPos.Y;
 		tmp += L" Z: ";
-		tmp += player.node->getPosition().Z;
+		tmp += playerPos.Z;
 
 		tmp += L" ROTATION X: ";
-		tmp += player.node->getRotation().X;
+		tmp += playerRot.X;
 		tmp += L"Y: ";
-		tmp += player.node->getRotation().Y;
+		tmp += playerRot.Y;
 		tmp += L"Z: ";
-		tmp += player.node->getRotation().Z;
+		tmp += playerRot.Z;
 
 		device->setWindowCaption(tmp.c_str());
 		lastFPS = fps;

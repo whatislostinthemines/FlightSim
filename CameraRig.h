@@ -19,6 +19,6 @@ struct Directions {
 struct CameraRig {
 	vector3df offset = vector3df(0, 5, 20);
 	ICameraSceneNode* camera;
-	void moveCamera(RigidBodyComponent body, ISceneNode* node, Directions dir, f32 time);
+	void moveCamera(RigidBodyComponent* body, ISceneNode* node, Directions dir, f32 time);
 };
 #endif

@@ -3,7 +3,7 @@
 #ifndef FLIGHTEVENTRECEIVER_H
 #define FLIGHTEVENTRECEIVER_H
 #include <irrlicht.h>
-#include "PlayerShip.h"
+#include "Player.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -45,7 +45,7 @@ class Controller : public IEventReceiver
 	public:
 		virtual bool OnEvent(const SEvent& event);
 
-		PlayerShip player;
+		Player player;
 		IrrlichtDevice* device;
 		IVideoDriver* driver;
 		ISceneManager* smgr;

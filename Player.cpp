@@ -1,60 +1,61 @@
-#include "PlayerShip.h"
-#include "FlightEventReceiver.h"
+#include "Player.h"
+#include "Controller.h"
 #include <iostream>
 
-PlayerShip::PlayerShip(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, ICameraSceneNode* ncamera, Controller* cont, f32 mass, f32 inertia) 
-	: Ship(nship, nnode, cont, mass, inertia)
+Player::Player(Ship* pship, ICameraSceneNode* ncamera, Controller* cont) 
 {
 	camRig.camera = ncamera;
+	controller = cont;
+	ship = pship;
 }
 
-PlayerShip::PlayerShip() : Ship()
+Player::Player()
 {
 	camRig.camera = 0;
 }
-void PlayerShip::update(f32 time)
+void Player::update(f32 time)
 {
 	//WASD movement, space+ctrl up/down
 	//QE yaw RF pitch ZC roll
 	//X stop
 	if (controller->isKeyDown(KEY_KEY_S)) {
-		accelerateBackward();
+		ship->accelerateBackward();
 	}
 	if (controller->isKeyDown(KEY_KEY_W)) {
-		accelerateForward();
+		ship->accelerateForward();
 	}
 	if (controller->isKeyDown(KEY_KEY_A)) {
-		strafeLeft();
+		ship->strafeLeft();
 	}
 	if (controller->isKeyDown(KEY_KEY_D)) {
-		strafeRight();
+		ship->strafeRight();
 	}
 	if (controller->isKeyDown(KEY_SPACE)) {
-		strafeUp();
+		ship->strafeUp();
 	}
 	if (controller->isKeyDown(KEY_LCONTROL)) {
-		strafeDown();
+		ship->strafeDown();
 	}
 	if (controller->isKeyDown(KEY_KEY_E)) {
-		yawRight();
+		ship->yawRight();
 	}
 	if (controller->isKeyDown(KEY_KEY_Q)) {
-		yawLeft();
+		ship->yawLeft();
 	}
 	if (controller->isKeyDown(KEY_KEY_R)) {
-		pitchUp();
+		ship->pitchUp();
 	}
 	if (controller->isKeyDown(KEY_KEY_F)) {
-		pitchDown();
+		ship->pitchDown();
 	}
 	if (controller->isKeyDown(KEY_KEY_Z)) {
-		rollLeft();
+		ship->rollLeft();
 	}
 	if (controller->isKeyDown(KEY_KEY_C)) {
-		rollRight();
+		ship->rollRight();
 	}
 	if (controller->isKeyDown(KEY_KEY_X)) {
-		stopMoving();
+		ship->stopMoving();
 	}
 	if(controller->isMouseEnabled()) {
 		//hookup for what the mouse is doing
@@ -75,18 +76,18 @@ void PlayerShip::update(f32 time)
 		//ray leading out of the mouse cursor
 		line3df ray = controller->smgr->getSceneCollisionManager()->getRayFromScreenCoordinates(mouseState.Position, camRig.camera);
 		vector3df turnPoint = ray.getMiddle();
-		turnToPos(turnPoint);
+		ship->turnToPos(turnPoint);
 		//probably gonna want this later
 	}
 
-	posUpdate(time);
+	ship->posUpdate(time);
 
 	//camera work
 	Directions dir;
-	dir.up = getUp();
-	dir.forward = getForward();
-	dir.left = getLeft();
+	dir.up = ship->getUp();
+	dir.forward = ship->getForward();
+	dir.left = ship->getLeft();
 
-	camRig.moveCamera(rigidBodyComponent, node, dir, time);
+	camRig.moveCamera(&ship->rigidBodyComponent, ship->node, dir, time);
 
 }

@@ -14,18 +14,15 @@ using namespace video;
 using namespace scene;
 using namespace core;
 
-class Controller;
-
 class Ship
 {
 	public:
-		Ship(IAnimatedMesh* ship, IAnimatedMeshSceneNode* node, Controller* cont, f32 mass, f32 inertia);
+		Ship(IAnimatedMesh* ship, IAnimatedMeshSceneNode* node, f32 mass, f32 inertia);
 		Ship();
 		virtual void update(f32 time);
 		void posUpdate(f32 time);
 		IAnimatedMesh* ship;
 		IAnimatedMeshSceneNode* node;
-		Controller* controller;
 		RigidBodyComponent rigidBodyComponent;
 
 		vector3df getForward();
@@ -35,6 +32,21 @@ class Ship
 		vector3df getUp();
 		vector3df getDown();
 
+		void accelerateForward();
+		void accelerateBackward();
+		void strafeLeft();
+		void strafeRight();
+		void strafeUp();
+		void strafeDown();
+		void pitchUp();
+		void pitchDown();
+		void rollLeft();
+		void rollRight();
+		void yawLeft();
+		void yawRight();
+		void stopMoving();
+		void turnToPos(vector3df pos);
+
 	protected:
 		f32 maxSpeed = 40.f;
 		f32 maxRotSpeed = 10.f;
@@ -43,21 +55,6 @@ class Ship
 		vector3df force;
 		vector3df torque;
 		vector3df rotVelocity;
-
-		virtual void accelerateForward();
-		virtual void accelerateBackward();
-		virtual void strafeLeft();
-		virtual void strafeRight();
-		virtual void strafeUp();
-		virtual void strafeDown();
-		virtual void pitchUp();
-		virtual void pitchDown();
-		virtual void rollLeft();
-		virtual void rollRight();
-		virtual void yawLeft();
-		virtual void yawRight();
-		virtual void stopMoving();
-		virtual void turnToPos(vector3df pos);
 
 };
 #endif 

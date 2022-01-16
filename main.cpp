@@ -1,6 +1,6 @@
 #include <irrlicht.h>
 #include <driverChoice.h>
-#include "FlightEventReceiver.h"
+#include "Controller.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")

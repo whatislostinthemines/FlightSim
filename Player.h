@@ -24,13 +24,15 @@ enum {
 class Controller;
 struct MouseStateMap;
 
-class PlayerShip : public Ship
+class Player
 {
 public:
-	PlayerShip(IAnimatedMesh* ship, IAnimatedMeshSceneNode* node, ICameraSceneNode* camera, Controller* cont, f32 mass, f32 inertia);
-	PlayerShip();
+	Player(Ship* pship, ICameraSceneNode* camera, Controller* cont);
+	Player();
 	virtual void update(f32 time);
 	CameraRig camRig;
+	Controller* controller;
+	Ship* ship;
 
 protected:
 	f32 sensitivity = .001f;

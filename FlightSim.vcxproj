@@ -147,18 +147,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CameraRig.cpp" />
-    <ClCompile Include="FlightEventReceiver.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="PlayerShip.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Weapons.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraRig.h" />
-    <ClInclude Include="FlightEventReceiver.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="Physics.h" />
-    <ClInclude Include="PlayerShip.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Weapons.h" />
   </ItemGroup>

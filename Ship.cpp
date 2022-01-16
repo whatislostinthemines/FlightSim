@@ -1,11 +1,9 @@
 #include "Ship.h"
-#include "FlightEventReceiver.h"
 #include <iostream>
 #include <cmath>
 
-Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, Controller* cont, f32 mass, f32 inertia)
+Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, f32 mass, f32 inertia)
 {
-	controller = cont;
 	ship = nship;
 	node = nnode;
 	velocity = vector3df(0, 0, 0);
@@ -29,7 +27,6 @@ Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, Controller* cont
 
 Ship::Ship()
 {
-	controller = 0;
 	ship = 0;
 	node = 0;
 	velocity = vector3df(0, 0, 0);
