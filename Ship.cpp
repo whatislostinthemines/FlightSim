@@ -92,6 +92,7 @@ vector3df Ship::getDown()
 }
 void Ship::update(f32 time)
 {
+	posUpdate(time);
 }
 
 void Ship::posUpdate(f32 time)

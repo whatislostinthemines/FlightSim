@@ -80,7 +80,7 @@ void Player::update(f32 time)
 		//probably gonna want this later
 	}
 
-	ship->posUpdate(time);
+	ship->update(time);
 
 	//camera work
 	Directions dir;
