@@ -97,10 +97,11 @@ bool Controller::OnEvent(const SEvent& event)
 
 void Controller::makePlayer()
 {
-	IAnimatedMesh* playerMesh = smgr->getMesh("models/hellkitten/hellkitten.obj");
+	IAnimatedMesh* playerMesh = smgr->getMesh("models/tux/Tux.obj");
 	IAnimatedMeshSceneNode* playerNode = smgr->addAnimatedMeshSceneNode(playerMesh);
+	playerNode->setMaterialTexture(0, driver->getTexture("models/tux/BulletShipTex.png"));
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
-	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, 20), playerNode->getPosition(), PLAYER_CAMERA, true);
+	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, -20), playerNode->getPosition(), PLAYER_CAMERA, true);
 	//camera->bindTargetAndRotation(true);
 	Ship* pShip = new Ship(playerMesh, playerNode, 1, 1, this);
 	player = Player(pShip, camera, this);

@@ -26,11 +26,11 @@ Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, f32 mass, f32 in
 		1/inertia
 	};
 
-	hardpoints[0] = vector3df(1.5f, 0.25f, -1.346f);
-	hardpoints[1] = vector3df(-1.5f, 0.25f, -1.346f);
+	hardpoints[0] = vector3df(2.4816f, .25f, -6.0088f);
+	hardpoints[1] = vector3df(-2.4816f, .25f, -6.0088f);
 	IMesh* wepMesh = controller->smgr->getMesh("models/wazer/wazer.obj");
-	IMeshSceneNode* wepNode1 = controller->smgr->addMeshSceneNode(wepMesh, node, -1, hardpoints[0], vector3df(180, 0, 90), vector3df(.5f, .5f, .5f));
-	IMeshSceneNode* wepNode2 = controller->smgr->addMeshSceneNode(wepMesh, node, -1, hardpoints[1], vector3df(180, 0, -90), vector3df(.5f, .5f, .5f));
+	IMeshSceneNode* wepNode1 = controller->smgr->addMeshSceneNode(wepMesh, node, -1, hardpoints[0], vector3df(0, 0, 0), vector3df(.5f, .5f, .5f));
+	IMeshSceneNode* wepNode2 = controller->smgr->addMeshSceneNode(wepMesh, node, -1, hardpoints[1], vector3df(0, 0, 0), vector3df(.5f, .5f, .5f));
 	weapons[0] = new Weapon(wepNode1, wepMesh, controller);
 	weapons[1] = new Weapon(wepNode2, wepMesh, controller);
 }
@@ -59,7 +59,7 @@ vector3df Ship::getForward()
 {
 	if (node) {
 		vector3df rotation = node->getRotation();
-		vector3df forward = vector3df(0, 0, -1); //I think our model might be backwards lmao
+		vector3df forward = vector3df(0, 0, 1); //I think our model might be backwards lmao
 		return rotation.rotationToDirection(forward);
 	}
 	return vector3df(0, 0, 0);
@@ -74,7 +74,7 @@ vector3df Ship::getLeft()
 {
 	if (node) {
 		vector3df rotation = node->getRotation();
-		vector3df left = vector3df(1, 0, 0);
+		vector3df left = vector3df(-1, 0, 0);
 		return rotation.rotationToDirection(left);
 	}
 	return vector3df(0, 0, 0);
@@ -186,20 +186,20 @@ void Ship::yawRight()
 
 void Ship::pitchUp()
 {
-	torque.X += maxRotSpeed - rigidBodyComponent.angularVelocity.X;
+	torque.X -= maxRotSpeed - rigidBodyComponent.angularVelocity.X;
 }
 
 void Ship::pitchDown()
 {
-	torque.X -= maxRotSpeed - rigidBodyComponent.angularVelocity.X;
+	torque.X += maxRotSpeed - rigidBodyComponent.angularVelocity.X;
 }
 void Ship::rollLeft()
 {
-	torque.Z -= maxRotSpeed - rigidBodyComponent.angularVelocity.Z;
+	torque.Z += maxRotSpeed - rigidBodyComponent.angularVelocity.Z;
 }
 void Ship::rollRight()
 {
-	torque.Z += maxRotSpeed - rigidBodyComponent.angularVelocity.Z;
+	torque.Z -= maxRotSpeed - rigidBodyComponent.angularVelocity.Z;
 }
 
 void Ship::stopMoving()

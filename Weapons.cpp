@@ -27,7 +27,7 @@ Weapon::Weapon(ISceneNode* node, IMesh* mesh, Controller* cont)
 
 void Weapon::fire(f32 time)
 {
-	vector3df offset = wep->getPosition() + vector3df(0, 0, -2);
+	vector3df offset = wep->getPosition() + vector3df(0, 0, 2);
 	vector3df endPos = offset + vector3df(0, 0, 1500);
 	vector3df globalOffset = localToGlobal(offset, wep);
 	//to-do: the light scene node should NOT be a child of the weapon
