@@ -26,8 +26,10 @@ class RigidPhysicsObject
 
 		IAnimatedMesh* mesh;
 		IAnimatedMeshSceneNode* node;
-		RigidBodyComponent rigidBodyComponent;
 		Controller* controller;
+
+		RigidBodyComponent rigidBodyComponent;
+		Collider collider;
 
 		vector3df getForward();
 		vector3df getBackward();

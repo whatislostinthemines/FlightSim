@@ -23,6 +23,9 @@ RigidPhysicsObject::RigidPhysicsObject(IAnimatedMesh* nmesh, IAnimatedMeshSceneN
 		inertia,
 		1 / inertia
 	};
+
+	collider.aaBoundingBox = node->getTransformedBoundingBox();
+	collider.body = &rigidBodyComponent;
 }
 
 RigidPhysicsObject::RigidPhysicsObject()
@@ -43,6 +46,8 @@ RigidPhysicsObject::RigidPhysicsObject()
 		vector3df(),
 		vector3df()
 	};
+
+	collider.body = &rigidBodyComponent;
 }
 
 
@@ -110,6 +115,8 @@ void RigidPhysicsObject::posUpdate(f32 time)
 	eulerOrientation = eulerOrientation * RADTODEG;
 	node->setRotation(eulerOrientation);
 	torque = vector3df();
+
+	collider.aaBoundingBox = node->getTransformedBoundingBox();
 
 }
 

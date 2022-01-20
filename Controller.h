@@ -56,7 +56,7 @@ class Controller : public IEventReceiver
 		void init(IrrlichtDevice* dev);
 		void mainLoop();
 		void makePlayer();
-		void makeAsteroids(int numAsteroids);
+		vector<RigidPhysicsObject> makeAsteroids(int numAsteroids);
 
 		bool isMouseEnabled() { return mouseControl; }
 		void setMouseEnabled(bool state) {mouseControl = state;}

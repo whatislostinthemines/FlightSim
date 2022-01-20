@@ -29,3 +29,15 @@ void Physics::applyAngularImpulse(RigidBodyComponent* rigidBody, vector3df angul
 	rigidBody->angularMomentum = rigidBody->angularMomentum + angularImpulse;
 	rigidBody->recalculate();
 }
+
+void Physics::checkCollisions(vector<Collider*> colliders)
+{
+	for (int i = 0; i < colliders.size(); ++i) {
+		for (int j = 0; j < colliders.size(); ++j) {
+			if (i == j) continue;
+			if (colliders[j]->aaBoundingBox.intersectsWithBox(colliders[i]->aaBoundingBox)) {
+				std::cout << "Collision detected! " << std::endl;
+			}
+		}
+	}
+}

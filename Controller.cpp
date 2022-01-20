@@ -100,6 +100,7 @@ void Controller::makePlayer()
 	IAnimatedMesh* playerMesh = smgr->getMesh("models/tux/Tux.obj");
 	IAnimatedMeshSceneNode* playerNode = smgr->addAnimatedMeshSceneNode(playerMesh);
 	playerNode->setMaterialTexture(0, driver->getTexture("models/tux/BulletShipTex.png"));
+	playerNode->setDebugDataVisible(EDS_BBOX);
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
 	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, -20), playerNode->getPosition(), PLAYER_CAMERA, true);
 	//camera->bindTargetAndRotation(true);
@@ -107,18 +108,23 @@ void Controller::makePlayer()
 	player = Player(pShip, camera, this);
 }
 
-void Controller::makeAsteroids(int numAsteroids)
+vector<RigidPhysicsObject> Controller::makeAsteroids(int numAsteroids)
 {
+	vector<RigidPhysicsObject> ret;
 	IAnimatedMesh* asteroidMesh = smgr->getMesh("models/asteroid/Asteroid.obj");
 	for (int i = 0; i < numAsteroids; ++i) {
-		IAnimatedMeshSceneNode* roid = smgr->addAnimatedMeshSceneNode(asteroidMesh, 0, -1, randomVector(), randomRotationVector());
+		IAnimatedMeshSceneNode* roidNode = smgr->addAnimatedMeshSceneNode(asteroidMesh, 0, -1, randomVector(), randomRotationVector());
+		RigidPhysicsObject roid(asteroidMesh, roidNode, 1, 1, this);
+		roidNode->setDebugDataVisible(EDS_BBOX);
+		ret.push_back(roid);
 	}
+	return ret;
 }
 
 void Controller::mainLoop()
 {
 	makePlayer();
-	makeAsteroids(40);
+	vector<RigidPhysicsObject> roids = makeAsteroids(1);
 	ISceneNode* n = smgr->addLightSceneNode(0, vector3df(0, 0, 0),
 		SColor(200,200,200,200), 400.f);
 
@@ -127,12 +133,24 @@ void Controller::mainLoop()
 	n->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 	n->setMaterialTexture(0, driver->getTexture("effects/particlewhite.bmp"));
 
+	ITexture* sky = driver->getTexture("effects/starskybox.png");
+	smgr->addSkyBoxSceneNode(sky, sky, sky, sky, sky, sky);
+
+
 	f32 accumulator = 0.0f;
 	f32 dt = 0.01f;
 	f32 t = 0.0f;
 
 	vector<RigidBodyComponent*> rigidBodies = vector<RigidBodyComponent*>();
+	vector<Collider*> colliders;
 	rigidBodies.push_back(&player.ship->rigidBodyComponent);
+	colliders.push_back(&player.ship->collider);
+
+	for (RigidPhysicsObject roid : roids) {
+		rigidBodies.push_back(&roid.rigidBodyComponent);
+		colliders.push_back(&roid.collider);
+	}
+
 	while (device->run()) {
 		u32 now = device->getTimer()->getTime();
 		f32 delta = (f32)(now - then) / 1000.f;
@@ -149,6 +167,9 @@ void Controller::mainLoop()
 			// Game logic and physics
 			player.update(dt);
 			Physics::integrate(rigidBodies, dt);
+
+			Physics::checkCollisions(colliders);
+
 			t += dt;
 			accumulator -= dt;
 		}

@@ -31,12 +31,19 @@ struct RigidBodyComponent {
 	void recalculate();
 };
 
+struct Collider
+{
+	aabbox3df aaBoundingBox = aabbox3df();
+	RigidBodyComponent* body;
+};
+
 class Physics {
 
 public:
 	static void integrate(vector<RigidBodyComponent*> rigidBodies, f32 dt);
 	static void applyImpulse(RigidBodyComponent* rigidBody, vector3df impulse);
 	static void applyAngularImpulse(RigidBodyComponent* rigidBody, vector3df angularImpulse);
+	static void checkCollisions(vector<Collider*> colliders);
 };
 
 #endif
