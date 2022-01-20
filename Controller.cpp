@@ -120,7 +120,7 @@ void Controller::mainLoop()
 	makePlayer();
 	makeAsteroids(40);
 	ISceneNode* n = smgr->addLightSceneNode(0, vector3df(0, 0, 0),
-		SColor(255,255,255,255), 400.f);
+		SColor(200,200,200,200), 400.f);
 
 	n = smgr->addBillboardSceneNode(n, dimension2d<f32>(25, 25));
 	n->setMaterialFlag(EMF_LIGHTING, false);

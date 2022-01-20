@@ -3,29 +3,10 @@
 #include <iostream>
 #include <cmath>
 
-Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, f32 mass, f32 inertia, Controller* cont)
+Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, f32 mass, f32 inertia, Controller* cont) : RigidPhysicsObject(nship, nnode, mass, inertia, cont)
 {
-	ship = nship;
-	node = nnode;
-	controller = cont;
-	velocity = vector3df(0, 0, 0);
-	force = vector3df(0, 0, 0);
-	torque = vector3df(0, 0, 0);
-	rotVelocity = vector3df(0, 0, 0);
-	rigidBodyComponent = {
-		vector3df(),
-		quaternion(node->getRotation() * DEGTORAD),
-		node->getPosition(),
-		vector3df(),
-		quaternion(),
-		vector3df(),
-		vector3df(),
-		mass,
-		1/mass,
-		inertia,
-		1/inertia
-	};
 
+	//very basic hardpoint setup with terrible laser model
 	hardpoints[0] = vector3df(2.4816f, .25f, -6.0088f);
 	hardpoints[1] = vector3df(-2.4816f, .25f, -6.0088f);
 	IMesh* wepMesh = controller->smgr->getMesh("models/wazer/wazer.obj");
@@ -35,105 +16,18 @@ Ship::Ship(IAnimatedMesh* nship, IAnimatedMeshSceneNode* nnode, f32 mass, f32 in
 	weapons[1] = new Weapon(wepNode2, wepMesh, controller);
 }
 
-Ship::Ship()
+Ship::Ship() : RigidPhysicsObject()
 {
-	ship = 0;
-	node = 0;
-	velocity = vector3df(0, 0, 0);
-	force = vector3df(0, 0, 0);
-	torque = vector3df(0, 0, 0);
-	rotVelocity = vector3df(0, 0, 0);
-	rigidBodyComponent = {
-		vector3df(),
-		quaternion(0,1,0,0),
-		vector3df(),
-		vector3df(),
-		quaternion(),
-		vector3df(),
-		vector3df()
-	};
+	weapons[0] = 0;
+	weapons[1] = 0;
 }
 
-//returns a normalized vector for the forward position
-vector3df Ship::getForward()
-{
-	if (node) {
-		vector3df rotation = node->getRotation();
-		vector3df forward = vector3df(0, 0, 1); //I think our model might be backwards lmao
-		return rotation.rotationToDirection(forward);
-	}
-	return vector3df(0, 0, 0);
-}
-
-vector3df Ship::getBackward()
-{
-	return -getForward();
-}
-
-vector3df Ship::getLeft()
-{
-	if (node) {
-		vector3df rotation = node->getRotation();
-		vector3df left = vector3df(-1, 0, 0);
-		return rotation.rotationToDirection(left);
-	}
-	return vector3df(0, 0, 0);
-}
-
-vector3df Ship::getRight()
-{
-	return -getLeft();
-}
-
-vector3df Ship::getUp()
-{
-	if (node) {
-		vector3df rotation = node->getRotation();
-		vector3df up = vector3df(0, 1, 0);
-		return rotation.rotationToDirection(up);
-	}
-	return vector3df(0, 0, 0);
-}
-
-vector3df Ship::getDown()
-{
-	return -getUp();
-
-}
 void Ship::update(f32 time)
 {
+	//no matter what else goes in here, call posUpdate at the end of the update
 	posUpdate(time);
 }
 
-void Ship::posUpdate(f32 time)
-{
-	//position
-	vector3df impulse = force * time;
-	Physics::applyImpulse(&rigidBodyComponent, impulse);
-
-	node->setPosition(rigidBodyComponent.position);
-	force = vector3df();
-	
-	vector3df angularImpulse = torque * time;
-	Physics::applyAngularImpulse(&rigidBodyComponent, angularImpulse);
-	vector3df eulerOrientation = vector3df();
-	rigidBodyComponent.orientation.toEuler(eulerOrientation);
-	eulerOrientation = eulerOrientation * RADTODEG;
-	node->setRotation(eulerOrientation);
-	torque = vector3df();
-
-}
-
-void Ship::turnToPos(vector3df pos)
-{
-	matrix4 localTransform = node->getAbsoluteTransformation(); //transforms global position to local position
-	localTransform.makeInverse();
-	vector3df localPos = pos;
-	localTransform.transformVect(localPos);
-	localPos.normalize();
-	torque.X += localPos.Y;
-	torque.Y -= localPos.X;
-}
 
 void Ship::fireWeapons(f32 time)
 {
@@ -176,7 +70,7 @@ void Ship::strafeDown()
 //rotations
 void Ship::yawLeft()
 {
-	torque.Y -= maxRotSpeed - rigidBodyComponent.angularVelocity.Y;
+	torque.Y -= maxRotSpeed + rigidBodyComponent.angularVelocity.Y;
 }
 
 void Ship::yawRight()
@@ -186,7 +80,7 @@ void Ship::yawRight()
 
 void Ship::pitchUp()
 {
-	torque.X -= maxRotSpeed - rigidBodyComponent.angularVelocity.X;
+	torque.X -= maxRotSpeed + rigidBodyComponent.angularVelocity.X;
 }
 
 void Ship::pitchDown()
@@ -199,7 +93,7 @@ void Ship::rollLeft()
 }
 void Ship::rollRight()
 {
-	torque.Z -= maxRotSpeed - rigidBodyComponent.angularVelocity.Z;
+	torque.Z -= maxRotSpeed + rigidBodyComponent.angularVelocity.Z;
 }
 
 void Ship::stopMoving()

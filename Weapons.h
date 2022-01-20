@@ -10,6 +10,7 @@ using namespace core;
 
 class Controller;
 
+//might want to make this inherit from rigid physics object base class later?
 class Weapon {
 	public:
 		Weapon();
