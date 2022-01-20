@@ -72,7 +72,7 @@ struct SceneView {
 		if (sizeof...(ComponentTypes) == 0) {
 			all = true;
 		} else {
-			int componentIds[] = { 0, getId<ComponentTypes>()..., 2 };
+			int componentIds[] = { 0, getId<ComponentTypes>() ... };
 			for (int i = 1; i < sizeof...(ComponentTypes) + 1; ++i) {
 				componentMask.set(componentIds[i]);
 			}

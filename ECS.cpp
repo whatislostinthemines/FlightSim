@@ -16,7 +16,7 @@ EntityId Scene::newEntity() {
 
 template<typename T>
 T* Scene::assign(EntityId id) {
-	if (entities[GetEntityIndex(id)].id != id)
+	if (entities[getEntityIndex(id)].id != id)
 		return nullptr;
 
 	int componentId = getId<T>();
@@ -40,7 +40,7 @@ int getId() {
 
 template<typename T>
 T* Scene::get(EntityId entityId) {
-	if (entities[GetEntityIndex(entityId)].id != entityId)
+	if (entities[getEntityIndex(entityId)].id != entityId)
 		return nullptr;
 	int componentId = getId<T>();
 	if (!entities[getEntityIndex(entityId)].mask.test(componentId))

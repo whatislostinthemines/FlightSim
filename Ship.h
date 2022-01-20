@@ -11,6 +11,7 @@
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
+
 using namespace irr;
 using namespace video;
 using namespace scene;
@@ -48,4 +49,5 @@ class Ship : public RigidPhysicsObject
 	protected:
 
 };
+
 #endif 
