@@ -90,6 +90,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>irrlicht-1.8.4\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="CameraRig.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="ECS.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
@@ -158,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="CameraRig.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="ECS.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="Player.h" />
