@@ -4,6 +4,8 @@
 #define FLIGHTEVENTRECEIVER_H
 #include <irrlicht.h>
 #include "Player.h"
+#include "IrrlichtComponent.h"
+#include "InputComponent.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -15,22 +17,6 @@ using namespace scene;
 using namespace core;
 using namespace gui;
 
-enum PLAYER_MOVEMENT {
-	PLAYER_MOVE_FORWARD,
-	PLAYER_MOVE_BACKWARD,
-	PLAYER_STRAFE_LEFT,
-	PLAYER_STRAFE_RIGHT,
-	PLAYER_MOVE_UP,
-	PLAYER_MOVE_DOWN
-};
-
-struct KeyMap
-{
-	KeyMap() {}
-	KeyMap(PLAYER_MOVEMENT action, EKEY_CODE KeyCode) : move(action), keyCode(KeyCode) {}
-	PLAYER_MOVEMENT move;
-	EKEY_CODE keyCode;
-};
 
 struct MouseStateMap
 {
@@ -63,6 +49,8 @@ class Controller : public IEventReceiver
 		bool isKeyDown(EKEY_CODE key);
 		MouseStateMap getMouseState() { return MouseState; }
 	private:
+
+		Scene scene; 
 		bool mouseControl = false;
 		u32 then;
 		bool keysDown[KEY_KEY_CODES_COUNT];

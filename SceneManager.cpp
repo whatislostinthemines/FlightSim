@@ -4,4 +4,6 @@
 void SceneManager::update(f32 time)
 {
 	dt = time;
+	shipMovementSystem(&scene, dt);
 }
+

@@ -5,6 +5,7 @@
 
 #include "ECS.h"
 #include <irrlicht.h>
+#include "ShipMovementSystem.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -22,6 +23,7 @@ class SceneManager {
 		SceneManager(Scene scene, Controller* controller) : controller(controller), scene(scene) {}
 
 		void update(f32 dt);
+
 	private:
 		f32 dt;
 		Scene scene;

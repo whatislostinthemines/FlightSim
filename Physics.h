@@ -1,6 +1,7 @@
 #pragma once
 #include <irrlicht.h>
 #include <vector>
+#include "ECS.h"
 
 
 #ifndef PHYSICS_H
@@ -28,6 +29,9 @@ struct RigidBodyComponent {
 	f32 inertia = 1;
 	f32 inverseInertia = 1;
 
+	void applyImpulse(vector3df impulse);
+	void applyAngularImpulse(vector3df angularImpulse);
+
 	void recalculate();
 };
 
@@ -37,13 +41,8 @@ struct Collider
 	RigidBodyComponent* body;
 };
 
-class Physics {
-
-public:
-	static void integrate(vector<RigidBodyComponent*> rigidBodies, f32 dt);
-	static void applyImpulse(RigidBodyComponent* rigidBody, vector3df impulse);
-	static void applyAngularImpulse(RigidBodyComponent* rigidBody, vector3df angularImpulse);
-	static void checkCollisions(vector<Collider*> colliders);
-};
+void integratePhysicsSystem(Scene& scene, f32 dt);
+	
+void checkCollisions(vector<Collider*> colliders);
 
 #endif

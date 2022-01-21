@@ -96,7 +96,6 @@ vector3df RigidPhysicsObject::getUp()
 vector3df RigidPhysicsObject::getDown()
 {
 	return -getUp();
-
 }
 
 void RigidPhysicsObject::posUpdate(f32 time)

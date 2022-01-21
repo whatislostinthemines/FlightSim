@@ -56,6 +56,14 @@ void Controller::init(IrrlichtDevice* dev)
 bool Controller::OnEvent(const SEvent& event)
 {
 	if (event.EventType == EET_KEY_INPUT_EVENT) {
+		for(auto entityId : SceneView<InputComponent>(scene)) {
+			InputComponent* input = scene.get<InputComponent>(entityId);
+			input->keysDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+			if(event.KeyInput.Key == KEY_KEY_Y && !keysDown[KEY_KEY_Y]) {
+				input->mouseControlEnabled = !input->mouseControlEnabled;
+			}
+		}
+		/*
 		keysDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
 		if (event.KeyInput.Key == KEY_KEY_Y && !keysDown[KEY_KEY_Y]) {
@@ -63,8 +71,33 @@ bool Controller::OnEvent(const SEvent& event)
 			std::cout << "Mouse state is " << isMouseEnabled() << std::endl;
 		}
 		return true;
+		*/
 	}
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
+		for(auto entityId: SceneView<InputComponent>(scene)) {
+			InputComponent* input = scene.get<InputComponent>(entityId);
+			switch(event.MouseInput.Event) {
+			case EMIE_LMOUSE_PRESSED_DOWN:
+				input->leftMouseDown = true;
+				break;
+			case EMIE_LMOUSE_LEFT_UP:
+				input->leftMouseDown = false;
+				break;
+			case EMIE_RMOUSE_PRESSED_DOWN:
+				input->rightMouseDown = true;
+				break;
+			case EMIE_RMOUSE_LEFT_UP:
+				input->rightMouseDown = false;
+				break;
+			case EMIE_MOUSE_MOVED:
+				input->mousePosition.X = event.MouseInput.X;
+				input->mousePosition.Y = event.MouseInput.Y;
+				break;
+			default:
+				break;
+			}
+		}
+		/*
 		switch (event.MouseInput.Event) {
 			case EMIE_LMOUSE_PRESSED_DOWN: {
 				MouseState.leftDown = true;
@@ -90,7 +123,8 @@ bool Controller::OnEvent(const SEvent& event)
 			default: { //can add wheel or double clicks or whatever
 				break;
 			}
-		}
+			
+		}*/
 	}
 	return false;
 }
@@ -104,6 +138,13 @@ void Controller::makePlayer()
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
 	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, -20), playerNode->getPosition(), PLAYER_CAMERA, true);
 	//camera->bindTargetAndRotation(true);
+	auto playerEntity = scene.newEntity();
+	auto rbc = scene.assign<RigidBodyComponent>(playerEntity);
+	rbc->position = playerNode->getPosition();
+	auto irrComponent = scene.assign<IrrlichtComponent>(playerEntity);
+	irrComponent->node = playerNode;
+	scene.assign<InputComponent>(playerEntity);
+
 	Ship* pShip = new Ship(playerMesh, playerNode, 1, 1, this);
 	player = Player(pShip, camera, this);
 }
@@ -166,9 +207,9 @@ void Controller::mainLoop()
 		while (accumulator >= dt) {
 			// Game logic and physics
 			player.update(dt);
-			Physics::integrate(rigidBodies, dt);
+			PhysicsSystem::integrate(rigidBodies, dt);
 
-			Physics::checkCollisions(colliders);
+			PhysicsSystem::checkCollisions(colliders);
 
 			t += dt;
 			accumulator -= dt;
