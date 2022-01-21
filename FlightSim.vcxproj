@@ -148,35 +148,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CameraRig.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="IrrlichtComponent.cpp" />
     <ClCompile Include="IrrlichtRigidBodyPositionSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="PhysicsObject.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerUpdateSystem.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="ShipMovementSystem.cpp" />
     <ClCompile Include="Weapons.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CameraRig.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="IrrlichtComponent.h" />
     <ClInclude Include="IrrlichtRigidBodyPositionSystem.h" />
     <ClInclude Include="Physics.h" />
-    <ClInclude Include="PhysicsObject.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PlayerUpdateSystem.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="Ship.h" />
     <ClInclude Include="ShipMovementSystem.h" />
     <ClInclude Include="Weapons.h" />
   </ItemGroup>

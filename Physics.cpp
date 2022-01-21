@@ -29,16 +29,3 @@ void integratePhysicsSystem(Scene& scene, f32 dt) {
 		rbc->orientation = rbc->orientation.normalize();
 	}
 }
-
-
-void checkCollisions(vector<Collider*> colliders)
-{
-	for (int i = 0; i < colliders.size(); ++i) {
-		for (int j = 0; j < colliders.size(); ++j) {
-			if (i == j) continue;
-			if (colliders[j]->aaBoundingBox.intersectsWithBox(colliders[i]->aaBoundingBox)) {
-				std::cout << "Collision detected! " << std::endl;
-			}
-		}
-	}
-}
