@@ -1,3 +1,5 @@
+
+/*
 #include "Ship.h"
 #include "Controller.h"
 #include <iostream>
@@ -101,3 +103,5 @@ void Ship::stopMoving()
 	torque += (-rigidBodyComponent.angularVelocity) * maxRotSpeed;
 	force += (-rigidBodyComponent.velocity * maxSpeed);
 }
+
+*/

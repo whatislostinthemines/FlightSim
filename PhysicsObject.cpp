@@ -1,3 +1,4 @@
+/*
 #include "PhysicsObject.h"
 #include "Controller.h"
 
@@ -129,3 +130,5 @@ void RigidPhysicsObject::turnToPos(vector3df pos)
 	torque.X += localPos.Y;
 	torque.Y -= localPos.X;
 }
+
+*/

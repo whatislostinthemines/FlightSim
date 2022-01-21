@@ -1,4 +1,5 @@
 #pragma once
+/*
 #include <irrlicht.h>
 #include "Physics.h"
 #include "PhysicsObject.h"
@@ -51,3 +52,5 @@ class Ship : public RigidPhysicsObject
 };
 
 #endif 
+
+*/

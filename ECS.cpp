@@ -2,6 +2,12 @@
 
 int componentCounter = 0;
 
+template <class T>
+int getId() {
+	static int componentId = componentCounter++;
+	return componentId;
+}
+
 EntityId Scene::newEntity() {
 	if (!freeEntities.empty()) {
 		EntityIndex newIndex = freeEntities.back();
@@ -30,12 +36,6 @@ T* Scene::assign(EntityId id) {
 	T* component = new (componentPools[componentId]->get(getEntityIndex(id))) T();
 	entities[getEntityIndex(id)].mask.set(componentId);
 	
-}
-
-template <class T>
-int getId() {
-	static int componentId = componentCounter++;
-	return componentId;
 }
 
 template<typename T>

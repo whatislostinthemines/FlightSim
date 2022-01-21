@@ -1,12 +1,11 @@
 #pragma once
 
-#ifndef SHIPMOVEMENTSYSTEM_H
-#define SHIPMOVEMENTSYSTEM_H
+#ifndef IRRLICHTRIGIDBODYPOSITIONSYSTEM_H
+#define IRRLICHTRIGIDBODYPOSITIONSYSTEM_H
 
 #include <irrlicht.h>
 #include "ECS.h"
 #include "Physics.h"
-#include "InputComponent.h"
 #include "IrrlichtComponent.h"
 
 #ifdef _MSC_VER
@@ -19,6 +18,6 @@ using namespace scene;
 using namespace core;
 using namespace gui;
 
-void shipMovementSystem(Scene& scene, f32 dt);
+void irrlichtRigidBodyPositionSystem(Scene& scene, f32 dt);
 
 #endif

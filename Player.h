@@ -1,4 +1,5 @@
 #pragma once
+/*
 #include <irrlicht.h>
 #include "Ship.h"
 #include "CameraRig.h"
@@ -39,3 +40,5 @@ protected:
 };
 
 #endif
+
+*/

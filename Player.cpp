@@ -1,3 +1,4 @@
+/*
 #include "Player.h"
 #include "Controller.h"
 #include <iostream>
@@ -76,7 +77,7 @@ void Player::update(f32 time)
 		if (((f32)pos.Y > (f32)center.Y * 1.2f) || (f32)pos.Y < (f32)center.Y * .8f) {
 			torque.X += maxRotSpeed * ((f32)(center.Y - pos.Y) * sensitivity);
 		}
-		*/
+		
 
 		//ray leading out of the mouse cursor
 		line3df ray = controller->smgr->getSceneCollisionManager()->getRayFromScreenCoordinates(mouseState.Position, camRig.camera);
@@ -96,3 +97,5 @@ void Player::update(f32 time)
 	camRig.moveCamera(&ship->rigidBodyComponent, ship->node, dir, time);
 
 }
+
+*/

@@ -3,7 +3,8 @@
 #ifndef FLIGHTEVENTRECEIVER_H
 #define FLIGHTEVENTRECEIVER_H
 #include <irrlicht.h>
-#include "Player.h"
+#include "ECS.h"
+#include "SceneManager.h"
 #include "IrrlichtComponent.h"
 #include "InputComponent.h"
 
@@ -31,7 +32,6 @@ class Controller : public IEventReceiver
 	public:
 		virtual bool OnEvent(const SEvent& event);
 
-		Player player;
 		IrrlichtDevice* device;
 		IVideoDriver* driver;
 		ISceneManager* smgr;
@@ -42,19 +42,12 @@ class Controller : public IEventReceiver
 		void init(IrrlichtDevice* dev);
 		void mainLoop();
 		void makePlayer();
-		vector<RigidPhysicsObject> makeAsteroids(int numAsteroids);
+		void makeAsteroids();
 
-		bool isMouseEnabled() { return mouseControl; }
-		void setMouseEnabled(bool state) {mouseControl = state;}
-		bool isKeyDown(EKEY_CODE key);
-		MouseStateMap getMouseState() { return MouseState; }
 	private:
 
-		Scene scene; 
-		bool mouseControl = false;
+		SceneManager sceneECS; 
 		u32 then;
-		bool keysDown[KEY_KEY_CODES_COUNT];
-		MouseStateMap MouseState;
 		u32 lastFPS;
 };
 

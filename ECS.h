@@ -5,6 +5,7 @@
 
 #include <bitset>
 #include <vector>
+
 typedef uint32_t EntityIndex;
 typedef uint32_t EntityVersion;
 typedef uint64_t EntityId;
@@ -56,7 +57,7 @@ struct Scene {
 
 extern int componentCounter;
 template <class T>
-int getId();
+inline int getId();
 
 EntityId createEntityId(EntityIndex index, EntityVersion version);
 EntityIndex getEntityIndex(EntityId id);
@@ -102,7 +103,7 @@ struct SceneView
 	};
 
 	const Iterator begin() const {
-		int firstIndex = 0;
+		unsigned int firstIndex = 0;
 		while (firstIndex < scene->entities.size() &&
 			(componentMask != (componentMask & scene->entities[firstIndex].mask) || !isEntityValid(scene->entities[firstIndex].id))) {
 			firstIndex++;

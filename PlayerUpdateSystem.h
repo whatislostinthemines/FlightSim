@@ -1,13 +1,12 @@
 #pragma once
 
-#ifndef SHIPMOVEMENTSYSTEM_H
-#define SHIPMOVEMENTSYSTEM_H
-
+#ifndef HEADER_H
+#define HEADER_H
 #include <irrlicht.h>
 #include "ECS.h"
-#include "Physics.h"
-#include "InputComponent.h"
 #include "IrrlichtComponent.h"
+#include "PlayerComponent.h"
+#include "Physics.h"
 
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
@@ -19,6 +18,6 @@ using namespace scene;
 using namespace core;
 using namespace gui;
 
-void shipMovementSystem(Scene& scene, f32 dt);
+void playerUpdateSystem(Scene& scene, f32 dt);
 
 #endif

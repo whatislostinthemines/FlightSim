@@ -1,4 +1,6 @@
 #pragma once
+
+/*
 #include <irrlicht.h>
 #include "Physics.h"
 
@@ -51,3 +53,5 @@ class RigidPhysicsObject
 };
 
 #endif
+
+*/ 

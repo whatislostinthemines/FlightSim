@@ -4,16 +4,12 @@
 
 Controller::Controller(IrrlichtDevice* dev)
 {
-	player = Player();
 	device = 0;
 	smgr = 0;
 	guienv = 0;
 	driver = 0;
 	lastFPS = -1;
 	then = 0;
-	for (u32 i = 0; i < KEY_KEY_CODES_COUNT; ++i) {
-		keysDown[i] = false;
-	}
 	init(dev);
 }
 
@@ -35,11 +31,6 @@ vector3df randomRotationVector()
 	return vector3df(x, y, z);
 }
 
-bool Controller::isKeyDown(EKEY_CODE key)
-{
-	return keysDown[key];
-}
-
 void Controller::init(IrrlichtDevice* dev)
 {
 	device = dev;
@@ -51,15 +42,17 @@ void Controller::init(IrrlichtDevice* dev)
 	device->setEventReceiver(this);
 	guienv->setUserEventReceiver(this);
 	then = device->getTimer()->getTime();
+	Scene scene;
+	sceneECS = SceneManager(scene, this);
 }
 
 bool Controller::OnEvent(const SEvent& event)
 {
 	if (event.EventType == EET_KEY_INPUT_EVENT) {
-		for(auto entityId : SceneView<InputComponent>(scene)) {
-			InputComponent* input = scene.get<InputComponent>(entityId);
+		for(auto entityId : SceneView<InputComponent>(sceneECS.scene)) {
+			InputComponent* input = sceneECS.scene.get<InputComponent>(entityId);
 			input->keysDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
-			if(event.KeyInput.Key == KEY_KEY_Y && !keysDown[KEY_KEY_Y]) {
+			if(event.KeyInput.Key == KEY_KEY_Y && !input->keysDown[KEY_KEY_Y]) {
 				input->mouseControlEnabled = !input->mouseControlEnabled;
 			}
 		}
@@ -74,8 +67,8 @@ bool Controller::OnEvent(const SEvent& event)
 		*/
 	}
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
-		for(auto entityId: SceneView<InputComponent>(scene)) {
-			InputComponent* input = scene.get<InputComponent>(entityId);
+		for(auto entityId: SceneView<InputComponent>(sceneECS.scene)) {
+			InputComponent* input = sceneECS.scene.get<InputComponent>(entityId);
 			switch(event.MouseInput.Event) {
 			case EMIE_LMOUSE_PRESSED_DOWN:
 				input->leftMouseDown = true;
@@ -136,36 +129,33 @@ void Controller::makePlayer()
 	playerNode->setMaterialTexture(0, driver->getTexture("models/tux/BulletShipTex.png"));
 	playerNode->setDebugDataVisible(EDS_BBOX);
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
-	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, -20), playerNode->getPosition(), PLAYER_CAMERA, true);
+	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, -20), playerNode->getPosition(), -1, true);
 	//camera->bindTargetAndRotation(true);
-	auto playerEntity = scene.newEntity();
-	auto rbc = scene.assign<RigidBodyComponent>(playerEntity);
-	rbc->position = playerNode->getPosition();
-	auto irrComponent = scene.assign<IrrlichtComponent>(playerEntity);
-	irrComponent->node = playerNode;
-	scene.assign<InputComponent>(playerEntity);
 
-	Ship* pShip = new Ship(playerMesh, playerNode, 1, 1, this);
-	player = Player(pShip, camera, this);
+	auto playerEntity = sceneECS.scene.newEntity();
+	auto rbc = sceneECS.scene.assign<RigidBodyComponent>(playerEntity);
+	rbc->position = playerNode->getPosition();
+	auto irrComponent = sceneECS.scene.assign<IrrlichtComponent>(playerEntity);
+	irrComponent->node = playerNode;
+	sceneECS.scene.assign<InputComponent>(playerEntity);
+
+	auto playerCamera = sceneECS.scene.assign<PlayerComponent>(playerEntity);
+	playerCamera->camera = camera;
+
 }
 
-vector<RigidPhysicsObject> Controller::makeAsteroids(int numAsteroids)
+void Controller::makeAsteroids()
 {
-	vector<RigidPhysicsObject> ret;
+
 	IAnimatedMesh* asteroidMesh = smgr->getMesh("models/asteroid/Asteroid.obj");
-	for (int i = 0; i < numAsteroids; ++i) {
-		IAnimatedMeshSceneNode* roidNode = smgr->addAnimatedMeshSceneNode(asteroidMesh, 0, -1, randomVector(), randomRotationVector());
-		RigidPhysicsObject roid(asteroidMesh, roidNode, 1, 1, this);
-		roidNode->setDebugDataVisible(EDS_BBOX);
-		ret.push_back(roid);
-	}
-	return ret;
+	IAnimatedMeshSceneNode* roidNode = smgr->addAnimatedMeshSceneNode(asteroidMesh, 0, -1, randomVector(), randomRotationVector());
+
 }
 
 void Controller::mainLoop()
 {
 	makePlayer();
-	vector<RigidPhysicsObject> roids = makeAsteroids(1);
+	makeAsteroids();
 	ISceneNode* n = smgr->addLightSceneNode(0, vector3df(0, 0, 0),
 		SColor(200,200,200,200), 400.f);
 
@@ -182,16 +172,6 @@ void Controller::mainLoop()
 	f32 dt = 0.01f;
 	f32 t = 0.0f;
 
-	vector<RigidBodyComponent*> rigidBodies = vector<RigidBodyComponent*>();
-	vector<Collider*> colliders;
-	rigidBodies.push_back(&player.ship->rigidBodyComponent);
-	colliders.push_back(&player.ship->collider);
-
-	for (RigidPhysicsObject roid : roids) {
-		rigidBodies.push_back(&roid.rigidBodyComponent);
-		colliders.push_back(&roid.collider);
-	}
-
 	while (device->run()) {
 		u32 now = device->getTimer()->getTime();
 		f32 delta = (f32)(now - then) / 1000.f;
@@ -206,11 +186,14 @@ void Controller::mainLoop()
 		
 		while (accumulator >= dt) {
 			// Game logic and physics
+			sceneECS.update(dt);
+
+			/*
 			player.update(dt);
 			PhysicsSystem::integrate(rigidBodies, dt);
 
 			PhysicsSystem::checkCollisions(colliders);
-
+			*/
 			t += dt;
 			accumulator -= dt;
 		}
@@ -235,6 +218,7 @@ void Controller::mainLoop()
 		}
 		else tmp += lastFPS;
 
+		/*
 		vector3df playerPos = player.ship->node->getPosition();
 		vector3df playerRot = player.ship->node->getRotation();
 		tmp += L" X: ";
@@ -250,7 +234,7 @@ void Controller::mainLoop()
 		tmp += playerRot.Y;
 		tmp += L"Z: ";
 		tmp += playerRot.Z;
-
+		*/
 		device->setWindowCaption(tmp.c_str());
 		lastFPS = fps;
 	}
