@@ -154,6 +154,7 @@
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Weapons.cpp" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="Weapons.h" />
   </ItemGroup>
