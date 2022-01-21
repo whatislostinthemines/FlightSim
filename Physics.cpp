@@ -30,19 +30,6 @@ void integratePhysicsSystem(Scene& scene, f32 dt) {
 	}
 }
 
-
-void checkCollisions(vector<Collider*> colliders)
-{
-	for (int i = 0; i < colliders.size(); ++i) {
-		for (int j = 0; j < colliders.size(); ++j) {
-			if (i == j) continue;
-			if (colliders[j]->aaBoundingBox.intersectsWithBox(colliders[i]->aaBoundingBox)) {
-				std::cout << "Collision detected! " << std::endl;
-			}
-		}
-	}
-}
-
 bool collide(SphereColliderComponent sphere, SphereColliderComponent otherSphere) {
 	vector3df connectingLine = sphere.center - otherSphere.center;
 	f32 sumRadSquared = (sphere.radius + otherSphere.radius) * (sphere.radius + otherSphere.radius);
@@ -159,7 +146,7 @@ bool collide(AxisAlignedBoundingBoxColliderComponent aABB, OrientedBoundingBoxCo
 bool collide(AxisAlignedBoundingBoxColliderComponent aABB, CapsuleColliderComponent otherCapsule);
 
 bool collide(OrientedBoundingBoxColliderComponent oBB, SphereColliderComponent otherSphere) {
-	collide(otherSphere, oBB);
+	return collide(otherSphere, oBB);
 }
 bool collide(OrientedBoundingBoxColliderComponent oBB, AxisAlignedBoundingBoxColliderComponent otherAABB);
 bool collide(OrientedBoundingBoxColliderComponent oBB, OrientedBoundingBoxColliderComponent otherOBB);
