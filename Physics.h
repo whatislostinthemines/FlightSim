@@ -36,15 +36,7 @@ struct RigidBodyComponent {
 	void recalculate();
 };
 
-struct Collider
-{
-	aabbox3df aaBoundingBox = aabbox3df();
-	RigidBodyComponent* body;
-};
-
 void integratePhysicsSystem(Scene& scene, f32 dt);
-	
-void checkCollisions(vector<Collider*> colliders);
 
 bool collide(SphereColliderComponent sphere, SphereColliderComponent otherSphere);
 bool collide(SphereColliderComponent sphere, AxisAlignedBoundingBoxColliderComponent otherAABB);

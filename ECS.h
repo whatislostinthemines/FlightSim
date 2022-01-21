@@ -13,6 +13,22 @@ const int MAX_COMPONENTS = 32;
 const int MAX_ENTITIES = 400;
 typedef std::bitset<MAX_COMPONENTS> ComponentMask;
 
+extern int componentCounter;
+
+template <class T>
+int getId() {
+	static int componentId = componentCounter++;
+	return componentId;
+}
+
+EntityId createEntityId(EntityIndex index, EntityVersion version);
+EntityIndex getEntityIndex(EntityId id);
+EntityVersion getEntityVersion(EntityId id);
+bool isEntityValid(EntityId id);
+
+#define INVALID_ENTITY CreateEntityId(EntityIndex(-1), 0);
+
+
 struct ComponentPool {
 	ComponentPool(size_t elementsize) {
 		elementSize = elementsize;
@@ -39,32 +55,54 @@ struct Scene {
 
 	std::vector<EntityDesc> entities;
 	std::vector<EntityIndex> freeEntities;
-	std::vector<ComponentPool> componentPools;
+	std::vector<ComponentPool*> componentPools;
 
 	EntityId newEntity();
 
 	template<typename T>
-	T* assign(EntityId id);
+	T* assign(EntityId id) {
+		if (entities[getEntityIndex(id)].id != id)
+			return nullptr;
+
+		int componentId = getId<T>();
+		if (componentPools.size() <= componentId) {
+			componentPools.resize(componentId + 1, nullptr);
+		}
+		if (componentPools[componentId] == nullptr) {
+			componentPools[componentId] = new ComponentPool(sizeof(T));
+		}
+
+		T* component = new (componentPools[componentId]->get(getEntityIndex(id))) T();
+		entities[getEntityIndex(id)].mask.set(componentId);
+		return component;
+	}
 
 	template<typename T>
-	T* get(EntityId id);
+	T* get(EntityId id) {
+		if (entities[getEntityIndex(id)].id != id)
+			return nullptr;
+		int componentId = getId<T>();
+		if (!entities[getEntityIndex(id)].mask.test(componentId))
+			return nullptr;
+		T* component = static_cast<T*>(componentPools[componentId]->get(id));
+		return component;
+	}
 
 	template<typename T>
-	void remove(EntityId id);
+	void remove(EntityId id) {
+		if (entities[getEntityIndex(id)].id != id)
+			return;
+		int componentId = getId<T>();
+		entities[getEntityIndex(id)].mask.reset(componentId);
+	}
 
-	void destroyEntity(EntityId id);
+	void destroyEntity(EntityId id) {
+		EntityId newId = createEntityId(EntityIndex(-1), getEntityVersion(id) + 1);
+		entities[getEntityIndex(id)].id = newId;
+		entities[getEntityIndex(id)].mask.reset();
+		freeEntities.push_back(getEntityIndex(id));
+	}
 };
-
-extern int componentCounter;
-template <class T>
-inline int getId();
-
-EntityId createEntityId(EntityIndex index, EntityVersion version);
-EntityIndex getEntityIndex(EntityId id);
-EntityVersion getEntityVersion(EntityId id);
-bool isEntityValid(EntityId id);
-
-#define INVALID_ENTITY CreateEntityId(EntityIndex(-1), 0);
 
 template<typename ...ComponentTypes>
 struct SceneView

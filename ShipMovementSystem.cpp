@@ -53,6 +53,12 @@ void shipMovementSystem(Scene& scene, f32 dt)
 			torque.Y += maxRotSpeed;
 		}
 
+		//STOOOOOOOOOOOOOOOOOOOP
+		if (input->isKeyDown(KEY_KEY_X)) {
+			torque += -rbc->angularVelocity * maxRotSpeed;
+			force += -rbc->velocity * maxSpeed;
+		}
+
 		rbc->applyImpulse(force * dt);
 		rbc->applyAngularImpulse(torque * dt);
 	}

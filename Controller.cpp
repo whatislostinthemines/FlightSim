@@ -56,15 +56,6 @@ bool Controller::OnEvent(const SEvent& event)
 				input->mouseControlEnabled = !input->mouseControlEnabled;
 			}
 		}
-		/*
-		keysDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
-
-		if (event.KeyInput.Key == KEY_KEY_Y && !keysDown[KEY_KEY_Y]) {
-			setMouseEnabled(!isMouseEnabled());
-			std::cout << "Mouse state is " << isMouseEnabled() << std::endl;
-		}
-		return true;
-		*/
 	}
 	if (event.EventType == EET_MOUSE_INPUT_EVENT) {
 		for(auto entityId: SceneView<InputComponent>(sceneECS.scene)) {
@@ -90,34 +81,7 @@ bool Controller::OnEvent(const SEvent& event)
 				break;
 			}
 		}
-		/*
-		switch (event.MouseInput.Event) {
-			case EMIE_LMOUSE_PRESSED_DOWN: {
-				MouseState.leftDown = true;
-				break;
-			}
-			case EMIE_LMOUSE_LEFT_UP: {
-				MouseState.leftDown = false;
-				break;
-			}
-			case EMIE_RMOUSE_PRESSED_DOWN: {
-				MouseState.rightDown = true;
-				break;
-			}
-			case EMIE_RMOUSE_LEFT_UP: {
-				MouseState.rightDown = false;
-				break;
-			}
-			case EMIE_MOUSE_MOVED: {
-				MouseState.Position.X = event.MouseInput.X;
-				MouseState.Position.Y = event.MouseInput.Y;
-				break;
-			}
-			default: { //can add wheel or double clicks or whatever
-				break;
-			}
-			
-		}*/
+
 	}
 	return false;
 }
@@ -146,7 +110,7 @@ void Controller::makePlayer()
 
 void Controller::makeAsteroids()
 {
-
+	//make these suckers entities too
 	IAnimatedMesh* asteroidMesh = smgr->getMesh("models/asteroid/Asteroid.obj");
 	IAnimatedMeshSceneNode* roidNode = smgr->addAnimatedMeshSceneNode(asteroidMesh, 0, -1, randomVector(), randomRotationVector());
 
@@ -156,6 +120,8 @@ void Controller::mainLoop()
 {
 	makePlayer();
 	makeAsteroids();
+
+	//make the light node an entity as well
 	ISceneNode* n = smgr->addLightSceneNode(0, vector3df(0, 0, 0),
 		SColor(200,200,200,200), 400.f);
 
@@ -188,22 +154,11 @@ void Controller::mainLoop()
 			// Game logic and physics
 			sceneECS.update(dt);
 
-			/*
-			player.update(dt);
-			PhysicsSystem::integrate(rigidBodies, dt);
-
-			PhysicsSystem::checkCollisions(colliders);
-			*/
 			t += dt;
 			accumulator -= dt;
 		}
 
 		const f32 alpha = accumulator / dt;
-
-		// interpolate any remaining time to smooth out frames in between physics steps
-
-		//player.update(delta);
-
 
 		driver->beginScene(true, true, SColor(255, 20, 20, 20));
 		smgr->drawAll();
@@ -235,6 +190,7 @@ void Controller::mainLoop()
 		tmp += L"Z: ";
 		tmp += playerRot.Z;
 		*/
+
 		device->setWindowCaption(tmp.c_str());
 		lastFPS = fps;
 	}
