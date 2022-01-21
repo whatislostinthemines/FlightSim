@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef ECS_H
+#define ECS_H
+
 #include <bitset>
 #include <vector>
 typedef uint32_t EntityIndex;
@@ -54,11 +58,6 @@ extern int componentCounter;
 template <class T>
 int getId();
 
-int getId() {
-	return -1;
-}
-
-
 EntityId createEntityId(EntityIndex index, EntityVersion version);
 EntityIndex getEntityIndex(EntityId id);
 EntityVersion getEntityVersion(EntityId id);
@@ -67,29 +66,52 @@ bool isEntityValid(EntityId id);
 #define INVALID_ENTITY CreateEntityId(EntityIndex(-1), 0);
 
 template<typename ...ComponentTypes>
-struct SceneView {
+struct SceneView
+{
+	//variables
+	Scene* scene{ nullptr };
+	ComponentMask componentMask;
+	bool all{ false };
+
 	SceneView(Scene& scene) : scene(&scene) {
 		if (sizeof...(ComponentTypes) == 0) {
 			all = true;
 		} else {
-			int componentIds[] = { 0, getId<ComponentTypes>() ... };
-			for (int i = 1; i < sizeof...(ComponentTypes) + 1; ++i) {
-				componentMask.set(componentIds[i]);
-			}
+			int componentIds[] = { 0, getId<ComponentTypes>() ... }; //visual studio does not like this line
+			for (int i = 1; i < (sizeof...(ComponentTypes) + 1); i++) componentMask.set(componentIds[i]);
 		}
 	}
-	struct Iterator {
-		Iterator();
-		EntityId operator*() const;
-		bool operator==(const Iterator& other) const;
-		bool operator!=(const Iterator& other) const;
-		Iterator& operator++();
-		
-	};
-	const Iterator begin() const;
-	const Iterator end() const;
+	struct Iterator
+	{
+		EntityIndex index;
+		Scene* scene;
+		ComponentMask mask;
+		bool all{ false };
 
-	Scene* scene{ nullptr };
-	ComponentMask componentMask;
-	bool all{ false };
+		Iterator(Scene* scene, EntityIndex index, ComponentMask mask, bool all) : scene(scene), index(index), mask(mask), all(all) {}
+
+		EntityId operator*() const { return scene->entities[index].id; }
+		bool operator==(const Iterator& other) const { return index == other.index || index == scene->entities.size(); }
+		bool operator!=(const Iterator& other) const { return index != other.index && index != scene->entities.size(); }
+		bool ValidIndex() { return isEntityValid(scene->entities[index].id) && (all || mask == (mask & scene->entities[index].mask)); }
+		Iterator& operator++() {
+			do { index++; } 
+			while (index < scene->entities.size() && !ValidIndex()); 
+			return *this;
+		}
+	};
+
+	const Iterator begin() const {
+		int firstIndex = 0;
+		while (firstIndex < scene->entities.size() &&
+			(componentMask != (componentMask & scene->entities[firstIndex].mask) || !isEntityValid(scene->entities[firstIndex].id))) {
+			firstIndex++;
+		}
+		return Iterator(scene, firstIndex, componentMask, all);
+	}
+	const Iterator end() const {
+		return Iterator(scene, EntityIndex(scene->entities.size()), componentMask, all);
+	}
 };
+
+#endif
