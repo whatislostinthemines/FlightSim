@@ -33,7 +33,7 @@ void Weapon::fire(f32 time)
 	//to-do: the light scene node should NOT be a child of the weapon
 
 	ISceneNode* projectile = controller->smgr->addLightSceneNode(wep, offset, SColorf(1.f, .3f, .3f, 1.0f), 50.f);
-	ISceneNodeAnimator* anim = controller->smgr->createFlyStraightAnimator(offset, endPos, 5000.f);
+	ISceneNodeAnimator* anim = controller->smgr->createFlyStraightAnimator(offset, endPos, 5000);
 	projectile->addAnimator(anim);
 	anim->drop();
 
