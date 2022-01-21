@@ -160,11 +160,8 @@
     <ClCompile Include="Weapons.cpp" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <ClInclude Include="CameraRig.h" />
     <ClInclude Include="ColliderComponent.h" />
-=======
->>>>>>> b59a1c9010666e6503b60e39d9b11788e40864de
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="InputComponent.h" />

@@ -29,7 +29,6 @@ void integratePhysicsSystem(Scene& scene, f32 dt) {
 		rbc->orientation = rbc->orientation.normalize();
 	}
 }
-<<<<<<< HEAD
 
 
 void checkCollisions(vector<Collider*> colliders)
@@ -172,5 +171,3 @@ bool collide(CapsuleColliderComponent capsule, SphereColliderComponent otherSphe
 bool collide(CapsuleColliderComponent capsule, AxisAlignedBoundingBoxColliderComponent otherAABB);
 bool collide(CapsuleColliderComponent capsule, OrientedBoundingBoxColliderComponent otherOBB);
 bool collide(CapsuleColliderComponent capsule, CapsuleColliderComponent otherCapsule);
-=======
->>>>>>> b59a1c9010666e6503b60e39d9b11788e40864de
