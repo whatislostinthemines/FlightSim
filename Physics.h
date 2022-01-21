@@ -2,6 +2,7 @@
 #include <irrlicht.h>
 #include <vector>
 #include "ECS.h"
+#include "ColliderComponent.h"
 
 
 #ifndef PHYSICS_H
@@ -44,5 +45,25 @@ struct Collider
 void integratePhysicsSystem(Scene& scene, f32 dt);
 	
 void checkCollisions(vector<Collider*> colliders);
+
+bool collide(SphereColliderComponent sphere, SphereColliderComponent otherSphere);
+bool collide(SphereColliderComponent sphere, AxisAlignedBoundingBoxColliderComponent otherAABB);
+bool collide(SphereColliderComponent sphere, OrientedBoundingBoxColliderComponent otherOBB);
+bool collide(SphereColliderComponent sphere, CapsuleColliderComponent otherCapsule);
+
+bool collide(AxisAlignedBoundingBoxColliderComponent aABB, SphereColliderComponent otherSphere);
+bool collide(AxisAlignedBoundingBoxColliderComponent aABB, AxisAlignedBoundingBoxColliderComponent otherAABB);
+bool collide(AxisAlignedBoundingBoxColliderComponent aABB, OrientedBoundingBoxColliderComponent otherOBB);
+bool collide(AxisAlignedBoundingBoxColliderComponent aABB, CapsuleColliderComponent otherCapsule);
+
+bool collide(OrientedBoundingBoxColliderComponent oBB, SphereColliderComponent otherSphere);
+bool collide(OrientedBoundingBoxColliderComponent oBB, AxisAlignedBoundingBoxColliderComponent otherAABB);
+bool collide(OrientedBoundingBoxColliderComponent oBB, OrientedBoundingBoxColliderComponent otherOBB);
+bool collide(OrientedBoundingBoxColliderComponent oBB, CapsuleColliderComponent otherCapsule);
+
+bool collide(CapsuleColliderComponent capsule, SphereColliderComponent otherSphere);
+bool collide(CapsuleColliderComponent capsule, AxisAlignedBoundingBoxColliderComponent otherAABB);
+bool collide(CapsuleColliderComponent capsule, OrientedBoundingBoxColliderComponent otherOBB);
+bool collide(CapsuleColliderComponent capsule, CapsuleColliderComponent otherCapsule);
 
 #endif

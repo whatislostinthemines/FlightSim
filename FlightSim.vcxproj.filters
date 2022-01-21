@@ -104,5 +104,8 @@
     <ClInclude Include="PlayerUpdateSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
