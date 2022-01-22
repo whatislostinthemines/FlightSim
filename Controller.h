@@ -2,22 +2,12 @@
 
 #ifndef FLIGHTEVENTRECEIVER_H
 #define FLIGHTEVENTRECEIVER_H
-#include <irrlicht.h>
+#include "BaseHeader.h"
+
 #include "ECS.h"
 #include "SceneManager.h"
 #include "IrrlichtComponent.h"
 #include "InputComponent.h"
-
-#ifdef _MSC_VER
-#pragma comment(lib, "Irrlicht.lib")
-#endif
-
-using namespace irr;
-using namespace video;
-using namespace scene;
-using namespace core;
-using namespace gui;
-
 
 struct MouseStateMap
 {

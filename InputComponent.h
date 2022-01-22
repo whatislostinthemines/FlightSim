@@ -3,8 +3,7 @@
 #ifndef INPUTCOMPONENT_H
 #define INPUTCOMPONENT_H
 
-#include "irrlicht.h"
-using namespace irr;
+#include "BaseHeader.h"
 
 enum PLAYER_MOVEMENT {
 	PLAYER_MOVE_FORWARD,

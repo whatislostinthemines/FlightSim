@@ -2,21 +2,12 @@
 
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
+#include "BaseHeader.h"
 
 #include "ECS.h"
-#include <irrlicht.h>
 #include "ShipMovementSystem.h"
 #include "IrrlichtRigidBodyPositionSystem.h"
 #include "PlayerUpdateSystem.h"
-
-#ifdef _MSC_VER
-#pragma comment(lib, "Irrlicht.lib")
-#endif
-
-using namespace irr;
-using namespace video;
-using namespace scene;
-using namespace core;
 
 class Controller;
 

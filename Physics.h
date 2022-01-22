@@ -1,19 +1,12 @@
 #pragma once
-#include <irrlicht.h>
-#include <vector>
-#include "ECS.h"
-#include "ColliderComponent.h"
-
 
 #ifndef PHYSICS_H
 #define PHYSICS_H
+#include "BaseHeader.h"
 
-#ifdef _MSC_VER
-#pragma comment(lib, "Irrlicht.lib")
-#endif
-using namespace irr;
-using namespace core;
-using namespace std;
+#include <vector>
+#include "ECS.h"
+#include "ColliderComponent.h"
 
 struct RigidBodyComponent {
 	vector3df angularMomentum;

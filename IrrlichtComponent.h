@@ -1,10 +1,7 @@
 #pragma once
-#include <irrlicht.h>
 #ifndef IRRLICHTCOMPONENT_H
 #define IRRLICHTCOMPONENT_H
-using namespace irr;
-using namespace scene;
-using namespace core;
+#include "BaseHeader.h"
 
 struct IrrlichtComponent {
 	ISceneNode* node;

@@ -1,12 +1,8 @@
-#include <irrlicht.h>
-
-using namespace irr;
-using namespace video;
-using namespace scene;
-using namespace core;
 
 #ifndef WEAPONS_H
 #define WEAPONS_H
+
+#include "BaseHeader.h"
 
 class Controller;
 
