@@ -148,13 +148,50 @@ bool collide(AxisAlignedBoundingBoxColliderComponent aABB, CapsuleColliderCompon
 bool collide(OrientedBoundingBoxColliderComponent oBB, SphereColliderComponent otherSphere) {
 	return collide(otherSphere, oBB);
 }
-bool collide(OrientedBoundingBoxColliderComponent oBB, AxisAlignedBoundingBoxColliderComponent otherAABB);
-bool collide(OrientedBoundingBoxColliderComponent oBB, OrientedBoundingBoxColliderComponent otherOBB);
-bool collide(OrientedBoundingBoxColliderComponent oBB, CapsuleColliderComponent otherCapsule);
+bool collide(OrientedBoundingBoxColliderComponent oBB, AxisAlignedBoundingBoxColliderComponent otherAABB) {
+	return collide(otherAABB, oBB);
+}
+
+bool getSeparatingPlane(const vector3df& rPos, const vector3df& plane, const OrientedBoundingBoxColliderComponent& oBB, const OrientedBoundingBoxColliderComponent& otherOBB) {
+	return (fabs(rPos.dotProduct(plane)) > 
+		(fabs((oBB.axisU * oBB.hU).dotProduct(plane)) + 
+		fabs((oBB.axisV * oBB.hV).dotProduct(plane)) +
+		fabs((oBB.axisW * oBB.hW).dotProduct(plane)) +
+		fabs((otherOBB.axisU * otherOBB.hU).dotProduct(plane)) +
+		fabs((otherOBB.axisV * otherOBB.hV).dotProduct(plane)) +
+		fabs((otherOBB.axisW * otherOBB.hW).dotProduct(plane))));
+}
+
+bool collide(OrientedBoundingBoxColliderComponent oBB, OrientedBoundingBoxColliderComponent otherOBB) {
+	vector3df rPos = otherOBB.center - oBB.center;
+
+	return !(getSeparatingPlane(rPos, oBB.axisU, oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisV, oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisW, oBB, otherOBB) || 
+		getSeparatingPlane(rPos, otherOBB.axisU, oBB, otherOBB) ||
+		getSeparatingPlane(rPos, otherOBB.axisV, oBB, otherOBB) ||
+		getSeparatingPlane(rPos, otherOBB.axisW, oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisU.crossProduct(otherOBB.axisU), oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisU.crossProduct(otherOBB.axisV), oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisU.crossProduct(otherOBB.axisW), oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisV.crossProduct(otherOBB.axisU), oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisV.crossProduct(otherOBB.axisV), oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisV.crossProduct(otherOBB.axisW), oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisW.crossProduct(otherOBB.axisU), oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisW.crossProduct(otherOBB.axisV), oBB, otherOBB) ||
+		getSeparatingPlane(rPos, oBB.axisW.crossProduct(otherOBB.axisW), oBB, otherOBB));
+}
+bool collide(OrientedBoundingBoxColliderComponent oBB, CapsuleColliderComponent otherCapsule) {
+
+}
 
 bool collide(CapsuleColliderComponent capsule, SphereColliderComponent otherSphere) {
 	return collide(otherSphere, capsule);
 };
-bool collide(CapsuleColliderComponent capsule, AxisAlignedBoundingBoxColliderComponent otherAABB);
-bool collide(CapsuleColliderComponent capsule, OrientedBoundingBoxColliderComponent otherOBB);
+bool collide(CapsuleColliderComponent capsule, AxisAlignedBoundingBoxColliderComponent otherAABB) {
+	return collide(otherAABB, capsule);
+}
+bool collide(CapsuleColliderComponent capsule, OrientedBoundingBoxColliderComponent otherOBB) {
+	return collide(otherOBB, capsule);
+}
 bool collide(CapsuleColliderComponent capsule, CapsuleColliderComponent otherCapsule);
