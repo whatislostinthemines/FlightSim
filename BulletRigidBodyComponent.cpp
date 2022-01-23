@@ -32,5 +32,6 @@ void initializeRigidBodyFromIrrlicht(btDiscreteDynamicsWorld* world, Scene& scen
 	f32 mass = 1.f;
 	shape->calculateLocalInertia(mass, localInertia);
 	rbc->rigidBody = btRigidBody(mass, motionState, shape, localInertia);
+	rbc->rigidBody.setSleepingThresholds(0, 0);
 	world->addRigidBody(&(rbc->rigidBody));
 }
