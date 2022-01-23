@@ -17,19 +17,20 @@ void initializeRigidBodyFromIrrlicht(btDiscreteDynamicsWorld* world, Scene& scen
 	BulletRigidBodyComponent* rbc = scene.assign<BulletRigidBodyComponent>(id);
 
 	ISceneNode* n = irr->node;
-	rbc->transform.setIdentity();
-	rbc->transform.setOrigin(irrlichtVectorToBullet(n->getPosition()));
+	btTransform transform = btTransform();
+	transform.setIdentity();
+	transform.setOrigin(irrlichtVectorToBullet(n->getPosition()));
 
-	rbc->motionState = new btDefaultMotionState(rbc->transform);
+	auto motionState = new btDefaultMotionState(transform);
 
 	aabbox3df bounds = n->getBoundingBox();
 	vector3df maxEdge = bounds.MaxEdge;
 	vector3df minEdge = bounds.MinEdge;
 	btVector3 halves(maxEdge.X - minEdge.X, maxEdge.Y - minEdge.Y, maxEdge.Z - minEdge.Z);
-	rbc->shape = new btBoxShape(halves);
+	auto shape = new btBoxShape(halves);
 	btVector3 localInertia;
 	f32 mass = 1.f;
-	rbc->shape->calculateLocalInertia(mass, localInertia);
-	rbc->rigidBody = new btRigidBody(mass, rbc->motionState, rbc->shape, localInertia);
-	world->addRigidBody(rbc->rigidBody);
+	shape->calculateLocalInertia(mass, localInertia);
+	rbc->rigidBody = btRigidBody(mass, motionState, shape, localInertia);
+	world->addRigidBody(&(rbc->rigidBody));
 }

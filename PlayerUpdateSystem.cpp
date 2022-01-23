@@ -9,7 +9,7 @@ void playerUpdateSystem(Scene& scene, f32 dt)
 
 		player->camera->setUpVector(irrcomp->getUp());
 
-		vector3df target = irrcomp->node->getPosition() + bulletVectorToIrrlicht(rbc->rigidBody->getLinearVelocity() * .1f);
+		vector3df target = irrcomp->node->getPosition() + bulletVectorToIrrlicht(rbc->rigidBody.getLinearVelocity() * .1f);
 		player->camera->setTarget(target);
 	}
 }

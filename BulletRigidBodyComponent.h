@@ -11,10 +11,7 @@ btVector3 irrlichtVectorToBullet(vector3df vec);
 
 struct BulletRigidBodyComponent
 {
-	btTransform transform;
-	btCollisionShape* shape;
-	btRigidBody* rigidBody;
-	btDefaultMotionState* motionState;
+	btRigidBody rigidBody = btRigidBody(0,0,0,btVector3(0,0,0));
 };
 
 #endif

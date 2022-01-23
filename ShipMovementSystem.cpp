@@ -35,31 +35,30 @@ void shipMovementSystem(Scene& scene, f32 dt)
 
 		//rotations
 		if(input->isKeyDown(KEY_KEY_Q)) {
-			torque.Z += maxRotSpeed;
+			torque += irrcomp->getForward() * maxRotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_E)) {
-			torque.Z -= maxRotSpeed;
+			torque -= irrcomp->getForward() * maxRotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_R)) {
-			torque.X -= maxRotSpeed;
+			torque -= irrcomp->getRight() * maxRotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_F)) {
-			torque.X += maxRotSpeed;
+			torque += irrcomp->getRight() * maxRotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_Z)) {
-			torque.Y -= maxRotSpeed;
+			torque -= irrcomp->getUp() * maxRotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_C)) {
-			torque.Y += maxRotSpeed;
+			torque += irrcomp->getUp() * maxRotSpeed;
 		}
 
 		//STOOOOOOOOOOOOOOOOOOOP
 		if (input->isKeyDown(KEY_KEY_X)) {
-			torque -= bulletVectorToIrrlicht(rbc->rigidBody->getAngularVelocity() * maxRotSpeed);
-			force -= bulletVectorToIrrlicht(rbc->rigidBody->getLinearVelocity() * maxSpeed);
+			torque -= bulletVectorToIrrlicht(rbc->rigidBody.getAngularVelocity() * maxRotSpeed);
+			force -= bulletVectorToIrrlicht(rbc->rigidBody.getLinearVelocity() * maxSpeed);
 		}
-
-		rbc->rigidBody->applyTorqueImpulse(irrlichtVectorToBullet(torque * dt));
-		rbc->rigidBody->applyCentralImpulse(irrlichtVectorToBullet(force * dt));
+		rbc->rigidBody.applyTorqueImpulse(irrlichtVectorToBullet(torque * dt));
+		rbc->rigidBody.applyCentralImpulse(irrlichtVectorToBullet(force * dt));
 	}
 }
