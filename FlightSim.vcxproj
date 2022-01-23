@@ -158,9 +158,10 @@
     <ClCompile Include="IrrlichtRigidBodyPositionSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerUpdateSystem.cpp" />
+    <ClCompile Include="ProjectileSystem.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShipMovementSystem.cpp" />
-    <ClCompile Include="Weapons.cpp" />
+    <ClCompile Include="WeaponFiringSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseHeader.h" />
@@ -172,9 +173,12 @@
     <ClInclude Include="IrrlichtRigidBodyPositionSystem.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PlayerUpdateSystem.h" />
+    <ClInclude Include="ProjectileSystem.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="ShipComponent.h" />
     <ClInclude Include="ShipMovementSystem.h" />
-    <ClInclude Include="Weapons.h" />
+    <ClInclude Include="WeaponFiringSystem.h" />
+    <ClInclude Include="WeaponInfoComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

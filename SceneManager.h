@@ -8,6 +8,7 @@
 #include "ShipMovementSystem.h"
 #include "IrrlichtRigidBodyPositionSystem.h"
 #include "PlayerUpdateSystem.h"
+#include "WeaponFiringSystem.h"
 
 class Controller;
 

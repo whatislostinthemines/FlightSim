@@ -26,7 +26,7 @@ void initializeRigidBodyFromIrrlicht(btDiscreteDynamicsWorld* world, Scene& scen
 	aabbox3df bounds = n->getBoundingBox();
 	vector3df maxEdge = bounds.MaxEdge;
 	vector3df minEdge = bounds.MinEdge;
-	btVector3 halves(maxEdge.X - minEdge.X, maxEdge.Y - minEdge.Y, maxEdge.Z - minEdge.Z);
+	btVector3 halves((maxEdge.X - minEdge.X)*.5f, (maxEdge.Y - minEdge.Y)*.5f, (maxEdge.Z - minEdge.Z)*.5f);
 	auto shape = new btBoxShape(halves);
 	btVector3 localInertia;
 	f32 mass = 1.f;

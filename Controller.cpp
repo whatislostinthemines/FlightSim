@@ -83,8 +83,9 @@ bool Controller::OnEvent(const SEvent& event)
 				input->rightMouseDown = false;
 				break;
 			case EMIE_MOUSE_MOVED:
-				input->mousePosition.X = event.MouseInput.X;
-				input->mousePosition.Y = event.MouseInput.Y;
+
+				input->mousePosition.X = (event.MouseInput.X - ((f32)driver->getScreenSize().Width * .5f)) / ((f32)driver->getScreenSize().Width * .5f);
+				input->mousePosition.Y = (event.MouseInput.Y - ((f32)driver->getScreenSize().Height * .5f)) / ((f32)driver->getScreenSize().Height * .5f);
 				break;
 			default:
 				break;
@@ -114,6 +115,25 @@ void Controller::makePlayer()
 
 	auto playerCamera = sceneECS.scene.assign<PlayerComponent>(playerEntity);
 	playerCamera->camera = camera;
+
+	auto shipComponent = sceneECS.scene.assign<ShipComponent>(playerEntity);
+	shipComponent->rotSpeed = 100.f;
+	shipComponent->speed = 40.f;
+	shipComponent->hardpointCount = 2;
+	shipComponent->hardpoints[0] = vector3df(2.4816f, .25f, -6.0088f);
+	shipComponent->hardpoints[1] = vector3df(-2.4816f, .25f, -6.0088f);
+
+	IMesh* wepMesh = smgr->getMesh("models/wazer/wazer.obj");
+
+	for (int i = 0; i < shipComponent->hardpointCount; ++i) {
+		auto wepEntity = sceneECS.scene.newEntity();
+		auto wepInfo = sceneECS.scene.assign<WeaponInfoComponent>(wepEntity);
+		wepInfo->isFiring = false;
+		wepInfo->type = WEP_LASER;
+		auto wepIrrComp = sceneECS.scene.assign<IrrlichtComponent>(wepEntity);
+		wepIrrComp->node = smgr->addMeshSceneNode(wepMesh, playerNode, -1, shipComponent->hardpoints[i], vector3df(0, 0, 0), vector3df(.5f, .5f, .5f));
+		shipComponent->weapons[i] = wepEntity;
+	}
 
 }
 
@@ -153,7 +173,7 @@ void Controller::mainLoop()
 
 
 	f32 accumulator = 0.0f;
-	f32 dt = 0.01f;
+	f32 dt = 0.005f;
 	f32 t = 0.0f;
 
 	while (device->run()) {

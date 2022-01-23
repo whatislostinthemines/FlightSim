@@ -2,12 +2,13 @@
 
 void shipMovementSystem(Scene& scene, f32 dt)
 {
-	for(auto entityId : SceneView<InputComponent, BulletRigidBodyComponent>(scene)) {
+	for(auto entityId : SceneView<InputComponent, BulletRigidBodyComponent, ShipComponent>(scene)) {
 		BulletRigidBodyComponent* rbc = scene.get<BulletRigidBodyComponent>(entityId);
-		InputComponent* input = scene.get<InputComponent>(entityId);		
-		f32 maxSpeed = 40.f;
-		f32 maxRotSpeed = 100.f;
+		InputComponent* input = scene.get<InputComponent>(entityId);
+		ShipComponent* ship = scene.get<ShipComponent>(entityId);
 
+		f32 speed = ship->speed;
+		f32 rotSpeed = ship->rotSpeed;
 
 		btVector3 torque(0, 0, 0);
 		btVector3 force(0, 0, 0);
@@ -24,49 +25,62 @@ void shipMovementSystem(Scene& scene, f32 dt)
 		//strafing
 		if(input->isKeyDown(KEY_KEY_W)) {
 			//force += irrcomp->getForward() * maxSpeed;
-			force += forward * maxSpeed;
+			force += forward * speed;
 		}
 		if(input->isKeyDown(KEY_KEY_S)) {
-			force -= forward * maxSpeed;
+			force -= forward * speed;
 		}
 		if(input->isKeyDown(KEY_KEY_A)) {
-			force -= right * maxSpeed;
+			force -= right * speed;
 		}
 		if(input->isKeyDown(KEY_KEY_D)) {
-			force += right * maxSpeed;
+			force += right * speed;
 		}
 		if(input->isKeyDown(KEY_SPACE)) {
-			force += up * maxSpeed;
+			force += up * speed;
 		}
 		if(input->isKeyDown(KEY_LCONTROL)) {
-			force -= up * maxSpeed;
+			force -= up * speed;
 		}
 
 		//rotations
 		if(input->isKeyDown(KEY_KEY_Q)) {
-			torque += forward * maxRotSpeed;
+			torque += forward * rotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_E)) {
-			torque -= forward * maxRotSpeed;
+			torque -= forward * rotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_R)) {
-			torque -= right * maxRotSpeed;
+			torque -= right * rotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_F)) {
-			torque += right * maxRotSpeed;
+			torque += right * rotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_Z)) {
-			torque -= up * maxRotSpeed;
+			torque -= up * rotSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_C)) {
-			torque += up * maxRotSpeed;
+			torque += up * rotSpeed;
 		}
 
 		//STOOOOOOOOOOOOOOOOOOOP
 		if (input->isKeyDown(KEY_KEY_X)) {
-			torque -= rbc->rigidBody.getAngularVelocity() * maxRotSpeed;
-			force -= rbc->rigidBody.getLinearVelocity() * maxSpeed;
+			torque -= rbc->rigidBody.getAngularVelocity() * rotSpeed;
+			force -= rbc->rigidBody.getLinearVelocity() * speed;
 		}
+
+		if (input->mouseControlEnabled) {
+			f32 mX = input->mousePosition.X;
+			f32 mY = input->mousePosition.Y;
+
+			if (mX > .2f || mX < -.2f) {
+				torque += up * rotSpeed * mX;
+			}
+			if (mY > .2f || mY < -.2f) {
+				torque += right * rotSpeed * mY;
+			}
+		}
+
 		rbc->rigidBody.applyTorqueImpulse(torque * dt);
 		rbc->rigidBody.applyCentralImpulse(force * dt);
 	}
