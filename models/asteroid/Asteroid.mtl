@@ -1,12 +1,3 @@
-# Blender MTL File: 'Asteroid.blend'
-# Material Count: 1
-
-newmtl Material.001
-Ns 0.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.157143 0.071553 0.059006
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 2
+version https://git-lfs.github.com/spec/v1
+oid sha256:a4bb06a72fea179e4e8b3059621cda4eab670c6d7fb18f4e8899caf4ecc825a4
+size 253

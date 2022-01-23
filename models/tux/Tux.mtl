@@ -1,13 +1,3 @@
-# Blender MTL File: 'Tux.blend'
-# Material Count: 1
-
-newmtl Material
-Ns 41.283143
-Ka 0.692913 0.692913 0.692913
-Kd 0.242857 0.242857 0.242857
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 3
-map_Kd .
+version https://git-lfs.github.com/spec/v1
+oid sha256:8ee9867ae9e812c857d847164522b1fd057fed8ba2be6bcd6882084444465ee9
+size 255

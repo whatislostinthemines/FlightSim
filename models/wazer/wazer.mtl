@@ -1,12 +1,3 @@
-# Blender MTL File: 'None'
-# Material Count: 1
-
-newmtl Material
-Ns 57.855765
-Ka 0.346457 0.346457 0.346457
-Kd 0.107143 0.092446 0.075445
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.450000
-d 1.000000
-illum 3
+version https://git-lfs.github.com/spec/v1
+oid sha256:f87382c7e3754e609f6cb7ecf14bb32ea4ca3938ce87b8fd239d762b1ad5e7e0
+size 240
