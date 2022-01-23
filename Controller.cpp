@@ -131,7 +131,7 @@ void Controller::makeAsteroids()
 	auto roidEntity = sceneECS.scene.newEntity();
 	auto irrComp = sceneECS.scene.assign<IrrlichtComponent>(roidEntity);
 	irrComp->node = roidNode;
-	//initializeRigidBodyFromIrrlicht(bulletWorld, sceneECS.scene, roidEntity);
+	initializeRigidBodyFromIrrlicht(bulletWorld, sceneECS.scene, roidEntity);
 }
 
 void Controller::mainLoop()

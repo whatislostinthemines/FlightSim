@@ -84,7 +84,7 @@ struct Scene {
 		int componentId = getId<T>();
 		if (!entities[getEntityIndex(id)].mask.test(componentId))
 			return nullptr;
-		T* component = static_cast<T*>(componentPools[componentId]->get(id));
+		T* component = static_cast<T*>(componentPools[componentId]->get(getEntityIndex(id)));
 		return component;
 	}
 

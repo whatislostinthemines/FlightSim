@@ -8,7 +8,7 @@ void shipMovementSystem(Scene& scene, f32 dt)
 		IrrlichtComponent* irrcomp = scene.get<IrrlichtComponent>(entityId);
 		
 		f32 maxSpeed = 40.f;
-		f32 maxRotSpeed = 5.f;
+		f32 maxRotSpeed = 100.f;
 
 		vector3df force(0, 0, 0);
 		vector3df torque(0, 0, 0);
@@ -59,7 +59,7 @@ void shipMovementSystem(Scene& scene, f32 dt)
 			force -= bulletVectorToIrrlicht(rbc->rigidBody->getLinearVelocity() * maxSpeed);
 		}
 
-		rbc->rigidBody->applyTorqueImpulse(irrlichtVectorToBullet(torque));
+		rbc->rigidBody->applyTorqueImpulse(irrlichtVectorToBullet(torque * dt));
 		rbc->rigidBody->applyCentralImpulse(irrlichtVectorToBullet(force * dt));
 	}
 }
