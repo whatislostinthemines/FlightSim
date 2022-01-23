@@ -29,7 +29,7 @@ void shipMovementSystem(Scene& scene, f32 dt)
 		if(input->isKeyDown(KEY_SPACE)) {
 			force += irrcomp->getUp() * maxSpeed;
 		}
-		if(input->isKeyDown(KEY_CONTROL)) {
+		if(input->isKeyDown(KEY_LCONTROL)) {
 			force += irrcomp->getDown() * maxSpeed;
 		}
 
