@@ -27,6 +27,8 @@ class Controller : public IEventReceiver
 		ISceneManager* smgr;
 		IGUIEnvironment* guienv;
 
+		//bullet
+		btDiscreteDynamicsWorld* bulletWorld;
 
 		Controller(IrrlichtDevice* dev);
 		void init(IrrlichtDevice* dev);

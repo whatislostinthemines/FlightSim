@@ -5,9 +5,9 @@
 #include "BaseHeader.h"
 
 #include "ECS.h"
-#include "Physics.h"
 #include "InputComponent.h"
 #include "IrrlichtComponent.h"
+#include "BulletRigidBodyComponent.h"
 
 void shipMovementSystem(Scene& scene, f32 dt);
 

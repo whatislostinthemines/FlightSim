@@ -7,7 +7,7 @@
 #include "ECS.h"
 #include "IrrlichtComponent.h"
 #include "PlayerComponent.h"
-#include "Physics.h"
+#include "BulletRigidBodyComponent.h"
 
 void playerUpdateSystem(Scene& scene, f32 dt);
 

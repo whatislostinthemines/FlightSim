@@ -2,8 +2,8 @@
 
 void shipMovementSystem(Scene& scene, f32 dt)
 {
-	for(auto entityId : SceneView<InputComponent, RigidBodyComponent, IrrlichtComponent>(scene)) {
-		RigidBodyComponent* rbc = scene.get<RigidBodyComponent>(entityId);
+	for(auto entityId : SceneView<InputComponent, BulletRigidBodyComponent, IrrlichtComponent>(scene)) {
+		BulletRigidBodyComponent* rbc = scene.get<BulletRigidBodyComponent>(entityId);
 		InputComponent* input = scene.get<InputComponent>(entityId);
 		IrrlichtComponent* irrcomp = scene.get<IrrlichtComponent>(entityId);
 		
@@ -55,11 +55,11 @@ void shipMovementSystem(Scene& scene, f32 dt)
 
 		//STOOOOOOOOOOOOOOOOOOOP
 		if (input->isKeyDown(KEY_KEY_X)) {
-			torque += -rbc->angularVelocity * maxRotSpeed;
-			force += -rbc->velocity * maxSpeed;
+			torque -= bulletVectorToIrrlicht(rbc->rigidBody->getAngularVelocity() * maxRotSpeed);
+			force -= bulletVectorToIrrlicht(rbc->rigidBody->getLinearVelocity() * maxSpeed);
 		}
 
-		rbc->applyImpulse(force * dt);
-		rbc->applyAngularImpulse(torque * dt);
+		rbc->rigidBody->applyTorqueImpulse(irrlichtVectorToBullet(torque * dt));
+		rbc->rigidBody->applyCentralImpulse(irrlichtVectorToBullet(force * dt));
 	}
 }

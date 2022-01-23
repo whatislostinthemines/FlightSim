@@ -151,12 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BulletRigidBodyComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="IrrlichtComponent.cpp" />
     <ClCompile Include="IrrlichtRigidBodyPositionSystem.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="PlayerUpdateSystem.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShipMovementSystem.cpp" />
@@ -164,13 +164,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseHeader.h" />
-    <ClInclude Include="ColliderComponent.h" />
+    <ClInclude Include="BulletRigidBodyComponent.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="IrrlichtComponent.h" />
     <ClInclude Include="IrrlichtRigidBodyPositionSystem.h" />
-    <ClInclude Include="Physics.h" />
     <ClInclude Include="PlayerComponent.h" />
     <ClInclude Include="PlayerUpdateSystem.h" />
     <ClInclude Include="SceneManager.h" />

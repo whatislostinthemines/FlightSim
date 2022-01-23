@@ -10,6 +10,7 @@ Controller::Controller(IrrlichtDevice* dev)
 	driver = 0;
 	lastFPS = -1;
 	then = 0;
+	bulletWorld = 0;
 	init(dev);
 }
 
@@ -44,6 +45,14 @@ void Controller::init(IrrlichtDevice* dev)
 	then = device->getTimer()->getTime();
 	Scene scene;
 	sceneECS = SceneManager(scene, this);
+	
+	//bullet init
+	btBroadphaseInterface* broadPhase = new btAxisSweep3(btVector3(-1000, -1000, -1000), btVector3(1000, 1000, 1000));
+	btDefaultCollisionConfiguration* collisionConfig = new btDefaultCollisionConfiguration();
+	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfig);
+	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver();
+	bulletWorld = new btDiscreteDynamicsWorld(dispatcher, broadPhase, solver, collisionConfig);
+	bulletWorld->setGravity(btVector3(0, 0, 0));
 }
 
 bool Controller::OnEvent(const SEvent& event)
@@ -88,8 +97,8 @@ bool Controller::OnEvent(const SEvent& event)
 
 void Controller::makePlayer()
 {
-	IAnimatedMesh* playerMesh = smgr->getMesh("models/tux/Tux.obj");
-	IAnimatedMeshSceneNode* playerNode = smgr->addAnimatedMeshSceneNode(playerMesh);
+	IMesh* playerMesh = smgr->getMesh("models/tux/Tux.obj");
+	IMeshSceneNode* playerNode = smgr->addMeshSceneNode(playerMesh);
 	playerNode->setMaterialTexture(0, driver->getTexture("models/tux/BulletShipTex.png"));
 	playerNode->setDebugDataVisible(EDS_BBOX);
 	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
@@ -97,10 +106,10 @@ void Controller::makePlayer()
 	//camera->bindTargetAndRotation(true);
 
 	auto playerEntity = sceneECS.scene.newEntity();
-	auto rbc = sceneECS.scene.assign<RigidBodyComponent>(playerEntity);
-	rbc->position = playerNode->getPosition();
 	auto irrComponent = sceneECS.scene.assign<IrrlichtComponent>(playerEntity);
 	irrComponent->node = playerNode;
+
+	initializeRigidBodyFromIrrlicht(bulletWorld, sceneECS.scene, playerEntity);
 	sceneECS.scene.assign<InputComponent>(playerEntity);
 
 	auto playerCamera = sceneECS.scene.assign<PlayerComponent>(playerEntity);
@@ -111,9 +120,18 @@ void Controller::makePlayer()
 void Controller::makeAsteroids()
 {
 	//make these suckers entities too
-	IAnimatedMesh* asteroidMesh = smgr->getMesh("models/asteroid/Asteroid.obj");
-	IAnimatedMeshSceneNode* roidNode = smgr->addAnimatedMeshSceneNode(asteroidMesh, 0, -1, randomVector(), randomRotationVector());
+	IMesh* asteroidMesh = smgr->getMesh("models/asteroid/Asteroid.obj");
+	vector3df pos = randomVector();
+	vector3df rot = randomVector();
+	IMeshSceneNode* roidNode = smgr->addMeshSceneNode(asteroidMesh);
 
+	roidNode->setPosition(pos);
+	roidNode->setRotation(rot);
+
+	auto roidEntity = sceneECS.scene.newEntity();
+	auto irrComp = sceneECS.scene.assign<IrrlichtComponent>(roidEntity);
+	irrComp->node = roidNode;
+	//initializeRigidBodyFromIrrlicht(bulletWorld, sceneECS.scene, roidEntity);
 }
 
 void Controller::mainLoop()
