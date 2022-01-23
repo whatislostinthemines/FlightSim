@@ -23,7 +23,6 @@ void shipMovementSystem(Scene& scene, f32 dt)
 
 		//strafing
 		if(input->isKeyDown(KEY_KEY_W)) {
-			//force += irrcomp->getForward() * maxSpeed;
 			force += forward * maxSpeed;
 		}
 		if(input->isKeyDown(KEY_KEY_S)) {
