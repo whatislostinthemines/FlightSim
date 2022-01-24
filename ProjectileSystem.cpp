@@ -22,6 +22,22 @@ void createProjectileEntity(btDiscreteDynamicsWorld* world, Scene& scene, Contro
 	bill->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 	bill->setMaterialTexture(0, controller->driver->getTexture("effects/particlered.bmp"));
 
+	IParticleSystemSceneNode* ps = controller->smgr->addParticleSystemSceneNode(false, irrComp->node);
+	IParticleEmitter* em = ps->createSphereEmitter(ps->getPosition(), .5f, //spawn point and radius
+		(-direction * .01f), 30, 60, //direction, emit rate min/max
+		SColor(0, 100, 50, 50), SColor(0, 255, 100, 100), 500, 2000, 0, //min / max color, shortest lifetime, longest lifetime, angle
+		dimension2df(.1f, .1f), dimension2df(1.f, 1.f)); //min / max size
+	ps->setEmitter(em);
+	em->drop();
+	IParticleAffector* paf = ps->createFadeOutParticleAffector();
+	ps->addAffector(paf);
+	paf->drop();
+	ps->setMaterialFlag(EMF_LIGHTING, false);
+	ps->setMaterialFlag(EMF_ZWRITE_ENABLE, false);
+	ps->setMaterialTexture(0, controller->driver->getTexture("effects/particlered.bmp"));
+	ps->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
+
+
 	btTransform transform = btTransform();
 	transform.setIdentity();
 	transform.setOrigin(irrlichtVectorToBullet(spawnPos));

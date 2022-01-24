@@ -132,7 +132,7 @@ void Controller::makePlayer()
 		wepInfo->isFiring = false;
 		wepInfo->type = WEP_LASER;
 		wepInfo->firingSpeed = .5f;
-		wepInfo->projectileSpeed = 100.f;
+		wepInfo->projectileSpeed = 20.f;
 		wepInfo->range = 300.f;
 		wepInfo->timeSinceLastShot = 0.f;
 
