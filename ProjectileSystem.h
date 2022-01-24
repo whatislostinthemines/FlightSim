@@ -11,6 +11,8 @@
 
 class Controller;
 
-void createProjectileEntity(btDiscreteDynamicsWorld* world, Scene& scene, Controller* controller, vector3df spawnPos, vector3df direction);
+void createProjectileEntity(btDiscreteDynamicsWorld* world, Scene& scene, Controller* controller, vector3df spawnPos, vector3df direction, EntityId weaponId);
+void destroyProjectile(btDiscreteDynamicsWorld* world, Scene& scene, EntityId projectile);
+void projectileRangeSystem(btDiscreteDynamicsWorld* world, Scene& scene);
 
 #endif

@@ -17,8 +17,10 @@ enum WEAPON_TYPE {
 struct WeaponInfoComponent
 {
 	WEAPON_TYPE type;
-	unsigned int firingSpeed;
-	unsigned int range;
+	f32 firingSpeed; //how long it should take in seconds between shots
+	f32 projectileSpeed; //how fast the projectile goes
+	f32 range; //how far the projectile goes
+	f32 timeSinceLastShot;
 	bool isFiring;
 };
 
@@ -28,6 +30,8 @@ struct WeaponInfoComponent
 struct ProjectileInfoComponent
 {
 	WEAPON_TYPE type;
-	unsigned int speed;
+	f32 speed;
+	f32 range;
+	vector3df startPos;
 };
 #endif

@@ -126,10 +126,16 @@ void Controller::makePlayer()
 	IMesh* wepMesh = smgr->getMesh("models/wazer/wazer.obj");
 
 	for (int i = 0; i < shipComponent->hardpointCount; ++i) {
+
 		auto wepEntity = sceneECS.scene.newEntity();
 		auto wepInfo = sceneECS.scene.assign<WeaponInfoComponent>(wepEntity);
 		wepInfo->isFiring = false;
 		wepInfo->type = WEP_LASER;
+		wepInfo->firingSpeed = .5f;
+		wepInfo->projectileSpeed = 100.f;
+		wepInfo->range = 300.f;
+		wepInfo->timeSinceLastShot = 0.f;
+
 		auto wepIrrComp = sceneECS.scene.assign<IrrlichtComponent>(wepEntity);
 		wepIrrComp->node = smgr->addMeshSceneNode(wepMesh, playerNode, -1, shipComponent->hardpoints[i], vector3df(0, 0, 0), vector3df(.5f, .5f, .5f));
 		shipComponent->weapons[i] = wepEntity;

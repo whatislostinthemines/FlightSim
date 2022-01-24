@@ -9,6 +9,6 @@
 
 class Controller;
 
-void weaponFiringSystem(Scene& scene, btDiscreteDynamicsWorld* world, Controller* controller);
+void weaponFiringSystem(Scene& scene, btDiscreteDynamicsWorld* world, Controller* controller, f32 dt);
 
 #endif

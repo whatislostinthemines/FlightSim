@@ -3,7 +3,7 @@
 vector3df IrrlichtComponent::getForward()
 {
 	if (node) {
-		vector3df rotation = node->getRotation();
+		vector3df rotation = node->getAbsoluteTransformation().getRotationDegrees();
 		vector3df forward = vector3df(0, 0, 1);
 		return rotation.rotationToDirection(forward);
 	}
@@ -18,7 +18,7 @@ vector3df IrrlichtComponent::getBackward()
 vector3df IrrlichtComponent::getRight()
 {
 	if (node) {
-		vector3df rotation = node->getRotation();
+		vector3df rotation = node->getAbsoluteTransformation().getRotationDegrees();
 		vector3df left = vector3df(1, 0, 0);
 		return rotation.rotationToDirection(left);
 	}
@@ -33,7 +33,7 @@ vector3df IrrlichtComponent::getLeft()
 vector3df IrrlichtComponent::getUp()
 {
 	if (node) {
-		vector3df rotation = node->getRotation();
+		vector3df rotation = node->getAbsoluteTransformation().getRotationDegrees();
 		vector3df up = vector3df(0, 1, 0);
 		return rotation.rotationToDirection(up);
 	}
