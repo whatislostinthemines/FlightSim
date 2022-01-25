@@ -9,6 +9,7 @@
 #include "IrrlichtRigidBodyPositionSystem.h"
 #include "PlayerUpdateSystem.h"
 #include "WeaponFiringSystem.h"
+#include "CollisionCheckingSystem.h"
 
 class Controller;
 

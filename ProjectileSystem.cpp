@@ -53,6 +53,8 @@ void createProjectileEntity(btDiscreteDynamicsWorld* world, Scene& scene, Contro
 
 	rigidBodyInfo->rigidBody.applyCentralImpulse(irrlichtVectorToBullet(direction) * projectileInfo->speed);
 
+	rigidBodyInfo->rigidBody.setUserIndex(projectileEntity);
+
 	world->addRigidBody(&rigidBodyInfo->rigidBody);
 }
 

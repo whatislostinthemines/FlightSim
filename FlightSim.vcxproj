@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BulletRigidBodyComponent.cpp" />
+    <ClCompile Include="CollisionCheckingSystem.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ECS.cpp" />
     <ClCompile Include="IrrlichtComponent.cpp" />
@@ -166,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="BaseHeader.h" />
     <ClInclude Include="BulletRigidBodyComponent.h" />
+    <ClInclude Include="CollisionCheckingSystem.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="InputComponent.h" />
