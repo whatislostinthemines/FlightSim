@@ -10,6 +10,7 @@
 #include "PlayerUpdateSystem.h"
 #include "WeaponFiringSystem.h"
 #include "CollisionCheckingSystem.h"
+#include "HealthSystem.h"
 
 class Controller;
 

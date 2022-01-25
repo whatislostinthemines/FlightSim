@@ -11,6 +11,7 @@ void createProjectileEntity(btDiscreteDynamicsWorld* world, Scene& scene, Contro
 	projectileInfo->speed = wepInfo->projectileSpeed;
 	projectileInfo->startPos = spawnPos;
 	projectileInfo->range = wepInfo->range;
+	projectileInfo->damage = wepInfo->damage;
 
 	auto rigidBodyInfo = scene.assign<BulletRigidBodyComponent>(projectileEntity);
 	auto irrComp = scene.assign<IrrlichtComponent>(projectileEntity);

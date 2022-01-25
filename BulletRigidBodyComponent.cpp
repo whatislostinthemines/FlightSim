@@ -33,7 +33,10 @@ void initializeRigidBodyFromIrrlicht(btDiscreteDynamicsWorld* world, Scene& scen
 	shape->calculateLocalInertia(mass, localInertia);
 	rbc->rigidBody = btRigidBody(mass, motionState, shape, localInertia);
 	rbc->rigidBody.setSleepingThresholds(0, 0);
-	rbc->rigidBody.setUserIndex(id);
+
+	rbc->rigidBody.setUserIndex(getEntityIndex(id));
+	rbc->rigidBody.setUserIndex2(getEntityVersion(id));
+	rbc->rigidBody.setUserIndex3(1);
 
 	world->addRigidBody(&(rbc->rigidBody));
 }

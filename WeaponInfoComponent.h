@@ -21,6 +21,7 @@ struct WeaponInfoComponent
 	f32 projectileSpeed; //how fast the projectile goes
 	f32 range; //how far the projectile goes
 	f32 timeSinceLastShot;
+	f32 damage;
 	bool isFiring;
 };
 
@@ -30,6 +31,7 @@ struct WeaponInfoComponent
 struct ProjectileInfoComponent
 {
 	WEAPON_TYPE type;
+	f32 damage;
 	f32 speed;
 	f32 range;
 	vector3df startPos;

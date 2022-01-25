@@ -155,6 +155,7 @@
     <ClCompile Include="CollisionCheckingSystem.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ECS.cpp" />
+    <ClCompile Include="HealthSystem.cpp" />
     <ClCompile Include="IrrlichtComponent.cpp" />
     <ClCompile Include="IrrlichtRigidBodyPositionSystem.cpp" />
     <ClCompile Include="main.cpp" />
@@ -170,6 +171,8 @@
     <ClInclude Include="CollisionCheckingSystem.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ECS.h" />
+    <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="HealthSystem.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="IrrlichtComponent.h" />
     <ClInclude Include="IrrlichtRigidBodyPositionSystem.h" />

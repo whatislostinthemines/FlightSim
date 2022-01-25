@@ -9,7 +9,7 @@ void collisionCheckingSystem(btDiscreteDynamicsWorld* world, Scene& scene)
 		btPersistentManifold* contact = world->getDispatcher()->getManifoldByIndexInternal(i);
 		btCollisionObject* objA = const_cast<btCollisionObject*>(contact->getBody0());
 		btCollisionObject* objB = const_cast<btCollisionObject*>(contact->getBody1());
-		std::cout << "Collision" << std::endl;
+
 		EntityIndex indA = objA->getUserIndex();
 		EntityVersion verA = objA->getUserIndex2();
 		int hasEntA = objA->getUserIndex3();
@@ -25,17 +25,35 @@ void collisionCheckingSystem(btDiscreteDynamicsWorld* world, Scene& scene)
 		if (hasEntB) {
 			idB = createEntityId(indB, verB);
 		}
+
 		ProjectileInfoComponent* projA = nullptr;
 		ProjectileInfoComponent* projB = nullptr;
-		//std::cout << idA << std::endl;
+		HealthComponent* hpA = nullptr;
+		HealthComponent* hpB = nullptr;
+
 		if (idA != INVALID_ENTITY) {
 			projA = scene.get<ProjectileInfoComponent>(idA);
+			hpA = scene.get<HealthComponent>(idA);
 		}
 		
 		if (idB != INVALID_ENTITY) {
 			projB = scene.get<ProjectileInfoComponent>(idB);
+			hpB = scene.get<HealthComponent>(idB);
 		}
 
+		//health updates on collision
+		if (hpA) {
+			if (projB) {
+				hpA->health -= projB->damage;
+			} // the "else" here should be checking mass and velocity to apply damage if you bonk something super hard
+		}
+		if (hpB) {
+			if (projA) {
+				hpB->health -= projB->damage;
+			}
+		}
+
+		//projectile destruction on collision
 		if (projA) {
 			destroyProjectile(world, scene, idA);
 		}

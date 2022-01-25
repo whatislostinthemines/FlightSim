@@ -7,6 +7,7 @@
 #include "IrrlichtComponent.h"
 #include "BulletRigidBodyComponent.h"
 #include "ProjectileSystem.h"
+#include "HealthComponent.h"
 
 void collisionCheckingSystem(btDiscreteDynamicsWorld* world, Scene& scene);
 

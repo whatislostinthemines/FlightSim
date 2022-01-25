@@ -135,6 +135,7 @@ void Controller::makePlayer()
 		wepInfo->projectileSpeed = 20.f;
 		wepInfo->range = 300.f;
 		wepInfo->timeSinceLastShot = 0.f;
+		wepInfo->damage = 20.f;
 
 		auto wepIrrComp = sceneECS.scene.assign<IrrlichtComponent>(wepEntity);
 		wepIrrComp->node = smgr->addMeshSceneNode(wepMesh, playerNode, -1, shipComponent->hardpoints[i], vector3df(0, 0, 0), vector3df(.5f, .5f, .5f));
@@ -158,6 +159,10 @@ void Controller::makeAsteroids()
 	auto irrComp = sceneECS.scene.assign<IrrlichtComponent>(roidEntity);
 	irrComp->node = roidNode;
 	initializeRigidBodyFromIrrlicht(bulletWorld, sceneECS.scene, roidEntity);
+
+	auto healthComp = sceneECS.scene.assign<HealthComponent>(roidEntity);
+	healthComp->health = 100.f;
+	healthComp->maxHealth = 100.f;
 }
 
 void Controller::mainLoop()
@@ -216,24 +221,6 @@ void Controller::mainLoop()
 			tmp += fps;
 		}
 		else tmp += lastFPS;
-
-		/*
-		vector3df playerPos = player.ship->node->getPosition();
-		vector3df playerRot = player.ship->node->getRotation();
-		tmp += L" X: ";
-		tmp += playerPos.X;
-		tmp += L" Y: ";
-		tmp += playerPos.Y;
-		tmp += L" Z: ";
-		tmp += playerPos.Z;
-
-		tmp += L" ROTATION X: ";
-		tmp += playerRot.X;
-		tmp += L"Y: ";
-		tmp += playerRot.Y;
-		tmp += L"Z: ";
-		tmp += playerRot.Z;
-		*/
 
 		device->setWindowCaption(tmp.c_str());
 		lastFPS = fps;
