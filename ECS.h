@@ -26,7 +26,7 @@ EntityIndex getEntityIndex(EntityId id);
 EntityVersion getEntityVersion(EntityId id);
 bool isEntityValid(EntityId id);
 
-#define INVALID_ENTITY createEntityId(EntityIndex(-1), 0);
+#define INVALID_ENTITY createEntityId(EntityIndex(-1), 0)
 
 
 struct ComponentPool {
