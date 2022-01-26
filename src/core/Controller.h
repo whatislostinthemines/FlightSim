@@ -8,6 +8,7 @@
 #include "SceneManager.h"
 #include "IrrlichtComponent.h"
 #include "InputComponent.h"
+#include "GameFunctions.h"
 
 struct MouseStateMap
 {
@@ -26,15 +27,11 @@ class Controller : public IEventReceiver
 		IVideoDriver* driver;
 		ISceneManager* smgr;
 		IGUIEnvironment* guienv;
-
-		//bullet
-		btDiscreteDynamicsWorld* bulletWorld;
+		btDiscreteDynamicsWorld* bWorld;
 
 		Controller(IrrlichtDevice* dev);
 		void init(IrrlichtDevice* dev);
 		void mainLoop();
-		void makePlayer();
-		void makeAsteroids();
 
 	private:
 

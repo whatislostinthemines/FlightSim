@@ -6,9 +6,11 @@
 #include "ProjectileSystem.h"
 #include "WeaponInfoComponent.h"
 #include "ShipComponent.h"
+#include "GameFunctions.h"
 
 class Controller;
+class SceneManager;
 
-void weaponFiringSystem(Scene& scene, btDiscreteDynamicsWorld* world, Controller* controller, f32 dt);
+void weaponFiringSystem(SceneManager* manager, f32 dt);
 
 #endif

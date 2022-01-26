@@ -13,102 +13,132 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{9f13e1d2-8f59-46bc-92de-cda7be1b4029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Systems">
+      <UniqueIdentifier>{5393aaa9-156b-4f07-aa95-c56071e1984d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{2ef9d687-78fb-4f88-bfb0-5290ab99f4d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{40f8cbb5-0735-4bd6-866c-3a90575adf5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems">
+      <UniqueIdentifier>{777ee6aa-85da-4cd0-bb4a-95dadaba7f8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{fae82cff-a1f1-4aed-a880-f9b3a53e2805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{901d7bad-1253-41d1-8f24-3c4edf2442ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{c652721c-fcf6-46dd-94ac-df5df7bac303}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\components\IrrlichtComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\systems\CollisionCheckingSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="ECS.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\systems\IrrlichtRigidBodyPositionSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\systems\PlayerUpdateSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="ShipMovementSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\systems\ProjectileSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="IrrlichtComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\systems\HealthSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="IrrlichtRigidBodyPositionSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\systems\ShipMovementSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerUpdateSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\systems\WeaponFiringSystem.cpp">
+      <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="BulletRigidBodyComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\core\Controller.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="ProjectileSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\core\ECS.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponFiringSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\core\main.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionCheckingSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\core\SceneManager.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="HealthSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\utilities\GameFunctions.cpp">
+      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Controller.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\components\BulletRigidBodyComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ECS.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\components\HealthComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\components\InputComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="IrrlichtComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\components\IrrlichtComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="InputComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\components\PlayerComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ShipMovementSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\components\ShipComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="IrrlichtRigidBodyPositionSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\components\WeaponInfoComponent.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\systems\CollisionCheckingSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerUpdateSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\systems\HealthSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="BaseHeader.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\systems\IrrlichtRigidBodyPositionSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="BulletRigidBodyComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\systems\PlayerUpdateSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="ShipComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\systems\ProjectileSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponInfoComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\systems\ShipMovementSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="ProjectileSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\systems\WeaponFiringSystem.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponFiringSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\core\BaseHeader.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionCheckingSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\core\Controller.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="HealthComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\core\ECS.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="HealthSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\core\SceneManager.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utilities\GameFunctions.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utilities\GameDefaults.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

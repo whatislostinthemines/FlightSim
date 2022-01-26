@@ -10,26 +10,8 @@ Controller::Controller(IrrlichtDevice* dev)
 	driver = 0;
 	lastFPS = -1;
 	then = 0;
-	bulletWorld = 0;
+	bWorld = 0;
 	init(dev);
-}
-
-vector3df randomVector()
-{
-	f32 x = static_cast<f32>(rand() / static_cast <f32>(900));
-	f32 y = static_cast<f32>(rand() / static_cast <f32>(900));
-	f32 z = static_cast<f32>(rand() / static_cast <f32>(900));
-
-	return vector3df(x,y,z);
-}
-
-vector3df randomRotationVector()
-{
-	f32 x = static_cast<f32>(rand() / static_cast <f32>(180));
-	f32 y = static_cast<f32>(rand() / static_cast <f32>(180));
-	f32 z = static_cast<f32>(rand() / static_cast <f32>(180));
-
-	return vector3df(x, y, z);
 }
 
 void Controller::init(IrrlichtDevice* dev)
@@ -43,16 +25,18 @@ void Controller::init(IrrlichtDevice* dev)
 	device->setEventReceiver(this);
 	guienv->setUserEventReceiver(this);
 	then = device->getTimer()->getTime();
-	Scene scene;
-	sceneECS = SceneManager(scene, this);
-	
+
 	//bullet init
 	btBroadphaseInterface* broadPhase = new btAxisSweep3(btVector3(-1000, -1000, -1000), btVector3(1000, 1000, 1000));
 	btDefaultCollisionConfiguration* collisionConfig = new btDefaultCollisionConfiguration();
 	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfig);
 	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver();
-	bulletWorld = new btDiscreteDynamicsWorld(dispatcher, broadPhase, solver, collisionConfig);
-	bulletWorld->setGravity(btVector3(0, 0, 0));
+	bWorld = new btDiscreteDynamicsWorld(dispatcher, broadPhase, solver, collisionConfig);
+	bWorld->setGravity(btVector3(0, 0, 0));
+
+	Scene scene;
+	sceneECS = SceneManager(scene, this, bWorld);
+	setDefaults(&sceneECS);
 }
 
 bool Controller::OnEvent(const SEvent& event)
@@ -93,82 +77,21 @@ bool Controller::OnEvent(const SEvent& event)
 		}
 
 	}
-	return false;
-}
-
-void Controller::makePlayer()
-{
-	IMesh* playerMesh = smgr->getMesh("models/tux/Tux.obj");
-	IMeshSceneNode* playerNode = smgr->addMeshSceneNode(playerMesh);
-	playerNode->setMaterialTexture(0, driver->getTexture("models/tux/BulletShipTex.png"));
-	playerNode->setDebugDataVisible(EDS_BBOX);
-	//playerNode->setMaterialFlag(EMF_LIGHTING, false);
-	ICameraSceneNode* camera = smgr->addCameraSceneNode(playerNode, vector3df(0, 5, -20), playerNode->getPosition(), -1, true);
-	//camera->bindTargetAndRotation(true);
-
-	auto playerEntity = sceneECS.scene.newEntity();
-	auto irrComponent = sceneECS.scene.assign<IrrlichtComponent>(playerEntity);
-	irrComponent->node = playerNode;
-
-	initializeRigidBodyFromIrrlicht(bulletWorld, sceneECS.scene, playerEntity);
-	sceneECS.scene.assign<InputComponent>(playerEntity);
-
-	auto playerCamera = sceneECS.scene.assign<PlayerComponent>(playerEntity);
-	playerCamera->camera = camera;
-
-	auto shipComponent = sceneECS.scene.assign<ShipComponent>(playerEntity);
-	shipComponent->rotSpeed = 100.f;
-	shipComponent->speed = 40.f;
-	shipComponent->hardpointCount = 2;
-	shipComponent->hardpoints[0] = vector3df(2.4816f, .25f, -6.0088f);
-	shipComponent->hardpoints[1] = vector3df(-2.4816f, .25f, -6.0088f);
-
-	IMesh* wepMesh = smgr->getMesh("models/wazer/wazer.obj");
-
-	for (int i = 0; i < shipComponent->hardpointCount; ++i) {
-
-		auto wepEntity = sceneECS.scene.newEntity();
-		auto wepInfo = sceneECS.scene.assign<WeaponInfoComponent>(wepEntity);
-		wepInfo->isFiring = false;
-		wepInfo->type = WEP_LASER;
-		wepInfo->firingSpeed = .5f;
-		wepInfo->projectileSpeed = 20.f;
-		wepInfo->range = 300.f;
-		wepInfo->timeSinceLastShot = 0.f;
-		wepInfo->damage = 20.f;
-
-		auto wepIrrComp = sceneECS.scene.assign<IrrlichtComponent>(wepEntity);
-		wepIrrComp->node = smgr->addMeshSceneNode(wepMesh, playerNode, -1, shipComponent->hardpoints[i], vector3df(0, 0, 0), vector3df(.5f, .5f, .5f));
-		shipComponent->weapons[i] = wepEntity;
+	if (event.EventType == EET_GUI_EVENT) {
+		//handle GUI shit here.
 	}
-
-}
-
-void Controller::makeAsteroids()
-{
-	//make these suckers entities too
-	IMesh* asteroidMesh = smgr->getMesh("models/asteroid/Asteroid.obj");
-	vector3df pos = randomVector();
-	vector3df rot = randomVector();
-	IMeshSceneNode* roidNode = smgr->addMeshSceneNode(asteroidMesh);
-
-	roidNode->setPosition(pos);
-	roidNode->setRotation(rot);
-
-	auto roidEntity = sceneECS.scene.newEntity();
-	auto irrComp = sceneECS.scene.assign<IrrlichtComponent>(roidEntity);
-	irrComp->node = roidNode;
-	initializeRigidBodyFromIrrlicht(bulletWorld, sceneECS.scene, roidEntity);
-
-	auto healthComp = sceneECS.scene.assign<HealthComponent>(roidEntity);
-	healthComp->health = 100.f;
-	healthComp->maxHealth = 100.f;
+	return false;
 }
 
 void Controller::mainLoop()
 {
-	makePlayer();
-	makeAsteroids();
+	EntityId playerId = createDefaultShip(&sceneECS, vector3df(0, 0, 0));
+	initializeDefaultPlayer(&sceneECS, playerId);
+	initializeDefaultRigidBody(&sceneECS, playerId);
+
+	EntityId roidId = createDefaultObstacle(&sceneECS, randomVector());
+	initializeDefaultRigidBody(&sceneECS, roidId);
+	initializeDefaultHealth(&sceneECS, roidId);
 
 	//make the light node an entity as well
 	ISceneNode* n = smgr->addLightSceneNode(0, vector3df(0, 0, 0),

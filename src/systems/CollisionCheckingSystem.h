@@ -9,6 +9,8 @@
 #include "ProjectileSystem.h"
 #include "HealthComponent.h"
 
-void collisionCheckingSystem(btDiscreteDynamicsWorld* world, Scene& scene);
+class SceneManager;
+
+void collisionCheckingSystem(SceneManager* manager);
 
 #endif

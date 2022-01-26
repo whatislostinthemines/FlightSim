@@ -1,12 +1,13 @@
 #include "CollisionCheckingSystem.h"
+#include "SceneManager.h"
 #include <iostream>
 
-void collisionCheckingSystem(btDiscreteDynamicsWorld* world, Scene& scene)
+void collisionCheckingSystem(SceneManager* manager)
 {
-	int numManifolds = world->getDispatcher()->getNumManifolds();
+	int numManifolds = manager->bulletWorld->getDispatcher()->getNumManifolds();
 
 	for (int i = 0; i < numManifolds; ++i) {
-		btPersistentManifold* contact = world->getDispatcher()->getManifoldByIndexInternal(i);
+		btPersistentManifold* contact = manager->bulletWorld->getDispatcher()->getManifoldByIndexInternal(i);
 		btCollisionObject* objA = const_cast<btCollisionObject*>(contact->getBody0());
 		btCollisionObject* objB = const_cast<btCollisionObject*>(contact->getBody1());
 
@@ -32,13 +33,13 @@ void collisionCheckingSystem(btDiscreteDynamicsWorld* world, Scene& scene)
 		HealthComponent* hpB = nullptr;
 
 		if (idA != INVALID_ENTITY) {
-			projA = scene.get<ProjectileInfoComponent>(idA);
-			hpA = scene.get<HealthComponent>(idA);
+			projA = manager->scene.get<ProjectileInfoComponent>(idA);
+			hpA = manager->scene.get<HealthComponent>(idA);
 		}
 		
 		if (idB != INVALID_ENTITY) {
-			projB = scene.get<ProjectileInfoComponent>(idB);
-			hpB = scene.get<HealthComponent>(idB);
+			projB = manager->scene.get<ProjectileInfoComponent>(idB);
+			hpB = manager->scene.get<HealthComponent>(idB);
 		}
 
 		//health updates on collision
@@ -55,10 +56,10 @@ void collisionCheckingSystem(btDiscreteDynamicsWorld* world, Scene& scene)
 
 		//projectile destruction on collision
 		if (projA) {
-			destroyProjectile(world, scene, idA);
+			destroyProjectile(manager, idA);
 		}
 		if (projB) {
-			destroyProjectile(world, scene, idB);
+			destroyProjectile(manager, idB);
 		}
 	}
 }

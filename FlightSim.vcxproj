@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>irrlicht-1.8.4\include;bulletlibs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>irrlicht-1.8.4\include;bulletlibs\include;src\components;src\gui;src\systems;src\utilities;src\core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>irrlicht-1.8.4\include;bulletlibs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>irrlicht-1.8.4\include;bulletlibs\include;src\components;src\gui;src\systems;src\utilities;src\core;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -151,39 +151,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BulletRigidBodyComponent.cpp" />
-    <ClCompile Include="CollisionCheckingSystem.cpp" />
-    <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="ECS.cpp" />
-    <ClCompile Include="HealthSystem.cpp" />
-    <ClCompile Include="IrrlichtComponent.cpp" />
-    <ClCompile Include="IrrlichtRigidBodyPositionSystem.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlayerUpdateSystem.cpp" />
-    <ClCompile Include="ProjectileSystem.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="ShipMovementSystem.cpp" />
-    <ClCompile Include="WeaponFiringSystem.cpp" />
+    <ClCompile Include="src\systems\CollisionCheckingSystem.cpp" />
+    <ClCompile Include="src\core\Controller.cpp" />
+    <ClCompile Include="src\core\ECS.cpp" />
+    <ClCompile Include="src\systems\HealthSystem.cpp" />
+    <ClCompile Include="src\components\IrrlichtComponent.cpp" />
+    <ClCompile Include="src\systems\IrrlichtRigidBodyPositionSystem.cpp" />
+    <ClCompile Include="src\core\main.cpp" />
+    <ClCompile Include="src\systems\PlayerUpdateSystem.cpp" />
+    <ClCompile Include="src\systems\ProjectileSystem.cpp" />
+    <ClCompile Include="src\core\SceneManager.cpp" />
+    <ClCompile Include="src\systems\ShipMovementSystem.cpp" />
+    <ClCompile Include="src\systems\WeaponFiringSystem.cpp" />
+    <ClCompile Include="src\utilities\GameFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseHeader.h" />
-    <ClInclude Include="BulletRigidBodyComponent.h" />
-    <ClInclude Include="CollisionCheckingSystem.h" />
-    <ClInclude Include="Controller.h" />
-    <ClInclude Include="ECS.h" />
-    <ClInclude Include="HealthComponent.h" />
-    <ClInclude Include="HealthSystem.h" />
-    <ClInclude Include="InputComponent.h" />
-    <ClInclude Include="IrrlichtComponent.h" />
-    <ClInclude Include="IrrlichtRigidBodyPositionSystem.h" />
-    <ClInclude Include="PlayerComponent.h" />
-    <ClInclude Include="PlayerUpdateSystem.h" />
-    <ClInclude Include="ProjectileSystem.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="ShipComponent.h" />
-    <ClInclude Include="ShipMovementSystem.h" />
-    <ClInclude Include="WeaponFiringSystem.h" />
-    <ClInclude Include="WeaponInfoComponent.h" />
+    <ClInclude Include="src\core\BaseHeader.h" />
+    <ClInclude Include="src\components\BulletRigidBodyComponent.h" />
+    <ClInclude Include="src\systems\CollisionCheckingSystem.h" />
+    <ClInclude Include="src\core\Controller.h" />
+    <ClInclude Include="src\core\ECS.h" />
+    <ClInclude Include="src\components\HealthComponent.h" />
+    <ClInclude Include="src\systems\HealthSystem.h" />
+    <ClInclude Include="src\components\InputComponent.h" />
+    <ClInclude Include="src\components\IrrlichtComponent.h" />
+    <ClInclude Include="src\systems\IrrlichtRigidBodyPositionSystem.h" />
+    <ClInclude Include="src\components\PlayerComponent.h" />
+    <ClInclude Include="src\systems\PlayerUpdateSystem.h" />
+    <ClInclude Include="src\systems\ProjectileSystem.h" />
+    <ClInclude Include="src\core\SceneManager.h" />
+    <ClInclude Include="src\components\ShipComponent.h" />
+    <ClInclude Include="src\systems\ShipMovementSystem.h" />
+    <ClInclude Include="src\systems\WeaponFiringSystem.h" />
+    <ClInclude Include="src\components\WeaponInfoComponent.h" />
+    <ClInclude Include="src\utilities\GameDefaults.h" />
+    <ClInclude Include="src\utilities\GameFunctions.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,9 +6,11 @@
 #include "IrrlichtComponent.h"
 #include "BulletRigidBodyComponent.h"
 #include "HealthComponent.h"
+#include "GameFunctions.h"
 
-void destroyHealthObject(btDiscreteDynamicsWorld* world, Scene& scene, EntityId id);
-void updateHealthSystem(btDiscreteDynamicsWorld* world, Scene& scene);
+class SceneManager;
+
+void updateHealthSystem(SceneManager* manager);
 
 #endif 
 
