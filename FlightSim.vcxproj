@@ -151,8 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\GameStateController.cpp" />
     <ClCompile Include="src\systems\CollisionCheckingSystem.cpp" />
-    <ClCompile Include="src\core\Controller.cpp" />
+    <ClCompile Include="src\core\GameController.cpp" />
     <ClCompile Include="src\core\ECS.cpp" />
     <ClCompile Include="src\systems\HealthSystem.cpp" />
     <ClCompile Include="src\components\IrrlichtComponent.cpp" />
@@ -166,10 +167,11 @@
     <ClCompile Include="src\utilities\GameFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\GameStateController.h" />
     <ClInclude Include="src\core\BaseHeader.h" />
     <ClInclude Include="src\components\BulletRigidBodyComponent.h" />
     <ClInclude Include="src\systems\CollisionCheckingSystem.h" />
-    <ClInclude Include="src\core\Controller.h" />
+    <ClInclude Include="src\core\GameController.h" />
     <ClInclude Include="src\core\ECS.h" />
     <ClInclude Include="src\components\HealthComponent.h" />
     <ClInclude Include="src\systems\HealthSystem.h" />

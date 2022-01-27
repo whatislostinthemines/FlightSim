@@ -63,7 +63,7 @@
     <ClCompile Include="src\systems\WeaponFiringSystem.cpp">
       <Filter>Source Files\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Controller.cpp">
+    <ClCompile Include="src\core\GameController.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\core\ECS.cpp">
@@ -77,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="src\utilities\GameFunctions.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GameStateController.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,7 +128,7 @@
     <ClInclude Include="src\core\BaseHeader.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\Controller.h">
+    <ClInclude Include="src\core\GameController.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\ECS.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="src\utilities\GameDefaults.h">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\GameStateController.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

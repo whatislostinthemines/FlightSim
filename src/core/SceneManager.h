@@ -13,16 +13,16 @@
 #include "HealthSystem.h"
 #include "GameDefaults.h"
 
-class Controller;
+class GameController;
 
 class SceneManager {
 	public:
-		SceneManager(Scene scene, Controller* controller, btDiscreteDynamicsWorld* bulletWorld) : controller(controller), scene(scene), bulletWorld(bulletWorld) {}
+		SceneManager(Scene scene, GameController* controller, btDiscreteDynamicsWorld* bulletWorld) : controller(controller), scene(scene), bulletWorld(bulletWorld) {}
 		SceneManager() : controller(0), bulletWorld(0) {} 
 		void update(f32 dt);
 		f32 dt = 0;
 		Scene scene;
-		Controller* controller;
+		GameController* controller;
 		btDiscreteDynamicsWorld* bulletWorld;
 		GameDefaults defaults;
 };

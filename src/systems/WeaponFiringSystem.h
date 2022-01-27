@@ -8,7 +8,7 @@
 #include "ShipComponent.h"
 #include "GameFunctions.h"
 
-class Controller;
+class GameController;
 class SceneManager;
 
 void weaponFiringSystem(SceneManager* manager, f32 dt);

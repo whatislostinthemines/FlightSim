@@ -1,5 +1,5 @@
 #include "SceneManager.h"
-#include "Controller.h"
+#include "GameController.h"
 
 
 void SceneManager::update(f32 time)

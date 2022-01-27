@@ -1,5 +1,5 @@
 #include "ProjectileSystem.h"
-#include "Controller.h"
+#include "GameController.h"
 
 void projectileRangeSystem(SceneManager* manager)
 {

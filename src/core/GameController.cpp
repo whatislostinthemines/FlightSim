@@ -1,37 +1,30 @@
-#include "Controller.h"
+#include "GameController.h"
 #include <iostream>
 #include <random>
 
-Controller::Controller(IrrlichtDevice* dev)
+GameController::GameController(IrrlichtDevice* dev)
 {
-	device = 0;
+	device = dev;
 	smgr = 0;
 	guienv = 0;
 	driver = 0;
-	lastFPS = -1;
 	then = 0;
 	bWorld = 0;
-	init(dev);
 }
 
-void Controller::init(IrrlichtDevice* dev)
+void GameController::init()
 {
-	device = dev;
 	driver = device->getVideoDriver();
-	SColorf col(1, 1, 1);
-	driver->setAmbientLight(col);
 	smgr = device->getSceneManager();
 	guienv = device->getGUIEnvironment();
-	device->setEventReceiver(this);
-	guienv->setUserEventReceiver(this);
 	then = device->getTimer()->getTime();
 
 	//bullet init
-	btBroadphaseInterface* broadPhase = new btAxisSweep3(btVector3(-1000, -1000, -1000), btVector3(1000, 1000, 1000));
-	btDefaultCollisionConfiguration* collisionConfig = new btDefaultCollisionConfiguration();
-	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfig);
-	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver();
-	bWorld = new btDiscreteDynamicsWorld(dispatcher, broadPhase, solver, collisionConfig);
+	broadPhase = new btAxisSweep3(btVector3(-1000, -1000, -1000), btVector3(1000, 1000, 1000));
+	collisionConfig = new btDefaultCollisionConfiguration();
+	dispatcher = new btCollisionDispatcher(collisionConfig);
+	solver = new btSequentialImpulseConstraintSolver();
+	bWorld = new BulletPhysicsWorld(dispatcher, broadPhase, solver, collisionConfig);
 	bWorld->setGravity(btVector3(0, 0, 0));
 
 	Scene scene;
@@ -39,7 +32,26 @@ void Controller::init(IrrlichtDevice* dev)
 	setDefaults(&sceneECS);
 }
 
-bool Controller::OnEvent(const SEvent& event)
+void GameController::close()
+{
+	smgr->clear();
+	guienv->clear();
+	sceneECS.defaults.dropDefaults();
+
+	delete broadPhase;
+	bWorld->clearObjects();
+	delete collisionConfig;
+	delete dispatcher;
+	delete solver;
+	delete bWorld; //this likely leaks some memory
+
+	//delete all the crap in the scenemanager too
+	for (ComponentPool* pool : sceneECS.scene.componentPools) {
+		delete pool; //pool's closed
+	}
+}
+
+bool GameController::OnEvent(const SEvent& event)
 {
 	if (event.EventType == EET_KEY_INPUT_EVENT) {
 		for(auto entityId : SceneView<InputComponent>(sceneECS.scene)) {
@@ -83,7 +95,7 @@ bool Controller::OnEvent(const SEvent& event)
 	return false;
 }
 
-void Controller::mainLoop()
+void GameController::initDefaultScene()
 {
 	EntityId playerId = createDefaultShip(&sceneECS, vector3df(0, 0, 0));
 	initializeDefaultPlayer(&sceneECS, playerId);
@@ -95,7 +107,7 @@ void Controller::mainLoop()
 
 	//make the light node an entity as well
 	ISceneNode* n = smgr->addLightSceneNode(0, vector3df(0, 0, 0),
-		SColor(200,200,200,200), 400.f);
+		SColor(200, 200, 200, 200), 400.f);
 
 	n = smgr->addBillboardSceneNode(n, dimension2d<f32>(25, 25));
 	n->setMaterialFlag(EMF_LIGHTING, false);
@@ -105,47 +117,24 @@ void Controller::mainLoop()
 	ITexture* sky = driver->getTexture("effects/starskybox.png");
 	smgr->addSkyBoxSceneNode(sky, sky, sky, sky, sky, sky);
 
+	device->getCursorControl()->setActiveIcon(ECI_CROSS);
+}
 
-	f32 accumulator = 0.0f;
-	f32 dt = 0.005f;
-	f32 t = 0.0f;
-
-	while (device->run()) {
-		u32 now = device->getTimer()->getTime();
-		f32 delta = (f32)(now - then) / 1000.f;
-		// don't simulate more than a quarter second, arbitrary number but we need an upper bound or else the sim explodes -- if fps drops below 4 you might wanna re-evaluate whatever you just changed
-		if (delta > 0.25) {
-			delta = 0.25;
-		}
-
-		then = now;
-
-		accumulator += delta;
-		
-		while (accumulator >= dt) {
-			// Game logic and physics
-			sceneECS.update(dt);
-
-			t += dt;
-			accumulator -= dt;
-		}
-		// TODO: need to interpolate the leftover time
-		const f32 alpha = accumulator / dt;
-
-		driver->beginScene(true, true, SColor(255, 20, 20, 20));
-		smgr->drawAll();
-		driver->endScene();
-
-		int fps = driver->getFPS();
-		stringw tmp(L"Flight [");
-		tmp += driver->getName();
-		tmp += L"] FPS: ";
-		if (lastFPS != fps) {
-			tmp += fps;
-		}
-		else tmp += lastFPS;
-
-		device->setWindowCaption(tmp.c_str());
-		lastFPS = fps;
+void GameController::update()
+{
+	u32 now = device->getTimer()->getTime();
+	f32 delta = (f32)(now - then) / 1000.f;
+	if (delta > .25) {
+		delta = .25;
 	}
+	then = now;
+	accumulator += delta;
+	while (accumulator >= dt) {
+		sceneECS.update(dt); //in-game logic and physics
+		t += dt;
+		accumulator -= dt;
+	}
+
+	//interpolate leftover time?
+	const f32 alpha = accumulator / dt;
 }

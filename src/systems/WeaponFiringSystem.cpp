@@ -1,5 +1,5 @@
 #include "WeaponFiringSystem.h"
-#include "Controller.h"
+#include "GameController.h"
 #include "SceneManager.h"
 
 void weaponFiringSystem(SceneManager* manager, f32 dt)
@@ -9,14 +9,14 @@ void weaponFiringSystem(SceneManager* manager, f32 dt)
 		auto input = scene->get<InputComponent>(entityId);
 		auto ship = scene->get<ShipComponent>(entityId);
 		if (input->leftMouseDown) {
-			for (int i = 0; i < ship->hardpointCount; ++i) {
+			for (unsigned int i = 0; i < ship->hardpointCount; ++i) {
 				EntityId wep = ship->weapons[i];
 				auto wepInfo = scene->get<WeaponInfoComponent>(wep);
 				wepInfo->isFiring = true;
 			}
 		}
 		else {
-			for (int i = 0; i < ship->hardpointCount; ++i) {
+			for (unsigned int i = 0; i < ship->hardpointCount; ++i) {
 				EntityId wep = ship->weapons[i];
 				auto wepInfo = scene->get<WeaponInfoComponent>(wep);
 				wepInfo->isFiring = false;

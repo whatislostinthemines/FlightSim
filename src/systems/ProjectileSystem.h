@@ -10,7 +10,7 @@
 #include "BulletRigidBodyComponent.h"
 #include "GameFunctions.h"
 
-class Controller;
+class GameController;
 class SceneManager;
 
 void projectileRangeSystem(SceneManager* manager);

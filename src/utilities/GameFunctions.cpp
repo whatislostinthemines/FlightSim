@@ -1,6 +1,6 @@
 #include "GameFunctions.h"
 #include "SceneManager.h"
-#include "Controller.h"
+#include "GameController.h"
 
 //Convenience functions to swap back and forth between irrlicht and bullet vectors.
 vector3df bulletVectorToIrrlicht(btVector3 vec)
@@ -64,7 +64,7 @@ EntityId createDefaultShip(SceneManager* manager, vector3df position)
 	shipComponent->hardpoints[1] = vector3df(-2.4816f, .25f, -6.0088f);
 
 
-	for (int i = 0; i < shipComponent->hardpointCount; ++i) {
+	for (unsigned int i = 0; i < shipComponent->hardpointCount; ++i) {
 		initializeDefaultWeapon(manager, shipEntity, i);
 	}
 
@@ -152,6 +152,8 @@ EntityId createProjectileEntity(SceneManager* manager, vector3df spawnPos, vecto
 	rigidBodyInfo->rigidBody.setUserIndex3(1);
 
 	manager->bulletWorld->addRigidBody(&rigidBodyInfo->rigidBody);
+
+	return projectileEntity;
 }
 
 //Destroys a given projectile. Removes it from irrlicht and bullet considerations and the entity list.
