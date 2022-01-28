@@ -43,6 +43,7 @@ bool GameStateController::OnEvent(const SEvent& event)
 	}
 	switch (state) {
 		case GAME_MENUS:
+			guiController->OnEvent(event);
 			break;
 		case GAME_RUNNING:
 			gameController->OnEvent(event);
@@ -60,6 +61,7 @@ void GameStateController::mainLoop()
 		u32 now = device->getTimer()->getTime();
 		switch (state) {
 			case GAME_MENUS:
+				guiController->update();
 				break;
 			case GAME_RUNNING:
 				gameController->update();

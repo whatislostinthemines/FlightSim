@@ -37,6 +37,12 @@
     <Filter Include="Header Files\Utilities">
       <UniqueIdentifier>{c652721c-fcf6-46dd-94ac-df5df7bac303}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Gui">
+      <UniqueIdentifier>{63415c26-3806-4686-b55d-193afb9a40ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gui">
+      <UniqueIdentifier>{5fc419a4-951e-4109-96b8-e091c379c526}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\components\IrrlichtComponent.cpp">
@@ -80,6 +86,12 @@
     </ClCompile>
     <ClCompile Include="src\core\GameStateController.cpp">
       <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\GuiController.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui\GuiMainMenu.cpp">
+      <Filter>Source Files\Gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +157,15 @@
     </ClInclude>
     <ClInclude Include="src\core\GameStateController.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\GuiController.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\GuiDialog.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\GuiMainMenu.h">
+      <Filter>Header Files\Gui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

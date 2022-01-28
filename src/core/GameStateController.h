@@ -4,6 +4,7 @@
 #define GAMESTATECONTROLLER_H
 #include "BaseHeader.h"
 #include "GameController.h"
+#include "GuiController.h"
 
 enum GAME_STATE
 {
@@ -29,6 +30,7 @@ class GameStateController : public IEventReceiver
 		u32 then;
 		GAME_STATE state;
 		GameController* gameController;
+		GuiController* guiController;
 
 
 
