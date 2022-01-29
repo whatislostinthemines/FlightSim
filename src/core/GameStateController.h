@@ -26,11 +26,15 @@ class GameStateController : public IEventReceiver
 		GameStateController(IrrlichtDevice* dev);
 		void init();
 		void mainLoop();
+		void setState(GAME_STATE newState);
 	private:
+		void stateChange();
 		u32 then;
 		GAME_STATE state;
+		GAME_STATE oldState;
 		GameController* gameController;
 		GuiController* guiController;
+		bool stateChangeCalled = false;
 
 
 

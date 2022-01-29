@@ -1,35 +1,38 @@
 #include "GuiController.h"
+#include "GameStateController.h"
 
-GuiController::GuiController(IrrlichtDevice* dev)
+GuiController::GuiController(GameStateController* controller)
 {
-	device = dev;
-	driver = dev->getVideoDriver();
-	smgr = dev->getSceneManager();
-	guienv = dev->getGUIEnvironment();
+	stateController = controller;
+	device = controller->device;
+	driver = device->getVideoDriver();
+	smgr = device->getSceneManager();
+	guienv = device->getGUIEnvironment();
+	activeDialog = 0;
 }
 
 void GuiController::init()
 {
+	activeDialog = new GuiMainMenu(this);
+	activeDialog->init();
+	activeDialog->show();
 	//default main menu
 }
 
 void GuiController::close()
 {
+	if (activeDialog) {
+		activeDialog = nullptr;
+	}
+	guienv->clear();
 	//delete it all!
+	//might want to call gui clear actually
 }
 
 bool GuiController::OnEvent(const SEvent& event)
 {
-	switch (event.EventType) {
-		case EET_MOUSE_INPUT_EVENT:
-			break;
-		case EET_KEY_INPUT_EVENT:
-			break;
-		case EET_GUI_EVENT:
-			if (activeDialog) {
-				activeDialog->handleEvent(event);
-			}
-			break;
+	if (activeDialog) {
+		activeDialog->handleEvent(event);
 	}
 	return false;
 }

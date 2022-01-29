@@ -20,11 +20,12 @@ void GameStateController::init()
 	device->setEventReceiver(this);
 	guienv->setUserEventReceiver(this);
 	then = device->getTimer()->getTime();
-	state = GAME_RUNNING;
+	state = GAME_MENUS;
 
-	gameController = new GameController(device);
-	gameController->init();
-	gameController->initDefaultScene();
+	gameController = new GameController(this);
+
+	guiController = new GuiController(this);
+	guiController->init();
 }
 
 bool GameStateController::OnEvent(const SEvent& event)
@@ -54,10 +55,34 @@ bool GameStateController::OnEvent(const SEvent& event)
 	return false;
 }
 
+void GameStateController::setState(GAME_STATE newState)
+{
+	oldState = state;
+	state = newState;
+	stateChangeCalled = true;
+}
+
+void GameStateController::stateChange()
+{
+	if (oldState == GAME_MENUS && state == GAME_RUNNING) {
+		guiController->close();
+		gameController->init();
+		gameController->initDefaultScene();
+	} else if (oldState == GAME_PAUSED && state == GAME_MENUS) {
+		gameController->close();
+		guiController->init();
+	}
+	stateChangeCalled = false;
+}
+
 void GameStateController::mainLoop()
 {
 	u32 lastFPS = -1;
 	while (device->run()) {
+		if (stateChangeCalled) {
+			stateChange();
+		}
+
 		u32 now = device->getTimer()->getTime();
 		switch (state) {
 			case GAME_MENUS:

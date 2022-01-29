@@ -1,10 +1,12 @@
 #include "GameController.h"
+#include "GameStateController.h"
 #include <iostream>
 #include <random>
 
-GameController::GameController(IrrlichtDevice* dev)
+GameController::GameController(GameStateController* controller)
 {
-	device = dev;
+	stateController = controller;
+	device = controller->device;
 	smgr = 0;
 	guienv = 0;
 	driver = 0;

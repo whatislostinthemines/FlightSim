@@ -13,9 +13,10 @@ class GuiDialog
 		GuiDialog(GuiController* controller) { guiController = controller;}
 		virtual ~GuiDialog() {}
 
+		virtual void init() = 0;
 		virtual void show() = 0;
 		virtual void hide() = 0;
-		virtual void clear() = 0;
+		virtual void close() = 0;
 
 		virtual void handleEvent(const SEvent& event) = 0;
 	protected:

@@ -42,13 +42,15 @@ class GameController
 		ISceneManager* smgr;
 		IGUIEnvironment* guienv;
 		BulletPhysicsWorld* bWorld;
+		
+		GameStateController* stateController;
 
 		btBroadphaseInterface* broadPhase;
 		btDefaultCollisionConfiguration* collisionConfig;
 		btCollisionDispatcher* dispatcher;
 		btSequentialImpulseConstraintSolver* solver;
 
-		GameController(IrrlichtDevice* dev);
+		GameController(GameStateController* controller);
 		void init();
 		void close();
 
