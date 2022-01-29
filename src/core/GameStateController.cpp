@@ -33,24 +33,23 @@ bool GameStateController::OnEvent(const SEvent& event)
 	if (event.EventType == EET_KEY_INPUT_EVENT) {
 		if (event.KeyInput.Key == KEY_ESCAPE && event.KeyInput.PressedDown) {
 			if (state == GAME_RUNNING) {
-				state = GAME_PAUSED;
-				// pause it
+				setState(GAME_PAUSED);
 			}
 			else if (state == GAME_PAUSED) {
-				state = GAME_RUNNING;
-				//unpause it
+				setState(GAME_RUNNING);
 			}
 		}
 	}
 	switch (state) {
-		case GAME_MENUS:
-			guiController->OnEvent(event);
-			break;
-		case GAME_RUNNING:
-			gameController->OnEvent(event);
-			break;
-		case GAME_PAUSED:
-			break;
+	case GAME_MENUS:
+		guiController->OnEvent(event);
+		break;
+	case GAME_RUNNING:
+		gameController->OnEvent(event);
+		break;
+	case GAME_PAUSED:
+		guiController->OnEvent(event);
+		break;
 	}
 	return false;
 }
@@ -68,10 +67,18 @@ void GameStateController::stateChange()
 		guiController->close();
 		gameController->init();
 		gameController->initDefaultScene();
-	} else if (oldState == GAME_PAUSED && state == GAME_MENUS) {
+	}
+	else if (oldState == GAME_PAUSED && state == GAME_MENUS) {
 		gameController->close();
 		guiController->init();
 	}
+	else if (oldState == GAME_RUNNING && state == GAME_PAUSED) {
+		guiController->setActiveDialog(GUI_PAUSE_MENU);
+	}
+	else if (oldState == GAME_PAUSED && state == GAME_RUNNING) {
+		guiController->close();
+	}
+
 	stateChangeCalled = false;
 }
 
@@ -92,6 +99,7 @@ void GameStateController::mainLoop()
 				gameController->update();
 				break;
 			case GAME_PAUSED:
+				guiController->update();
 				break;
 		}
 		then = now;

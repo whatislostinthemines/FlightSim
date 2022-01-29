@@ -19,13 +19,11 @@ enum MAIN_MENU_BUTTONS
 class GuiMainMenu : public GuiDialog
 {
 	public:
-		GuiMainMenu(GuiController* controller) : GuiDialog(controller), startGame(0), settings(0), quitGame(0) {}
-		~GuiMainMenu();
+		GuiMainMenu(GuiController* controller) : GuiDialog(controller), startGame(0), settings(0), quitGame(0), root(0) {}
 
 		virtual void init();
-		virtual void show();
-		virtual void hide();
-		virtual void close();
+		virtual void show() { root->setVisible(true); isVisible = true; }
+		virtual void hide() { root->setVisible(false); isVisible = false; }
 		virtual void handleEvent(const SEvent& event);
 	private:
 		IGUIStaticText* root;

@@ -13,8 +13,12 @@ GuiController::GuiController(GameStateController* controller)
 
 void GuiController::init()
 {
-	activeDialog = new GuiMainMenu(this);
-	activeDialog->init();
+	menus.menuDialogs[GUI_MAIN_MENU] = new GuiMainMenu(this);
+	menus.menuDialogs[GUI_MAIN_MENU]->init();
+	menus.menuDialogs[GUI_PAUSE_MENU] = new GuiPauseMenu(this);
+	menus.menuDialogs[GUI_PAUSE_MENU]->init();
+
+	activeDialog = menus.menuDialogs[GUI_MAIN_MENU];
 	activeDialog->show();
 	//default main menu
 }
@@ -22,11 +26,9 @@ void GuiController::init()
 void GuiController::close()
 {
 	if (activeDialog) {
+		activeDialog->hide();
 		activeDialog = nullptr;
 	}
-	guienv->clear();
-	//delete it all!
-	//might want to call gui clear actually
 }
 
 bool GuiController::OnEvent(const SEvent& event)
@@ -40,4 +42,13 @@ bool GuiController::OnEvent(const SEvent& event)
 void GuiController::update()
 {
 	//...I'm not actually sure anything needs to be done, but if it does, it gets done here.
+}
+
+void GuiController::setActiveDialog(MENU_TYPE menu)
+{
+	if (activeDialog) {
+		activeDialog->hide();
+	}
+	activeDialog = menus.menuDialogs[menu];
+	activeDialog->show();
 }

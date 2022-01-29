@@ -38,7 +38,6 @@ void GameController::close()
 {
 	smgr->clear();
 	guienv->clear();
-	sceneECS.defaults.dropDefaults();
 
 	delete broadPhase;
 	bWorld->clearObjects();

@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\gui\GuiPauseMenu.cpp" />
     <ClCompile Include="src\gui\GuiMainMenu.cpp" />
     <ClCompile Include="src\core\GuiController.cpp" />
     <ClCompile Include="src\core\GameStateController.cpp" />
@@ -169,12 +170,14 @@
     <ClCompile Include="src\utilities\GameFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\gui\GuiPauseMenu.h" />
     <ClInclude Include="src\gui\GuiMainMenu.h" />
     <ClInclude Include="src\gui\GuiDialog.h" />
     <ClInclude Include="src\core\GuiController.h" />
     <ClInclude Include="src\core\GameStateController.h" />
     <ClInclude Include="src\core\BaseHeader.h" />
     <ClInclude Include="src\components\BulletRigidBodyComponent.h" />
+    <ClInclude Include="src\gui\MenuData.h" />
     <ClInclude Include="src\systems\CollisionCheckingSystem.h" />
     <ClInclude Include="src\core\GameController.h" />
     <ClInclude Include="src\core\ECS.h" />

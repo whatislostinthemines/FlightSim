@@ -3,8 +3,7 @@
 #ifndef GUICONTROLLER_H
 #define GUICONTROLLER_H
 #include "BaseHeader.h"
-#include "GuiDialog.h"
-#include "GuiMainMenu.h"
+#include "MenuData.h"
 
 class GameStateController;
 
@@ -23,8 +22,11 @@ class GuiController
 		void close();
 		void update();
 		GuiDialog* getActiveDialog() { return activeDialog; }
+		void setActiveDialog(MENU_TYPE menu);
+
 	private:
 		GuiDialog* activeDialog;
+		MenuData menus;
 		//to-do list: add hookups to store the various menus as well as change the active dialog
 };
 
