@@ -9,6 +9,7 @@
 #include "GuiMainMenu.h"
 #include "GuiPauseMenu.h"
 
+//Include and add menu types here.
 enum MENU_TYPE {
 	GUI_MAIN_MENU,
 	GUI_PAUSE_MENU

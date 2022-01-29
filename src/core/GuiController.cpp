@@ -13,6 +13,8 @@ GuiController::GuiController(GameStateController* controller)
 
 void GuiController::init()
 {
+	//All menus get initialized here. Don't delete them.
+	//If you've just added a new menu, initialize it here.
 	menus.menuDialogs[GUI_MAIN_MENU] = new GuiMainMenu(this);
 	menus.menuDialogs[GUI_MAIN_MENU]->init();
 	menus.menuDialogs[GUI_PAUSE_MENU] = new GuiPauseMenu(this);
@@ -33,6 +35,7 @@ void GuiController::close()
 
 bool GuiController::OnEvent(const SEvent& event)
 {
+	//Hurls the event to the active dialog.
 	if (activeDialog) {
 		activeDialog->handleEvent(event);
 	}
@@ -44,6 +47,7 @@ void GuiController::update()
 	//...I'm not actually sure anything needs to be done, but if it does, it gets done here.
 }
 
+//If you've just added a new menu, go make sure that you added it as a menu type in MenuData.h
 void GuiController::setActiveDialog(MENU_TYPE menu)
 {
 	if (activeDialog) {
