@@ -25,6 +25,7 @@ class GuiController
 		GuiDialog* getActiveDialog() { return activeDialog; }
 	private:
 		GuiDialog* activeDialog;
+		//to-do list: add hookups to store the various menus as well as change the active dialog
 };
 
 #endif
