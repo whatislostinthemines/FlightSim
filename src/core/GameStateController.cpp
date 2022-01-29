@@ -26,6 +26,15 @@ void GameStateController::init()
 
 	guiController = new GuiController(this);
 	guiController->init();
+
+	IGUIFont* defaultFont = guienv->getFont("fonts/Courier16px/Courier16px.xml");
+	if (defaultFont) {
+		guienv->getSkin()->setFont(defaultFont);
+	}
+	IGUIFont* tooltipDefaultFont = guienv->getFont("fonts/Courier8px/Courier8px.xml");
+	if (tooltipDefaultFont) {
+		guienv->getSkin()->setFont(tooltipDefaultFont, EGDF_TOOLTIP);
+	}
 }
 
 bool GameStateController::OnEvent(const SEvent& event)
