@@ -19,7 +19,7 @@ class SceneManager {
 	public:
 		SceneManager(Scene scene, GameController* controller, btDiscreteDynamicsWorld* bulletWorld) : controller(controller), scene(scene), bulletWorld(bulletWorld) {}
 		SceneManager() : controller(0), bulletWorld(0) {} 
-		void update(f32 dt);
+		void update(f32 dt, f32 frameDelta);
 		f32 dt = 0;
 		Scene scene;
 		GameController* controller;

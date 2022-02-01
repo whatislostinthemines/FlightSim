@@ -159,7 +159,6 @@
     <ClCompile Include="src\core\GameController.cpp" />
     <ClCompile Include="src\core\ECS.cpp" />
     <ClCompile Include="src\systems\HealthSystem.cpp" />
-    <ClCompile Include="src\components\IrrlichtComponent.cpp" />
     <ClCompile Include="src\systems\IrrlichtRigidBodyPositionSystem.cpp" />
     <ClCompile Include="src\core\main.cpp" />
     <ClCompile Include="src\systems\PlayerUpdateSystem.cpp" />
@@ -168,6 +167,7 @@
     <ClCompile Include="src\systems\ShipMovementSystem.cpp" />
     <ClCompile Include="src\systems\WeaponFiringSystem.cpp" />
     <ClCompile Include="src\utilities\GameFunctions.cpp" />
+    <ClCompile Include="src\utilities\IrrlichtUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gui\GuiPauseMenu.h" />
@@ -196,6 +196,7 @@
     <ClInclude Include="src\components\WeaponInfoComponent.h" />
     <ClInclude Include="src\utilities\GameDefaults.h" />
     <ClInclude Include="src\utilities\GameFunctions.h" />
+    <ClInclude Include="src\utilities\IrrlichtUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

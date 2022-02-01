@@ -272,12 +272,13 @@ bool initializeDefaultPlayer(SceneManager* manager, EntityId shipId)
 	auto shipIrr = scene->get<IrrlichtComponent>(shipId);
 
 	if (!shipIrr) return false;
-
-	ICameraSceneNode* camera = smgr->addCameraSceneNode(shipIrr->node, vector3df(0, 5, -20), shipIrr->node->getPosition(), -1, true);
-
+	ISceneNode* target = smgr->addEmptySceneNode(0);
+	target->setPosition(shipIrr->node->getPosition());
+	ICameraSceneNode* camera = smgr->addCameraSceneNode(target, vector3df(0, 5, -20), shipIrr->node->getPosition(), -1, true);
 	scene->assign<InputComponent>(shipId);
 	auto playerCamera = scene->assign<PlayerComponent>(shipId);
 	playerCamera->camera = camera;
+	playerCamera->target = target;
 
 	return true;
 }

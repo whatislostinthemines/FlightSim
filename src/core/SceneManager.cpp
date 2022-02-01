@@ -2,7 +2,7 @@
 #include "GameController.h"
 
 
-void SceneManager::update(f32 time)
+void SceneManager::update(f32 time, f32 frameDelta)
 {
 	dt = time;
 	shipMovementSystem(scene, dt); //updates impulses based on player input
@@ -12,6 +12,6 @@ void SceneManager::update(f32 time)
 	updateHealthSystem(this); //updates health and removes objects with no health
 	irrlichtRigidBodyPositionSystem(scene, dt); //updates position based on rigidbody state
 	projectileRangeSystem(this); //kills projectiles after they have gone a set distance
-	playerUpdateSystem(scene, dt); //updates camera location
+	playerUpdateSystem(scene, frameDelta); //updates camera location
 }
 

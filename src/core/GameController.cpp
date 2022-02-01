@@ -131,7 +131,7 @@ void GameController::update()
 	then = now;
 	accumulator += delta;
 	while (accumulator >= dt) {
-		sceneECS.update(dt); //in-game logic and physics
+		sceneECS.update(dt, delta); //in-game logic and physics
 		t += dt;
 		accumulator -= dt;
 	}

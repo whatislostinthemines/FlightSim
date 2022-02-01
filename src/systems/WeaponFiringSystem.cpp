@@ -1,6 +1,7 @@
 #include "WeaponFiringSystem.h"
 #include "GameController.h"
 #include "SceneManager.h"
+#include "IrrlichtUtils.h"
 
 void weaponFiringSystem(SceneManager* manager, f32 dt)
 {
@@ -28,10 +29,10 @@ void weaponFiringSystem(SceneManager* manager, f32 dt)
 		auto wepInfo = scene->get<WeaponInfoComponent>(entityId);
 		auto irrComp = scene->get<IrrlichtComponent>(entityId);
 
-		vector3df spawnPos = irrComp->node->getAbsolutePosition() + (irrComp->getForward() * 20.f);
+		vector3df spawnPos = irrComp->node->getAbsolutePosition() + (getNodeForward(irrComp->node) * 20.f);
 
 		if (wepInfo->isFiring && (wepInfo->timeSinceLastShot > wepInfo->firingSpeed)) {
-			createProjectileEntity(manager, spawnPos, irrComp->getForward(), entityId);
+			createProjectileEntity(manager, spawnPos, getNodeForward(irrComp->node), entityId);
 			wepInfo->timeSinceLastShot = 0.f;
 		}
 		wepInfo->timeSinceLastShot += dt;
