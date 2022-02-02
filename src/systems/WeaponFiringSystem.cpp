@@ -36,5 +36,8 @@ void weaponFiringSystem(SceneManager* manager, f32 dt)
 			wepInfo->timeSinceLastShot = 0.f;
 		}
 		wepInfo->timeSinceLastShot += dt;
+		if (wepInfo->timeSinceLastShot > wepInfo->firingSpeed) {
+			wepInfo->timeSinceLastShot = wepInfo->firingSpeed + .005f;
+		}
 	}
 }
