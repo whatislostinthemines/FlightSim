@@ -7,6 +7,7 @@ GameStateController::GameStateController(IrrlichtDevice* dev)
 	driver = 0;
 	smgr = 0;
 	guienv = 0;
+	soundEngine = 0;
 	then = 0;
 	gameController = 0;
 	init();
@@ -22,6 +23,8 @@ void GameStateController::init()
 	then = device->getTimer()->getTime();
 	state = GAME_MENUS;
 
+	soundEngine = createIrrKlangDevice();
+	soundEngine->play2D("audio/music/space_boogaloo.mp3", true);
 	gameController = new GameController(this);
 
 	guiController = new GuiController(this);

@@ -16,6 +16,7 @@ class GuiController
 		IVideoDriver* driver;
 		ISceneManager* smgr;
 		IGUIEnvironment* guienv;
+		ISoundEngine* soundEngine;
 
 		GameStateController* stateController;
 		void init();

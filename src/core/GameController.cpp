@@ -7,6 +7,7 @@ GameController::GameController(GameStateController* controller)
 {
 	stateController = controller;
 	device = controller->device;
+	soundEngine = controller->soundEngine;
 	smgr = 0;
 	guienv = 0;
 	driver = 0;

@@ -7,6 +7,7 @@ GuiController::GuiController(GameStateController* controller)
 	device = controller->device;
 	driver = device->getVideoDriver();
 	smgr = device->getSceneManager();
+	soundEngine = controller->soundEngine;
 	guienv = device->getGUIEnvironment();
 	activeDialog = 0;
 }

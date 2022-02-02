@@ -4,7 +4,6 @@
 #define BASEFLIGHTHEADER_H
 
 #include <irrlicht.h>
-
 using namespace irr;
 using namespace core;
 using namespace scene;
@@ -14,6 +13,9 @@ using namespace gui;
 
 #include <btBulletDynamicsCommon.h>
 
+#include <irrKlang.h>
+using namespace irrklang;
+
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
 
@@ -21,6 +23,7 @@ using namespace gui;
 #pragma comment(lib, "BulletCollision.lib")
 #pragma comment(lib, "LinearMath.lib")
 
+#pragma comment(lib, "irrKlang.lib")
 #endif
 
 #endif

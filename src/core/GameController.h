@@ -48,6 +48,7 @@ class GameController
 		ISceneManager* smgr;
 		IGUIEnvironment* guienv;
 		BulletPhysicsWorld* bWorld;
+		ISoundEngine* soundEngine;
 		
 		GameStateController* stateController;
 

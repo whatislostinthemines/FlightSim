@@ -22,6 +22,7 @@ class GameStateController : public IEventReceiver
 		IVideoDriver* driver;
 		ISceneManager* smgr;
 		IGUIEnvironment* guienv;
+		ISoundEngine* soundEngine;
 
 		GameStateController(IrrlichtDevice* dev);
 		void init();
