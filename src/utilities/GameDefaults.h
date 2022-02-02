@@ -11,6 +11,9 @@ struct GameDefaults
 	IMesh* defaultObstacleMesh;
 	ITexture* defaultShipTexture;
 	ITexture* defaultProjectileTexture;
+	ITexture* defaultCrosshairTexture;
+	ITexture* defaultSelectionTexture;
+
 	void dropDefaults()
 	{
 		defaultObstacleMesh->drop();

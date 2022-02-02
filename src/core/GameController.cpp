@@ -80,7 +80,8 @@ bool GameController::OnEvent(const SEvent& event)
 				input->rightMouseDown = false;
 				break;
 			case EMIE_MOUSE_MOVED:
-
+				input->mousePixPosition.X = event.MouseInput.X;
+				input->mousePixPosition.Y = event.MouseInput.Y;
 				input->mousePosition.X = (event.MouseInput.X - ((f32)driver->getScreenSize().Width * .5f)) / ((f32)driver->getScreenSize().Width * .5f);
 				input->mousePosition.Y = (event.MouseInput.Y - ((f32)driver->getScreenSize().Height * .5f)) / ((f32)driver->getScreenSize().Height * .5f);
 				break;
@@ -101,6 +102,7 @@ void GameController::initDefaultScene()
 	EntityId playerId = createDefaultShip(&sceneECS, vector3df(0, 0, 0));
 	initializeDefaultPlayer(&sceneECS, playerId);
 	initializeDefaultRigidBody(&sceneECS, playerId);
+	initializeDefaultHUD(&sceneECS, playerId);
 
 	EntityId roidId = createDefaultObstacle(&sceneECS, randomVector());
 	initializeDefaultRigidBody(&sceneECS, roidId);
@@ -109,14 +111,17 @@ void GameController::initDefaultScene()
 	//make the light node an entity as well
 	ISceneNode* n = smgr->addLightSceneNode(0, vector3df(0, 0, 0),
 		SColor(200, 200, 200, 200), 400.f);
+	n->setID(ID_IsNotSelectable);
 
 	n = smgr->addBillboardSceneNode(n, dimension2d<f32>(25, 25));
 	n->setMaterialFlag(EMF_LIGHTING, false);
 	n->setMaterialType(EMT_TRANSPARENT_ADD_COLOR);
 	n->setMaterialTexture(0, driver->getTexture("effects/particlewhite.bmp"));
+	n->setID(ID_IsNotSelectable);
 
 	ITexture* sky = driver->getTexture("effects/starskybox.png");
-	smgr->addSkyBoxSceneNode(sky, sky, sky, sky, sky, sky);
+	n = smgr->addSkyBoxSceneNode(sky, sky, sky, sky, sky, sky);
+	n->setID(ID_IsNotSelectable);
 
 	device->getCursorControl()->setActiveIcon(ECI_CROSS);
 }

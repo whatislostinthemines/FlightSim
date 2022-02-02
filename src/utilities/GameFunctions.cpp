@@ -1,6 +1,7 @@
 #include "GameFunctions.h"
 #include "SceneManager.h"
 #include "GameController.h"
+#include "IrrlichtUtils.h"
 
 //Convenience functions to swap back and forth between irrlicht and bullet vectors.
 vector3df bulletVectorToIrrlicht(btVector3 vec)
@@ -40,6 +41,8 @@ void setDefaults(SceneManager* manager)
 	manager->defaults.defaultWeaponMesh = manager->controller->smgr->getMesh("models/wazer/wazer.obj");
 	manager->defaults.defaultObstacleMesh = manager->controller->smgr->getMesh("models/asteroid/Asteroid.obj");
 	manager->defaults.defaultProjectileTexture = manager->controller->driver->getTexture("effects/particlered.bmp");
+	manager->defaults.defaultCrosshairTexture = manager->controller->driver->getTexture("hud/crosshair.png");
+	manager->defaults.defaultSelectionTexture = manager->controller->driver->getTexture("hud/selection.png");
 }
 
 //Creates a default ship at the given position in Irrlicht space. Returns the entity ID.
@@ -52,9 +55,12 @@ EntityId createDefaultShip(SceneManager* manager, vector3df position)
 	playerNode->setMaterialTexture(0, manager->defaults.defaultShipTexture);
 
 	auto shipEntity = scene->newEntity();
-
+	playerNode->setName(idToStr(shipEntity).c_str());
+	playerNode->setID(ID_IsSelectable);
 	auto irrComponent = scene->assign<IrrlichtComponent>(shipEntity);
+
 	irrComponent->node = playerNode;
+	irrComponent->name = "Default Ship";
 
 	auto shipComponent = scene->assign<ShipComponent>(shipEntity);
 	shipComponent->rotSpeed = 100.f;
@@ -80,7 +86,10 @@ EntityId createDefaultObstacle(SceneManager* manager, vector3df position)
 	auto roidEntity = scene->newEntity();
 	auto irrComp = scene->assign<IrrlichtComponent>(roidEntity);
 	irrComp->node = smgr->addMeshSceneNode(manager->defaults.defaultObstacleMesh);
+	irrComp->node->setID(ID_IsSelectable);
 	irrComp->node->setPosition(position);
+	irrComp->node->setName(idToStr(roidEntity).c_str());
+	irrComp->name = "Asteroid";
 
 	auto healthComp = scene->assign<HealthComponent>(roidEntity);
 	healthComp->health = 100.f;
@@ -185,6 +194,13 @@ void destroyObject(SceneManager* manager, EntityId id)
 {
 	auto irrComp = manager->scene.get<IrrlichtComponent>(id);
 	auto rbc = manager->scene.get<BulletRigidBodyComponent>(id);
+	for (auto playerId : SceneView<PlayerComponent>(manager->scene)) {
+		auto player = manager->scene.get<PlayerComponent>(playerId);
+		if (player->activeSelection == irrComp->node) {
+			player->activeSelection = nullptr;
+			player->selectionGui->setVisible(false);
+		}
+	}
 
 	if (irrComp) {
 		irrComp->node->removeAll();
@@ -220,6 +236,7 @@ bool initializeDefaultWeapon(SceneManager* manager, EntityId shipId, int hardpoi
 
 	auto wepIrrComp = scene->assign<IrrlichtComponent>(wepEntity);
 	wepIrrComp->node = smgr->addMeshSceneNode(manager->defaults.defaultWeaponMesh, shipIrr->node, -1, shipComp->hardpoints[hardpoint], vector3df(0, 0, 0), vector3df(.5f, .5f, .5f));
+	wepIrrComp->node->setID(ID_IsNotSelectable);
 	shipComp->weapons[hardpoint] = wepEntity;
 
 	return true;
@@ -274,7 +291,7 @@ bool initializeDefaultPlayer(SceneManager* manager, EntityId shipId)
 	if (!shipIrr) return false;
 	ISceneNode* target = smgr->addEmptySceneNode(0);
 	target->setPosition(shipIrr->node->getPosition());
-	ICameraSceneNode* camera = smgr->addCameraSceneNode(target, vector3df(0, 5, -20), shipIrr->node->getPosition(), -1, true);
+	ICameraSceneNode* camera = smgr->addCameraSceneNode(target, vector3df(0, 5, -20), shipIrr->node->getPosition(), ID_IsNotSelectable, true);
 	scene->assign<InputComponent>(shipId);
 	auto playerCamera = scene->assign<PlayerComponent>(shipId);
 	playerCamera->camera = camera;
@@ -292,4 +309,21 @@ void initializeDefaultHealth(SceneManager* manager, EntityId objectId)
 	auto healthComp = scene->assign<HealthComponent>(objectId);
 	healthComp->health = 100.f;
 	healthComp->maxHealth = 100.f;
+}
+
+//Sets up the HUD for the given player entity.
+//Requires a player component; returns false otherwise.
+bool initializeDefaultHUD(SceneManager* manager, EntityId playerId)
+{
+	Scene* scene = &manager->scene;
+	auto player = scene->get<PlayerComponent>(playerId);
+	if (!player) return false;
+	player->activeSelection = nullptr;
+	player->crosshairGui = manager->controller->guienv->addImage(manager->defaults.defaultCrosshairTexture, position2di(0, 0));
+	player->selectionGui = manager->controller->guienv->addImage(manager->defaults.defaultSelectionTexture, position2di(0, 0));
+
+	player->crosshairGui->setVisible(true);
+	player->selectionGui->setVisible(false);
+
+	return true;
 }

@@ -5,6 +5,7 @@
 
 struct IrrlichtComponent {
 	ISceneNode* node;
+	std::string name;
 };
 
 #endif

@@ -8,7 +8,11 @@
 #include "IrrlichtComponent.h"
 #include "PlayerComponent.h"
 #include "BulletRigidBodyComponent.h"
+#include "IrrlichtUtils.h"
 
-void playerUpdateSystem(Scene& scene, f32 dt);
+class SceneManager;
+class GameController;
+
+void playerUpdateSystem(SceneManager* manager, Scene& scene, f32 dt);
 
 #endif

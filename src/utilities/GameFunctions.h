@@ -30,6 +30,6 @@ bool initializeDefaultWeapon(SceneManager* manager, EntityId shipId, int hardpoi
 bool initializeDefaultRigidBody(SceneManager* manager, EntityId objectId);
 bool initializeDefaultPlayer(SceneManager* manager, EntityId shipId);
 void initializeDefaultHealth(SceneManager* manager, EntityId objectId);
-
+bool initializeDefaultHUD(SceneManager* manager, EntityId playerId);
 
 #endif

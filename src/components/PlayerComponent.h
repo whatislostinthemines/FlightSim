@@ -12,6 +12,10 @@ struct PlayerComponent
 	//values for how much the camera swings around
 	f32 slerpFactor = 20.f;
 	f32 velocityFactor = .1f;
+
+	ISceneNode* activeSelection;
+	IGUIImage* crosshairGui;
+	IGUIImage* selectionGui;
 };
 
 #endif

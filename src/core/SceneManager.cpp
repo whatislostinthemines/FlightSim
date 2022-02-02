@@ -12,6 +12,6 @@ void SceneManager::update(f32 time, f32 frameDelta)
 	updateHealthSystem(this); //updates health and removes objects with no health
 	irrlichtRigidBodyPositionSystem(scene, dt); //updates position based on rigidbody state
 	projectileRangeSystem(this); //kills projectiles after they have gone a set distance
-	playerUpdateSystem(scene, frameDelta); //updates camera location
+	playerUpdateSystem(this, scene, frameDelta); //updates camera location
 }
 

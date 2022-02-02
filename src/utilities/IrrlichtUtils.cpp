@@ -1,4 +1,5 @@
 #include "IrrlichtUtils.h"
+#include <string>
 
 vector3df getNodeForward(ISceneNode* node)
 {
@@ -28,4 +29,13 @@ vector3df getNodeRight(ISceneNode* node)
 vector3df getNodeLeft(ISceneNode* node)
 {
 	return -getNodeRight(node);
+}
+
+EntityId strToId(std::string id)
+{
+	return std::stoull(id);
+}
+std::string idToStr(EntityId id)
+{
+	return std::to_string(id);
 }

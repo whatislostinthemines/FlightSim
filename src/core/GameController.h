@@ -12,6 +12,12 @@
 
 class GameStateController;
 
+enum SELECTIONS
+{
+	ID_IsNotSelectable = 0,
+	ID_IsSelectable = 1 << 0
+};
+
 class BulletPhysicsWorld : public btDiscreteDynamicsWorld
 {
 	public:
