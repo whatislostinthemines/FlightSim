@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Gui">
       <UniqueIdentifier>{5fc419a4-951e-4109-96b8-e091c379c526}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Systems\AI_Systems">
+      <UniqueIdentifier>{10984a15-e88d-4db9-ac77-7bcb93485c66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Systems\AI_Systems">
+      <UniqueIdentifier>{6ef621e4-c209-412f-a10e-ab9260887793}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\systems\CollisionCheckingSystem.cpp">
@@ -95,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="src\utilities\IrrlichtUtils.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\AIUpdateSystem.cpp">
+      <Filter>Source Files\Systems\AI_Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\ai_systems\DefaultAIUpdateSystem.cpp">
+      <Filter>Source Files\Systems\AI_Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +190,15 @@
     </ClInclude>
     <ClInclude Include="src\utilities\IrrlichtUtils.h">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\AIComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\AIUpdateSystem.h">
+      <Filter>Header Files\Systems\AI_Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\ai_systems\DefaultAIUpdateSystem.h">
+      <Filter>Header Files\Systems\AI_Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
