@@ -194,7 +194,7 @@
     <ClInclude Include="src\components\AIComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\AIUpdateSystem.h">
+    <ClInclude Include="src\systems\AIUpdateSystem.h">
       <Filter>Header Files\Systems\AI_Systems</Filter>
     </ClInclude>
     <ClInclude Include="src\systems\ai_systems\DefaultAIUpdateSystem.h">
