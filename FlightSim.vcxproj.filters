@@ -40,7 +40,7 @@
     <Filter Include="Header Files\Gui">
       <UniqueIdentifier>{63415c26-3806-4686-b55d-193afb9a40ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Gui">
+    <Filter Include="Source Files\Core\Gui">
       <UniqueIdentifier>{5fc419a4-951e-4109-96b8-e091c379c526}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -88,10 +88,10 @@
       <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\GuiMainMenu.cpp">
-      <Filter>Source Files\Gui</Filter>
+      <Filter>Source Files\Core\Gui</Filter>
     </ClCompile>
     <ClCompile Include="src\gui\GuiPauseMenu.cpp">
-      <Filter>Source Files\Gui</Filter>
+      <Filter>Source Files\Core\Gui</Filter>
     </ClCompile>
     <ClCompile Include="src\utilities\IrrlichtUtils.cpp">
       <Filter>Source Files\Utilities</Filter>
